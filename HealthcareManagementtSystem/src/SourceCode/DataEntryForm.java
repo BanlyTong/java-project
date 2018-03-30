@@ -179,7 +179,7 @@ public class DataEntryForm extends javax.swing.JFrame {
 
         jTabbedPane1.setBackground(new java.awt.Color(18, 55, 92));
 
-        jPanel1.setBackground(new java.awt.Color(18, 55, 92));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel2.setText("ID:");
 
@@ -968,7 +968,9 @@ public class DataEntryForm extends javax.swing.JFrame {
                 ex.printStackTrace();
             }
             btnInSave.setText("Save");
+            
         }
+        clearAllTextFields();
     }//GEN-LAST:event_btnInSaveActionPerformed
 
     private void btnInEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInEditActionPerformed
