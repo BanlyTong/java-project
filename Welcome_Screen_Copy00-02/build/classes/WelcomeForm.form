@@ -1095,7 +1095,7 @@
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="cbSearchIns" min="-2" pref="147" max="-2" attributes="0"/>
                                       <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="panel_viewDoctor1" min="-2" pref="109" max="-2" attributes="0"/>
+                                      <Component id="panel_viewProvider" min="-2" pref="109" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -1115,7 +1115,7 @@
                                                       <Component id="cbSearchIns" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                                                       <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
                                                   </Group>
-                                                  <Component id="panel_viewDoctor1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="panel_viewProvider" alignment="0" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <Component id="tfSearchInsCom" alignment="1" min="-2" pref="26" max="-2" attributes="0"/>
                                           </Group>
@@ -1174,7 +1174,7 @@
                                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                               </AuxValues>
                             </Component>
-                            <Container class="javax.swing.JPanel" name="panel_viewDoctor1">
+                            <Container class="javax.swing.JPanel" name="panel_viewProvider">
                               <Properties>
                                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                   <Color blue="ae" green="a0" red="0" type="rgb"/>
@@ -1192,7 +1192,9 @@
                                 </Property>
                               </Properties>
                               <Events>
-                                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="panel_viewDoctor1MouseClicked"/>
+                                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="panel_viewProviderMouseClicked"/>
+                                <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="panel_viewProviderMouseEntered"/>
+                                <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="panel_viewProviderMouseExited"/>
                               </Events>
 
                               <Layout>
@@ -1217,7 +1219,7 @@
                                       <Color blue="ff" green="ff" red="ff" type="rgb"/>
                                     </Property>
                                     <Property name="horizontalAlignment" type="int" value="0"/>
-                                    <Property name="text" type="java.lang.String" value="View Doctor"/>
+                                    <Property name="text" type="java.lang.String" value="View Provider"/>
                                   </Properties>
                                 </Component>
                               </SubComponents>
@@ -1259,7 +1261,7 @@
                                           <Renderer/>
                                         </Column>
                                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                                          <Title value="Last Name"/>
+                                          <Title/>
                                           <Editor/>
                                           <Renderer/>
                                         </Column>
@@ -1547,7 +1549,7 @@
                                           <Renderer/>
                                         </Column>
                                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                                          <Title value="Last Name"/>
+                                          <Title/>
                                           <Editor/>
                                           <Renderer/>
                                         </Column>
