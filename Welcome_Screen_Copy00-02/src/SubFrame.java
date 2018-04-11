@@ -38,6 +38,26 @@ public class SubFrame {
         f.getRootPane().setBorder(BorderFactory.createLineBorder(c, thickness, true));
     }
     
+    public SubFrame(JPanel p, JFrame f) {
+        p.addMouseMotionListener(new MouseMotionAdapter() {           
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                int x = e.getXOnScreen();
+                int y = e.getYOnScreen();
+                
+                f.setLocation(x - xx, y - xy);
+            }
+        });
+        
+        p.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                xx = e.getX();
+                xy = e.getY();
+            }
+        });
+    }
+    
     public void closeButton(JLabel l, JFrame f, Color colorBackExited, Color colorForeExited) {
         l.addMouseListener(new MouseAdapter() {
             @Override

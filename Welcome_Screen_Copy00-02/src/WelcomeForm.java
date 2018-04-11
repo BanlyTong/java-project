@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.font.TextAttribute;
+import java.sql.*;
 import java.util.Map;
 import javax.swing.*;
 import javax.swing.table.*;
@@ -17,17 +18,124 @@ public class WelcomeForm extends javax.swing.JFrame {
     ShowDataToTable sd = null;
     
     DefaultTableModel model;
+    
+    Connection con = null;
+    Statement stmt = null;
+    ResultSet rs = null;
+    
+    MouseListener[] ml;
+    
+    FrmLogin frmLogin  = new FrmLogin();
      
     public WelcomeForm() {        
         initComponents();
         
+        // Maximize jframe when start
+//        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        
         indDashboard.setOpaque(true);
         setColorPanel(panel_dashboard);
+                
+        ml = panel_update.getMouseListeners();  // get event mousePressed from panel_update
         
+        frmLogin.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                WelcomeForm.this.setVisible(true);
+                
+                if (frmLogin.isLoggedin()) {
+                    changeLoginText();
+            
+                    if (frmLogin.getAccountType().equals("Admin")) {
+                        userLoginAdmin();
+                    }   
+                    
+                    if (frmLogin.getAccountType().equals("Insurance")) {
+                        userLoginInsurance();
+                    }
+                    
+                    if (frmLogin.getAccountType().equals("Healthcare")) {
+                        userLoginHealthcare();
+                    }   
+                    
+//                    if (frmLogin.getAccountType().equals("Insurance")) {
+//                        
+//                    }
+                }
+            }
+        });
+  
         sd = new ShowDataToTable("SELECT * FROM Provider", tblHP, 3);
         sd = new ShowDataToTable("SELECT * FROM Insurance", tblInsCom, 3);
         sd = new ShowDataToTable("SELECT * FROM [Plan]", tblPlan, 3);
         sd = new ShowDataToTable("SELECT ID, [First name] + ' ' + [Last name] AS [Name], Gender, DOB, Address, Area, Degree FROM Doctor", tblDoctor, 7);
+    }
+    
+    private void disableUpdate() {
+        lblLock.setVisible(true);
+        
+        panel_update.setEnabled(false);
+        panel_update.removeMouseListener(ml[0]);  // remove event mousePressed
+        
+        lblUpdate.setForeground(new Color(240, 240, 240));
+        lblUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Update_Disable_25px.png")));
+    }
+    
+    private void enableUpdate() {
+        lblLock.setVisible(false);
+        
+        lblUpdate.setForeground(new Color(255, 255, 255));       
+        lblUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Update_25px.png")));
+        
+        panel_update.setEnabled(true);
+        panel_update.addMouseListener(ml[0]);
+    }
+    
+    private void changeLoginText() {
+        lblLogin.setText(frmLogin.getUsername());
+        
+        if (frmLogin.getAccountType().equals("Insurance")) {
+            lblLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Company_30px.png")));
+        }
+        
+        if (frmLogin.getAccountType().equals("Healthcare")) {
+            lblLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Hospital_3_30px.png")));
+        }    
+        
+        if (frmLogin.getAccountType().equals("Normal")) {
+            lblLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_User_30px.png")));
+        }
+        
+        if (frmLogin.getAccountType().equals("Admin")) {
+            lblLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Admin_30px.png")));
+        }
+    }
+    
+    private void userLoginAdmin() {
+        enableUpdate();
+    }
+    
+    private void userLoginInsurance() {
+        jLabel1.setText("Insurance");
+        
+        disableUpdate();
+    }
+    
+    private void userLoginHealthcare() {
+        jLabel1.setText("Healthcare");
+        
+        disableUpdate();
+    }
+    
+    private void connectDatabase(String query) {        
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");            
+            con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=HealthCareService;user=sa;password=sathya123;");           
+            stmt = con.createStatement();            
+            rs = stmt.executeQuery(query);           
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
     }
     
     private void setColorPanel(JPanel panel) {
@@ -78,6 +186,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         indAbout.setOpaque(b9);
         indHelp.setOpaque(b10);
     }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -112,8 +221,9 @@ public class WelcomeForm extends javax.swing.JFrame {
         panel_update = new javax.swing.JPanel();
         lblUpdate = new javax.swing.JLabel();
         indUpdate = new javax.swing.JPanel();
+        lblLock = new javax.swing.JLabel();
         panel_find = new javax.swing.JPanel();
-        lblUpdate1 = new javax.swing.JLabel();
+        lblFind = new javax.swing.JLabel();
         indFind = new javax.swing.JPanel();
         panel_about = new javax.swing.JPanel();
         lblAbout = new javax.swing.JLabel();
@@ -127,7 +237,15 @@ public class WelcomeForm extends javax.swing.JFrame {
         lblLogin = new javax.swing.JLabel();
         panel_home = new javax.swing.JPanel();
         panel_hDashboard = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jPanel7 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
         panel_hInsurance_com = new javax.swing.JPanel();
         panel_hInsMain = new javax.swing.JPanel();
         lbl1 = new javax.swing.JLabel();
@@ -224,7 +342,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         });
         panel_dashboard.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblDashboard.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        lblDashboard.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         lblDashboard.setForeground(new java.awt.Color(255, 255, 255));
         lblDashboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Dashboard_25px.png"))); // NOI18N
         lblDashboard.setText("Dashboard");
@@ -258,7 +376,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         });
         panel_insurance_com.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblInsuranceCom.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        lblInsuranceCom.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         lblInsuranceCom.setForeground(new java.awt.Color(255, 255, 255));
         lblInsuranceCom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Company_25px_2.png"))); // NOI18N
         lblInsuranceCom.setText("Insurance Company");
@@ -292,7 +410,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         });
         panel_healthcarePlan.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblInsuranceCom2.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        lblInsuranceCom2.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         lblInsuranceCom2.setForeground(new java.awt.Color(255, 255, 255));
         lblInsuranceCom2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Health_Book_25px_3.png"))); // NOI18N
         lblInsuranceCom2.setText("Health Care Plans");
@@ -327,7 +445,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         });
         panel_healthcarePro.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblHealthcarePro.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        lblHealthcarePro.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         lblHealthcarePro.setForeground(new java.awt.Color(255, 255, 255));
         lblHealthcarePro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Hospital_3_25px.png"))); // NOI18N
         lblHealthcarePro.setText("Health Care Providers");
@@ -361,7 +479,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         });
         panel_doctor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblHealthcarePro1.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        lblHealthcarePro1.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         lblHealthcarePro1.setForeground(new java.awt.Color(255, 255, 255));
         lblHealthcarePro1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Doctor_Male_25px_1.png"))); // NOI18N
         lblHealthcarePro1.setText("Doctors");
@@ -396,7 +514,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         });
         panel_statistic.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblStatistic.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        lblStatistic.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         lblStatistic.setForeground(new java.awt.Color(255, 255, 255));
         lblStatistic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Statistics_25px.png"))); // NOI18N
         lblStatistic.setText("Statistic, Graph & Data Analysis");
@@ -430,9 +548,9 @@ public class WelcomeForm extends javax.swing.JFrame {
         });
         panel_update.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblUpdate.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        lblUpdate.setForeground(new java.awt.Color(255, 255, 255));
-        lblUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Update_25px.png"))); // NOI18N
+        lblUpdate.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        lblUpdate.setForeground(new java.awt.Color(128, 128, 128));
+        lblUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Update_Disable_25px.png"))); // NOI18N
         lblUpdate.setText("Updates");
         lblUpdate.setIconTextGap(20);
         panel_update.add(lblUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 0, 280, 42));
@@ -454,6 +572,9 @@ public class WelcomeForm extends javax.swing.JFrame {
 
         panel_update.add(indUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 42));
 
+        lblLock.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons8_Lock_20px.png"))); // NOI18N
+        panel_update.add(lblLock, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, -1, -1));
+
         panel_find.setBackground(new java.awt.Color(18, 55, 92));
         panel_find.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         panel_find.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -463,12 +584,12 @@ public class WelcomeForm extends javax.swing.JFrame {
         });
         panel_find.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblUpdate1.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        lblUpdate1.setForeground(new java.awt.Color(255, 255, 255));
-        lblUpdate1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Search_25px.png"))); // NOI18N
-        lblUpdate1.setText("Find");
-        lblUpdate1.setIconTextGap(20);
-        panel_find.add(lblUpdate1, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 0, 280, 42));
+        lblFind.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        lblFind.setForeground(new java.awt.Color(255, 255, 255));
+        lblFind.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Search_25px.png"))); // NOI18N
+        lblFind.setText("Find");
+        lblFind.setIconTextGap(20);
+        panel_find.add(lblFind, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 0, 280, 42));
 
         indFind.setBackground(new java.awt.Color(255, 204, 0));
         indFind.setOpaque(false);
@@ -497,7 +618,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         });
         panel_about.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblAbout.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        lblAbout.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         lblAbout.setForeground(new java.awt.Color(255, 255, 255));
         lblAbout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_About_25px.png"))); // NOI18N
         lblAbout.setText("About");
@@ -531,7 +652,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         });
         panel_help.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblHelp.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        lblHelp.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         lblHelp.setForeground(new java.awt.Color(255, 255, 255));
         lblHelp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Help_25px.png"))); // NOI18N
         lblHelp.setText("Help");
@@ -621,6 +742,9 @@ public class WelcomeForm extends javax.swing.JFrame {
         lblLogin.setText("Log in / Register");
         lblLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblLogin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblLoginMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblLoginMouseEntered(evt);
             }
@@ -646,23 +770,73 @@ public class WelcomeForm extends javax.swing.JFrame {
         panel_home.setBackground(new java.awt.Color(245, 245, 245));
         panel_home.setLayout(new java.awt.CardLayout());
 
+        jScrollPane5.setPreferredSize(new java.awt.Dimension(854, 1000));
+
+        jPanel7.setPreferredSize(new java.awt.Dimension(854, 998));
+
         jLabel3.setText("Dashboard");
+
+        jLabel1.setText("jLabel1");
+
+        jLabel15.setText("jLabel15");
+
+        jLabel16.setText("jLabel16");
+
+        jLabel17.setText("jLabel17");
+
+        jLabel18.setText("jLabel18");
+
+        jLabel19.setText("jLabel19");
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel18)
+                    .addComponent(jLabel19))
+                .addContainerGap())
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(60, 60, 60)
+                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(59, 59, 59)
+                .addComponent(jLabel18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 161, Short.MAX_VALUE)
+                .addComponent(jLabel19)
+                .addContainerGap())
+        );
+
+        jScrollPane5.setViewportView(jPanel7);
 
         javax.swing.GroupLayout panel_hDashboardLayout = new javax.swing.GroupLayout(panel_hDashboard);
         panel_hDashboard.setLayout(panel_hDashboardLayout);
         panel_hDashboardLayout.setHorizontalGroup(
             panel_hDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_hDashboardLayout.createSequentialGroup()
-                .addContainerGap(504, Short.MAX_VALUE)
-                .addComponent(jLabel3)
-                .addGap(296, 296, 296))
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         panel_hDashboardLayout.setVerticalGroup(
             panel_hDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panel_hDashboardLayout.createSequentialGroup()
-                .addGap(263, 263, 263)
-                .addComponent(jLabel3)
-                .addContainerGap(314, Short.MAX_VALUE))
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 591, Short.MAX_VALUE)
         );
 
         panel_home.add(panel_hDashboard, "card2");
@@ -760,7 +934,7 @@ public class WelcomeForm extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 808, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 895, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(40, 40, 40)
@@ -924,7 +1098,7 @@ public class WelcomeForm extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 808, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 895, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(40, 40, 40)
@@ -1088,7 +1262,7 @@ public class WelcomeForm extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 808, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 895, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(39, 39, 39)
@@ -1237,7 +1411,7 @@ public class WelcomeForm extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 808, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 895, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(40, 40, 40)
@@ -1315,7 +1489,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         panel_hStatisticLayout.setHorizontalGroup(
             panel_hStatisticLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_hStatisticLayout.createSequentialGroup()
-                .addContainerGap(483, Short.MAX_VALUE)
+                .addContainerGap(570, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addGap(331, 331, 331))
         );
@@ -1338,7 +1512,7 @@ public class WelcomeForm extends javax.swing.JFrame {
             .addGroup(panel_hUpdatesLayout.createSequentialGroup()
                 .addGap(335, 335, 335)
                 .addComponent(jLabel5)
-                .addContainerGap(482, Short.MAX_VALUE))
+                .addContainerGap(569, Short.MAX_VALUE))
         );
         panel_hUpdatesLayout.setVerticalGroup(
             panel_hUpdatesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1468,7 +1642,7 @@ public class WelcomeForm extends javax.swing.JFrame {
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(240, 240, 240)
                         .addComponent(btnSearch)))
-                .addContainerGap(429, Short.MAX_VALUE))
+                .addContainerGap(514, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1538,7 +1712,7 @@ public class WelcomeForm extends javax.swing.JFrame {
                     .addGroup(panel_findPatientLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(lblBack1)))
-                .addContainerGap(466, Short.MAX_VALUE))
+                .addContainerGap(551, Short.MAX_VALUE))
         );
         panel_findPatientLayout.setVerticalGroup(
             panel_findPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1576,7 +1750,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         panel_findTreatmentLayout.setHorizontalGroup(
             panel_findTreatmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_findTreatmentLayout.createSequentialGroup()
-                .addContainerGap(403, Short.MAX_VALUE)
+                .addContainerGap(488, Short.MAX_VALUE)
                 .addComponent(jLabel11)
                 .addGap(403, 403, 403))
             .addGroup(panel_findTreatmentLayout.createSequentialGroup()
@@ -1605,7 +1779,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         panel_hAboutLayout.setHorizontalGroup(
             panel_hAboutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_hAboutLayout.createSequentialGroup()
-                .addContainerGap(499, Short.MAX_VALUE)
+                .addContainerGap(586, Short.MAX_VALUE)
                 .addComponent(jLabel6)
                 .addGap(324, 324, 324))
         );
@@ -1628,7 +1802,7 @@ public class WelcomeForm extends javax.swing.JFrame {
             .addGroup(panel_hHelpLayout.createSequentialGroup()
                 .addGap(277, 277, 277)
                 .addComponent(jLabel7)
-                .addContainerGap(520, Short.MAX_VALUE))
+                .addContainerGap(607, Short.MAX_VALUE))
         );
         panel_hHelpLayout.setVerticalGroup(
             panel_hHelpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1674,7 +1848,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scpMain, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1009, Short.MAX_VALUE)
+            .addComponent(scpMain, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1262, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1738,7 +1912,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         
         showPanelInCard(panel_home, panel_hUpdates);
     }//GEN-LAST:event_panel_updateMousePressed
-
+ 
     private void panel_aboutMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panel_aboutMousePressed
         setColorChooseSidePane(panel_about, panel_dashboard, panel_healthcarePlan, panel_insurance_com, panel_statistic, panel_healthcarePro, panel_update, panel_find, panel_doctor, panel_help);
         
@@ -2005,7 +2179,7 @@ public class WelcomeForm extends javax.swing.JFrame {
 //        showPanelInCard(panel_hFind, panel_findDoctor);
         lblDoctorMouseExited(evt);
         
-        frmFDoctor.show();
+        frmFDoctor.setVisible(true);
     }//GEN-LAST:event_lblDoctorMouseClicked
 
     FrmSearchPatient frmFPatient = new FrmSearchPatient();
@@ -2015,7 +2189,7 @@ public class WelcomeForm extends javax.swing.JFrame {
 
         lblPatientMouseExited(evt);
         
-        frmFPatient.show();
+        frmFPatient.setVisible(true);
     }//GEN-LAST:event_lblPatientMouseClicked
 
     FrmSearchTreatmentMedicine frmFTreatment = new FrmSearchTreatmentMedicine();
@@ -2024,7 +2198,7 @@ public class WelcomeForm extends javax.swing.JFrame {
 //        showPanelInCard(panel_hFind, panel_findTreatment);
         lblTreatmentMouseExited(evt);
         
-        frmFTreatment.show();
+        frmFTreatment.setVisible(true);
     }//GEN-LAST:event_lblTreatmentMouseClicked
 
     private void lblBackMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBackMouseEntered
@@ -2062,6 +2236,12 @@ public class WelcomeForm extends javax.swing.JFrame {
     private void lblBack2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBack2MouseExited
         lblBack2.setText("Back to option");
     }//GEN-LAST:event_lblBack2MouseExited
+        
+    private void lblLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLoginMouseClicked
+        this.setVisible(false);
+        
+        frmLogin.setVisible(true);
+    }//GEN-LAST:event_lblLoginMouseClicked
        
     /**
      * @param args the command line arguments
@@ -2079,23 +2259,16 @@ public class WelcomeForm extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(WelcomeForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(WelcomeForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(WelcomeForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(WelcomeForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        
+        //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new WelcomeForm().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new WelcomeForm().setVisible(true);
         });
     }
 
@@ -2117,11 +2290,17 @@ public class WelcomeForm extends javax.swing.JFrame {
     private javax.swing.JPanel indInsurance;
     private javax.swing.JPanel indStatistic;
     private javax.swing.JPanel indUpdate;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -2136,10 +2315,12 @@ public class WelcomeForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
@@ -2153,12 +2334,14 @@ public class WelcomeForm extends javax.swing.JFrame {
     private javax.swing.JLabel lblBack2;
     private javax.swing.JLabel lblDashboard;
     private javax.swing.JLabel lblDoctor;
+    private javax.swing.JLabel lblFind;
     private javax.swing.JLabel lblHealthcarePro;
     private javax.swing.JLabel lblHealthcarePro1;
     private javax.swing.JLabel lblHealthcarePro2;
     private javax.swing.JLabel lblHelp;
     private javax.swing.JLabel lblInsuranceCom;
     private javax.swing.JLabel lblInsuranceCom2;
+    private javax.swing.JLabel lblLock;
     private javax.swing.JLabel lblLogin;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblPatient;
@@ -2169,7 +2352,6 @@ public class WelcomeForm extends javax.swing.JFrame {
     private javax.swing.JLabel lblStatistic;
     private javax.swing.JLabel lblTreatment;
     private javax.swing.JLabel lblUpdate;
-    private javax.swing.JLabel lblUpdate1;
     private javax.swing.JPanel panel_about;
     private javax.swing.JPanel panel_dashboard;
     private javax.swing.JPanel panel_doctor;

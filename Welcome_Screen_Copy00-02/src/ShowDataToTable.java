@@ -42,7 +42,7 @@ public class ShowDataToTable {
                 for (int i = 0; i < numberOfCulumn; i++) {
                     o[i] = rs.getString(i+1);
                 }
-//                model1.addRow(o);
+                
                 model.addRow(o);
             }            
         } catch (Exception ex) {
