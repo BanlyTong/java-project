@@ -178,7 +178,7 @@ public class FrmSearchDoctor extends javax.swing.JFrame implements FocusListener
                 rs = st.executeQuery(sqlDiseaseAndProvider);
             }
             
-            FrmSearchResult frm = new FrmSearchResult(rs);
+            FrmSearchResult frm = new FrmSearchResult(rs, this, true);
             frm.setVisible(true);
             
         } catch (SQLException ex) {

@@ -12,7 +12,7 @@ import java.awt.Font;
  *
  * @author Sathya
  */
-public class InsuranceHP extends javax.swing.JFrame {
+public class InsuranceHP extends javax.swing.JDialog {
 
     /**
      * Creates new form InsuranceHP
@@ -26,7 +26,8 @@ public class InsuranceHP extends javax.swing.JFrame {
     private Color colorForeExited;
     private Color colorBackExited;
     
-    public InsuranceHP(String id) {
+    public InsuranceHP(String id, java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
         
         colorForeExited = this.lblClose.getForeground();
@@ -62,6 +63,7 @@ public class InsuranceHP extends javax.swing.JFrame {
         tblInsuranceHP = new javax.swing.JTable();
         lblClose = new javax.swing.JLabel();
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
 
         lblHealthcarePro3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
@@ -185,7 +187,14 @@ public class InsuranceHP extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new InsuranceHP(ID).setVisible(true);
+                InsuranceHP dialog = new InsuranceHP(ID, new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
             }
         });
     }

@@ -462,11 +462,9 @@ public class FrmLogin extends javax.swing.JFrame implements FocusListener, KeyLi
             txtPassword.setEchoChar('\u25cf');
         }
     }//GEN-LAST:event_chkShowPasswordActionPerformed
-
-    
-    
+ 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here:       
         this.setLoggedin(false);
 
         InitQuery();
@@ -478,7 +476,6 @@ public class FrmLogin extends javax.swing.JFrame implements FocusListener, KeyLi
             if (Arrays.equals(txtLoginPassword.getPassword(), "Password".toCharArray()) && txtLoginPassword.getForeground().equals(new Color(153, 153, 153))) {
                 throw new Exception("Please enter your password");
             }
-
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Missing Information", JOptionPane.OK_OPTION);
         }
@@ -493,17 +490,27 @@ public class FrmLogin extends javax.swing.JFrame implements FocusListener, KeyLi
                         
                         this.setAccountType(rs.getString("type"));
                         this.setUsername(rs.getString("username"));
-                    }
-                }
+                            
+                        break;
+                    } 
+                }    
             }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "LoL, WTF");
+            JOptionPane.showMessageDialog(null, "Lol, Wtf");
         }
+        
         if (this.isLoggedin()) {
             JOptionPane.showMessageDialog(null, "Login Successful");
             
             closeJFrame();
+        }
+        
+//         if user name and password does not correct
+        if (!(txtLoginUsername.getForeground().equals(new Color(153, 153, 153)) && (txtLoginUsername.getText().equals("Username"))) &&
+            !(Arrays.equals(txtLoginPassword.getPassword(), "Password".toCharArray()) && txtLoginPassword.getForeground().equals(new Color(153, 153, 153))) &&
+            !this.isLoggedin()) {
+            JOptionPane.showMessageDialog(null,"Username and Password does not correct", "Cannot Log in", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnLoginActionPerformed
 

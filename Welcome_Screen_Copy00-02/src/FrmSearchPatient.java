@@ -197,7 +197,7 @@ public class FrmSearchPatient extends javax.swing.JFrame implements FocusListene
             {
                 rs = st.executeQuery(sqlDiseaseAndAge);
             }
-            FrmSearchResult frm = new FrmSearchResult(rs);
+            FrmSearchResult frm = new FrmSearchResult(rs, this, true);
             frm.setVisible(true);
             //this.dispose();
         } catch (SQLException ex) {

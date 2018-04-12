@@ -12,7 +12,7 @@ import java.awt.Font;
  *
  * @author Sathya
  */
-public class HPDoctor extends javax.swing.JFrame {
+public class HPDoctor extends javax.swing.JDialog {
 
     /**
      * Creates new form HPDoctor
@@ -26,7 +26,8 @@ public class HPDoctor extends javax.swing.JFrame {
     
     private static String ID;
     
-    public HPDoctor(String id) {
+    public HPDoctor(String id, java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
         
         HPDoctor.ID = id;
@@ -61,7 +62,7 @@ public class HPDoctor extends javax.swing.JFrame {
         tblHPDoctor = new javax.swing.JTable();
         lblClose = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
 
         lblHealthcarePro8.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
@@ -185,7 +186,14 @@ public class HPDoctor extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new HPDoctor(ID).setVisible(true);
+                HPDoctor dialog = new HPDoctor(ID, new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
             }
         });
     }

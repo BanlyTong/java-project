@@ -20,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Harry
  */
-public class FrmSearchResult extends javax.swing.JFrame {
+public class FrmSearchResult extends javax.swing.JDialog {
 
     /**
      * Creates new form FrmSearchResult
@@ -28,7 +28,9 @@ public class FrmSearchResult extends javax.swing.JFrame {
     ResultSet rs;
     ResultSetMetaData rsmd;
     
-    public FrmSearchResult(ResultSet rs) {
+    public FrmSearchResult(ResultSet rs, java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
+        
         try {
             this.rs = rs;
             rsmd = rs.getMetaData();
@@ -75,7 +77,7 @@ public class FrmSearchResult extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         btnClose = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
 
         jTable1.setFont(new java.awt.Font("Khmer CN Kampingpouy", 0, 24)); // NOI18N
@@ -197,9 +199,7 @@ public class FrmSearchResult extends javax.swing.JFrame {
         }catch(Exception e)
         {
             
-        }
-        
-        
+        }  
     }
     private void SimpleButton()
     {

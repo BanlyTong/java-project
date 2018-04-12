@@ -1,6 +1,5 @@
 import java.awt.Color;
 import java.awt.Font;
-import javax.swing.JFrame;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -12,7 +11,7 @@ import javax.swing.JFrame;
  *
  * @author Sathya
  */
-public class InsurancePlan extends JFrame {
+public class InsurancePlan extends javax.swing.JDialog {
     /**
      * Creates new form HPInsurance
      */
@@ -26,7 +25,8 @@ public class InsurancePlan extends JFrame {
     private Color colorForeExited;
     private Color colorBackExited;
     
-    public InsurancePlan(String id) {   
+    public InsurancePlan(String id, java.awt.Frame parent, boolean modal) {   
+        super(parent, modal);
         initComponents();
         
         colorForeExited = this.lblClose.getForeground();
@@ -61,7 +61,7 @@ public class InsurancePlan extends JFrame {
         tblInsurancePlan = new javax.swing.JTable();
         lblClose = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
 
         lblHealthcarePro3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
@@ -184,7 +184,14 @@ public class InsurancePlan extends JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new HPInsurance(ID).setVisible(true);
+            InsurancePlan dialog = new InsurancePlan(ID, new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
         });
     }
 
