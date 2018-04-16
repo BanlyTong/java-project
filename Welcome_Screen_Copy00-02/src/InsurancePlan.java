@@ -65,7 +65,7 @@ public class InsurancePlan extends javax.swing.JDialog {
         setUndecorated(true);
 
         lblHealthcarePro3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        lblHealthcarePro3.setText("Health Care Plans List");
+        lblHealthcarePro3.setText("Healthcare Plans List");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204), 2));

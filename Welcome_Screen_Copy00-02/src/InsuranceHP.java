@@ -17,14 +17,14 @@ public class InsuranceHP extends javax.swing.JDialog {
     /**
      * Creates new form InsuranceHP
      */
-    private SubFrame sub;
+    private final SubFrame sub;
     
-    private ShowDataToTable sd;
+    private final ShowDataToTable sd;
     
     private static String ID;
     
-    private Color colorForeExited;
-    private Color colorBackExited;
+    private final Color colorForeExited;
+    private final Color colorBackExited;
     
     public InsuranceHP(String id, java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -40,11 +40,12 @@ public class InsuranceHP extends javax.swing.JDialog {
         
         SubTable.setTableHeader(tblInsuranceHP, new Color(240, 240, 240), Color.BLACK, new Font("Tahoma", Font.PLAIN, 12));
         
-        sd = new ShowDataToTable("SELECT P.ID, P.NAME, p.Address\n" +
-                                "FROM Insurance Ins INNER JOIN Cooperate Co \n" +
-                                "ON Ins.ID = Co.[Insurance.ID] INNER JOIN Provider P\n" +
-                                "ON P.ID = co.[Provider.ID]\n" +
-                                "WHERE Ins.ID = '" + ID + "'", tblInsuranceHP, 3);
+        sd = new ShowDataToTable("SELECT Pro.Name, Pro.Address, Con.Name, Con.Phone\n" +
+                                "FROM Cooperate Co FULL JOIN Provider Pro\n" +
+                                "ON Pro.ID = Co.[Provider.ID] FULL JOIN ProviderContact Con\n" +
+                                "ON Pro.ID = Con.[Provider.ID]\n" +
+                                "WHERE Co.[Insurance.ID] = '" + ID + "'\n" +
+                                "ORDER BY Pro.NAME", tblInsuranceHP, 4);
     }
 
     /**
@@ -67,7 +68,7 @@ public class InsuranceHP extends javax.swing.JDialog {
         setUndecorated(true);
 
         lblHealthcarePro3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        lblHealthcarePro3.setText("Health Care Provider List");
+        lblHealthcarePro3.setText("Healthcare Provider List");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204), 2));
@@ -78,11 +79,11 @@ public class InsuranceHP extends javax.swing.JDialog {
 
             },
             new String [] {
-                "ID", "Name", "Address"
+                "Healthcare Provider's Name", "Address", "Contact Person's Name", "Contact Person's Telephone"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
