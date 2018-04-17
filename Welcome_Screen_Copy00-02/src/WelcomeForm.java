@@ -1,23 +1,20 @@
-import java.awt.*;
-import javax.swing.*;
-import java.awt.event.*;
 import java.sql.*;
-import java.awt.font.TextAttribute;
+
 import java.util.Map;
-import static javax.swing.border.BevelBorder.RAISED;
+
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.font.TextAttribute;
+
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
 import org.jdesktop.swingx.JXCollapsiblePane;
 import org.jdesktop.swingx.border.DropShadowBorder;
 
-/**
- *
- * @author Sathya
- */
+import static javax.swing.border.BevelBorder.RAISED;
+
 public class WelcomeForm extends javax.swing.JFrame {
-    /**
-     * Creates new form WelcomeForm
-     */
-    
     ShowDataToTable sd = null;
     
     DefaultTableModel model;
@@ -32,7 +29,9 @@ public class WelcomeForm extends javax.swing.JFrame {
     FrmSearchPatient frmFPatient = new FrmSearchPatient();
     FrmSearchTreatmentMedicine frmFTreatment = new FrmSearchTreatmentMedicine(); 
      
-    public WelcomeForm() {        
+    public WelcomeForm() {
+        setLookAndFeel();
+        
         initComponents();
         
         // Maximize jframe when start
@@ -119,14 +118,28 @@ public class WelcomeForm extends javax.swing.JFrame {
         }catch(ClassNotFoundException | SQLException ex){
             JOptionPane.showMessageDialog(null, ex);
         }
+        
+//        btnToggle.setFocusPainted(false);
+    }
+    
+    private void setLookAndFeel() {
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Windows".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(WelcomeForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
     }
     
     private void switchDoctorPatient() {
         jXCollapsiblePane1.setLayout(new BorderLayout());
-        jXCollapsiblePane1.add(panel_form5, BorderLayout.CENTER);
+        jXCollapsiblePane1.add(frm5main, BorderLayout.CENTER);
         
-        btnToggle.addActionListener(jXCollapsiblePane1.getActionMap().get(JXCollapsiblePane.TOGGLE_ACTION));
-        
+        btnToggle.addActionListener(jXCollapsiblePane1.getActionMap().get(JXCollapsiblePane.TOGGLE_ACTION));      
     }
     
     private void showTotalToDashboard() {
@@ -209,7 +222,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");            
             con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=HealthCareService;user=sa;password=sathya123;");           
-            stmt = con.createStatement();            
+            stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);            
             rs = stmt.executeQuery(query);           
         } catch (ClassNotFoundException | SQLException ex) {
             JOptionPane.showMessageDialog(null, ex);
@@ -354,6 +367,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         pmLogin = new javax.swing.JPopupMenu();
         menuLogout = new javax.swing.JMenuItem();
         panel_form5 = new javax.swing.JPanel();
+        frm5main = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
         cboDoc = new javax.swing.JComboBox<>();
         jScrollPane7 = new javax.swing.JScrollPane();
@@ -407,28 +421,34 @@ public class WelcomeForm extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         panel_dAdminHP = new javax.swing.JPanel();
         lblAdminTotalHP = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
         lblDetailHP = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         panel_dAdminInsurance = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         lblDetailInsurance = new javax.swing.JLabel();
         lblAdminTotalIns = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         panel_dAdminPlan = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         lblDetailPlan = new javax.swing.JLabel();
         lblAdminTotalPlan = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
         panel_dAdminDoctor = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         lblDetailDoctor = new javax.swing.JLabel();
         lblAdminTotalDoctor = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
         panel_dAdminPatient = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         lblDetailPatient = new javax.swing.JLabel();
         lblAdminTotalPatient = new javax.swing.JLabel();
+        jLabel31 = new javax.swing.JLabel();
         panel_dAdminUser = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         lblDetailUser = new javax.swing.JLabel();
         lblAdminTotalUser = new javax.swing.JLabel();
+        jLabel29 = new javax.swing.JLabel();
         panel_dInsurance = new javax.swing.JPanel();
         panel_dInsMain = new javax.swing.JPanel();
         lbl5 = new javax.swing.JLabel();
@@ -437,14 +457,17 @@ public class WelcomeForm extends javax.swing.JFrame {
         jLabel20 = new javax.swing.JLabel();
         lblDetailInsurance2 = new javax.swing.JLabel();
         lblInsTotal = new javax.swing.JLabel();
+        jLabel32 = new javax.swing.JLabel();
         panel_dInsPlan = new javax.swing.JPanel();
         jLabel21 = new javax.swing.JLabel();
         lblDetailPlan2 = new javax.swing.JLabel();
         lblInsTotalPlan = new javax.swing.JLabel();
+        jLabel33 = new javax.swing.JLabel();
         panel_dInsPatient = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
         lblDetailPatient2 = new javax.swing.JLabel();
         lblInsTotalPatient = new javax.swing.JLabel();
+        jLabel34 = new javax.swing.JLabel();
         panel_dHealthcare = new javax.swing.JPanel();
         panel_dHPMain = new javax.swing.JPanel();
         lbl8 = new javax.swing.JLabel();
@@ -453,14 +476,17 @@ public class WelcomeForm extends javax.swing.JFrame {
         jLabel22 = new javax.swing.JLabel();
         lblDetailInsurance3 = new javax.swing.JLabel();
         lblHPTotal = new javax.swing.JLabel();
+        jLabel35 = new javax.swing.JLabel();
         panel_dHPDoctor = new javax.swing.JPanel();
         jLabel24 = new javax.swing.JLabel();
         lblDetailDoctor3 = new javax.swing.JLabel();
         lblHPTotalDoctor = new javax.swing.JLabel();
+        jLabel36 = new javax.swing.JLabel();
         panel_dHPPatient = new javax.swing.JPanel();
         jLabel25 = new javax.swing.JLabel();
         lblDetailPatient3 = new javax.swing.JLabel();
         lblHPTotalPatient = new javax.swing.JLabel();
+        jLabel37 = new javax.swing.JLabel();
         panel_dNormal = new javax.swing.JPanel();
         panel_hInsMain4 = new javax.swing.JPanel();
         lbl7 = new javax.swing.JLabel();
@@ -542,7 +568,6 @@ public class WelcomeForm extends javax.swing.JFrame {
         panel_hStatistic = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         panel_hUpdates = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
         panel_hFind = new javax.swing.JPanel();
         panel_findOption = new javax.swing.JPanel();
         lblDoctor = new javax.swing.JLabel();
@@ -561,6 +586,11 @@ public class WelcomeForm extends javax.swing.JFrame {
             }
         });
         pmLogin.add(menuLogout);
+
+        panel_form5.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
+        panel_form5.setMinimumSize(new java.awt.Dimension(311, 15));
+        panel_form5.setPreferredSize(new java.awt.Dimension(995, 586));
+        panel_form5.setLayout(new java.awt.BorderLayout());
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel16.setText("Doctor");
@@ -596,50 +626,53 @@ public class WelcomeForm extends javax.swing.JFrame {
         jLabel27.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel27.setText("Provider Name");
 
+        txtPro.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         txtPro.setFocusable(false);
 
-        javax.swing.GroupLayout panel_form5Layout = new javax.swing.GroupLayout(panel_form5);
-        panel_form5.setLayout(panel_form5Layout);
-        panel_form5Layout.setHorizontalGroup(
-            panel_form5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_form5Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addGroup(panel_form5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panel_form5Layout.createSequentialGroup()
-                        .addComponent(jLabel27)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtPro, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panel_form5Layout.createSequentialGroup()
+        javax.swing.GroupLayout frm5mainLayout = new javax.swing.GroupLayout(frm5main);
+        frm5main.setLayout(frm5mainLayout);
+        frm5mainLayout.setHorizontalGroup(
+            frm5mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(frm5mainLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(frm5mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(frm5mainLayout.createSequentialGroup()
                         .addComponent(jLabel16)
                         .addGap(18, 18, 18)
-                        .addComponent(cboDoc, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 730, Short.MAX_VALUE))
-                .addGap(19, 19, 19))
-        );
-        panel_form5Layout.setVerticalGroup(
-            panel_form5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panel_form5Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(panel_form5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel16)
-                    .addComponent(cboDoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addGroup(panel_form5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel27)
-                    .addComponent(txtPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cboDoc, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel27)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtPro, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 231, Short.MAX_VALUE))
+                    .addComponent(jScrollPane7))
                 .addContainerGap())
         );
+
+        frm5mainLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cboDoc, txtPro});
+
+        frm5mainLayout.setVerticalGroup(
+            frm5mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(frm5mainLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(frm5mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16)
+                    .addComponent(cboDoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel27)
+                    .addComponent(txtPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        frm5mainLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cboDoc, txtPro});
+
+        panel_form5.add(frm5main, java.awt.BorderLayout.CENTER);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Healthcare Management System v1.0");
         setBackground(new java.awt.Color(255, 255, 255));
-        addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentResized(java.awt.event.ComponentEvent evt) {
-                formComponentResized(evt);
-            }
-        });
+        setPreferredSize(new java.awt.Dimension(1000, 600));
 
         panel_left.setBackground(new java.awt.Color(18, 55, 92));
 
@@ -936,7 +969,7 @@ public class WelcomeForm extends javax.swing.JFrame {
 
         lblp.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         lblp.setForeground(new java.awt.Color(255, 255, 255));
-        lblp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Help_25px.png"))); // NOI18N
+        lblp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Cast_25px.png"))); // NOI18N
         lblp.setText("Patient");
         lblp.setIconTextGap(20);
         panel_patient.add(lblp, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 0, 280, 42));
@@ -1096,7 +1129,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204), 2));
 
-        panel_dAdminHP.setBackground(new java.awt.Color(255, 194, 10));
+        panel_dAdminHP.setBackground(new java.awt.Color(1, 114, 182));
         org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder1 = new org.jdesktop.swingx.border.DropShadowBorder();
         dropShadowBorder1.setShadowSize(7);
         panel_dAdminHP.setBorder(dropShadowBorder1);
@@ -1109,26 +1142,31 @@ public class WelcomeForm extends javax.swing.JFrame {
         panel_dAdminHP.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblAdminTotalHP.setBackground(new java.awt.Color(255, 0, 0));
-        lblAdminTotalHP.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblAdminTotalHP.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         lblAdminTotalHP.setForeground(new java.awt.Color(255, 255, 255));
         lblAdminTotalHP.setText("39");
-        lblAdminTotalHP.setOpaque(true);
-        panel_dAdminHP.add(lblAdminTotalHP, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, -1, -1));
+        panel_dAdminHP.add(lblAdminTotalHP, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 30, 30));
 
-        jLabel1.setFont(new java.awt.Font("Arial", 2, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Hospital_3_35px.png"))); // NOI18N
-        jLabel1.setText("Total Healthcare Provider");
-        jLabel1.setIconTextGap(20);
-        panel_dAdminHP.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 280, 90));
-
+        lblDetailHP.setBackground(new java.awt.Color(1, 101, 165));
         lblDetailHP.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblDetailHP.setForeground(new java.awt.Color(255, 255, 255));
         lblDetailHP.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblDetailHP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Double_Up_15px_1.png"))); // NOI18N
+        lblDetailHP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Double_Up_15px_2.png"))); // NOI18N
         lblDetailHP.setText("Click here to view detail");
-        panel_dAdminHP.add(lblDetailHP, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 75, 290, 30));
+        lblDetailHP.setOpaque(true);
+        lblDetailHP.setPreferredSize(new java.awt.Dimension(288, 20));
+        panel_dAdminHP.add(lblDetailHP, new org.netbeans.lib.awtextra.AbsoluteConstraints(8, 84, 280, 20));
 
-        panel_dAdminInsurance.setBackground(new java.awt.Color(255, 194, 10));
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Hospital_3_35px.png"))); // NOI18N
+        panel_dAdminHP.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, -1, -1));
+
+        jLabel1.setFont(new java.awt.Font("Arial", 2, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Total Number of Healthcare Provider");
+        jLabel1.setIconTextGap(20);
+        panel_dAdminHP.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 280, 80));
+
+        panel_dAdminInsurance.setBackground(new java.awt.Color(243, 156, 17));
         org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder2 = new org.jdesktop.swingx.border.DropShadowBorder();
         dropShadowBorder2.setShadowSize(7);
         panel_dAdminInsurance.setBorder(dropShadowBorder2);
@@ -1140,27 +1178,31 @@ public class WelcomeForm extends javax.swing.JFrame {
         });
         panel_dAdminInsurance.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel3.setFont(new java.awt.Font("Arial", 2, 18)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Arial", 2, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Company_35px.png"))); // NOI18N
-        jLabel3.setText("Total Insurance Company");
+        jLabel3.setText("Total Number of Insurance Company");
         jLabel3.setIconTextGap(20);
-        panel_dAdminInsurance.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 280, 90));
+        panel_dAdminInsurance.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 280, 80));
 
+        lblDetailInsurance.setBackground(new java.awt.Color(217, 139, 16));
         lblDetailInsurance.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblDetailInsurance.setForeground(new java.awt.Color(255, 255, 255));
         lblDetailInsurance.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblDetailInsurance.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Double_Up_15px_1.png"))); // NOI18N
+        lblDetailInsurance.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Double_Up_15px_2.png"))); // NOI18N
         lblDetailInsurance.setText("Click here to view detail");
-        panel_dAdminInsurance.add(lblDetailInsurance, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 75, 290, 30));
+        lblDetailInsurance.setOpaque(true);
+        panel_dAdminInsurance.add(lblDetailInsurance, new org.netbeans.lib.awtextra.AbsoluteConstraints(8, 84, 280, 20));
 
         lblAdminTotalIns.setBackground(new java.awt.Color(255, 0, 0));
-        lblAdminTotalIns.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblAdminTotalIns.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         lblAdminTotalIns.setForeground(new java.awt.Color(255, 255, 255));
         lblAdminTotalIns.setText("39");
-        lblAdminTotalIns.setOpaque(true);
-        panel_dAdminInsurance.add(lblAdminTotalIns, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, -1, -1));
+        panel_dAdminInsurance.add(lblAdminTotalIns, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 30, 30));
 
-        panel_dAdminPlan.setBackground(new java.awt.Color(255, 194, 10));
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Company_35px.png"))); // NOI18N
+        panel_dAdminInsurance.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, -1, -1));
+
+        panel_dAdminPlan.setBackground(new java.awt.Color(1, 114, 182));
         org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder3 = new org.jdesktop.swingx.border.DropShadowBorder();
         dropShadowBorder3.setShadowSize(7);
         panel_dAdminPlan.setBorder(dropShadowBorder3);
@@ -1172,27 +1214,31 @@ public class WelcomeForm extends javax.swing.JFrame {
         });
         panel_dAdminPlan.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel8.setFont(new java.awt.Font("Arial", 2, 18)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Arial", 2, 12)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Health_Book_35px.png"))); // NOI18N
-        jLabel8.setText("Total Healthcare Plan");
+        jLabel8.setText("Total Number of Healthcare Plan");
         jLabel8.setIconTextGap(20);
-        panel_dAdminPlan.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 280, 90));
+        panel_dAdminPlan.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 280, 80));
 
+        lblDetailPlan.setBackground(new java.awt.Color(1, 101, 165));
         lblDetailPlan.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblDetailPlan.setForeground(new java.awt.Color(255, 255, 255));
         lblDetailPlan.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblDetailPlan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Double_Up_15px_1.png"))); // NOI18N
+        lblDetailPlan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Double_Up_15px_2.png"))); // NOI18N
         lblDetailPlan.setText("Click here to view detail");
-        panel_dAdminPlan.add(lblDetailPlan, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 75, 290, 30));
+        lblDetailPlan.setOpaque(true);
+        panel_dAdminPlan.add(lblDetailPlan, new org.netbeans.lib.awtextra.AbsoluteConstraints(8, 84, 280, 20));
 
         lblAdminTotalPlan.setBackground(new java.awt.Color(255, 0, 0));
-        lblAdminTotalPlan.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblAdminTotalPlan.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         lblAdminTotalPlan.setForeground(new java.awt.Color(255, 255, 255));
         lblAdminTotalPlan.setText("39");
-        lblAdminTotalPlan.setOpaque(true);
-        panel_dAdminPlan.add(lblAdminTotalPlan, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, -1, -1));
+        panel_dAdminPlan.add(lblAdminTotalPlan, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 30, 30));
 
-        panel_dAdminDoctor.setBackground(new java.awt.Color(255, 194, 10));
+        jLabel28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Health_Book_35px.png"))); // NOI18N
+        panel_dAdminPlan.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, -1, -1));
+
+        panel_dAdminDoctor.setBackground(new java.awt.Color(243, 156, 17));
         org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder4 = new org.jdesktop.swingx.border.DropShadowBorder();
         dropShadowBorder4.setShadowSize(7);
         panel_dAdminDoctor.setBorder(dropShadowBorder4);
@@ -1204,27 +1250,31 @@ public class WelcomeForm extends javax.swing.JFrame {
         });
         panel_dAdminDoctor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel11.setFont(new java.awt.Font("Arial", 2, 18)); // NOI18N
+        jLabel11.setFont(new java.awt.Font("Arial", 2, 12)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Doctor_Male_35px.png"))); // NOI18N
-        jLabel11.setText("Total Doctor");
+        jLabel11.setText("Total Number of Doctor");
         jLabel11.setIconTextGap(20);
-        panel_dAdminDoctor.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 280, 90));
+        panel_dAdminDoctor.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 280, 80));
 
+        lblDetailDoctor.setBackground(new java.awt.Color(217, 139, 16));
         lblDetailDoctor.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblDetailDoctor.setForeground(new java.awt.Color(255, 255, 255));
         lblDetailDoctor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblDetailDoctor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Double_Up_15px_1.png"))); // NOI18N
+        lblDetailDoctor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Double_Up_15px_2.png"))); // NOI18N
         lblDetailDoctor.setText("Click here to view detail");
-        panel_dAdminDoctor.add(lblDetailDoctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 75, 290, 30));
+        lblDetailDoctor.setOpaque(true);
+        panel_dAdminDoctor.add(lblDetailDoctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(8, 84, 280, 20));
 
         lblAdminTotalDoctor.setBackground(new java.awt.Color(255, 0, 0));
-        lblAdminTotalDoctor.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblAdminTotalDoctor.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         lblAdminTotalDoctor.setForeground(new java.awt.Color(255, 255, 255));
         lblAdminTotalDoctor.setText("39");
-        lblAdminTotalDoctor.setOpaque(true);
-        panel_dAdminDoctor.add(lblAdminTotalDoctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, -1, -1));
+        panel_dAdminDoctor.add(lblAdminTotalDoctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 30, 30));
 
-        panel_dAdminPatient.setBackground(new java.awt.Color(255, 194, 10));
+        jLabel30.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Doctor_Male_35px.png"))); // NOI18N
+        panel_dAdminDoctor.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, -1, -1));
+
+        panel_dAdminPatient.setBackground(new java.awt.Color(0, 192, 239));
         org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder5 = new org.jdesktop.swingx.border.DropShadowBorder();
         dropShadowBorder5.setShadowSize(7);
         panel_dAdminPatient.setBorder(dropShadowBorder5);
@@ -1236,27 +1286,31 @@ public class WelcomeForm extends javax.swing.JFrame {
         });
         panel_dAdminPatient.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel14.setFont(new java.awt.Font("Arial", 2, 18)); // NOI18N
+        jLabel14.setFont(new java.awt.Font("Arial", 2, 12)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Company_35px.png"))); // NOI18N
-        jLabel14.setText("Total Patient");
+        jLabel14.setText("Total Number of Patient");
         jLabel14.setIconTextGap(20);
-        panel_dAdminPatient.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 280, 90));
+        panel_dAdminPatient.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 280, 80));
 
+        lblDetailPatient.setBackground(new java.awt.Color(0, 173, 214));
         lblDetailPatient.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblDetailPatient.setForeground(new java.awt.Color(255, 255, 255));
         lblDetailPatient.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblDetailPatient.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Double_Up_15px_1.png"))); // NOI18N
+        lblDetailPatient.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Double_Up_15px_2.png"))); // NOI18N
         lblDetailPatient.setText("Click here to view detail");
-        panel_dAdminPatient.add(lblDetailPatient, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 75, 290, 30));
+        lblDetailPatient.setOpaque(true);
+        panel_dAdminPatient.add(lblDetailPatient, new org.netbeans.lib.awtextra.AbsoluteConstraints(8, 84, 280, 20));
 
         lblAdminTotalPatient.setBackground(new java.awt.Color(255, 0, 0));
-        lblAdminTotalPatient.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblAdminTotalPatient.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         lblAdminTotalPatient.setForeground(new java.awt.Color(255, 255, 255));
         lblAdminTotalPatient.setText("39");
-        lblAdminTotalPatient.setOpaque(true);
-        panel_dAdminPatient.add(lblAdminTotalPatient, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, -1, -1));
+        panel_dAdminPatient.add(lblAdminTotalPatient, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 30, 30));
 
-        panel_dAdminUser.setBackground(new java.awt.Color(255, 194, 10));
+        jLabel31.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Cast_35px_1.png"))); // NOI18N
+        panel_dAdminPatient.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, -1, -1));
+
+        panel_dAdminUser.setBackground(new java.awt.Color(1, 114, 182));
         panel_dAdminUser.setBorder(new org.jdesktop.swingx.border.DropShadowBorder());
         panel_dAdminUser.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         panel_dAdminUser.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1266,25 +1320,29 @@ public class WelcomeForm extends javax.swing.JFrame {
         });
         panel_dAdminUser.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel15.setFont(new java.awt.Font("Arial", 2, 18)); // NOI18N
+        jLabel15.setFont(new java.awt.Font("Arial", 2, 12)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_User_Account_35px.png"))); // NOI18N
-        jLabel15.setText("Total User");
+        jLabel15.setText("Total Number of User");
         jLabel15.setIconTextGap(20);
-        panel_dAdminUser.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 280, 90));
+        panel_dAdminUser.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 280, 80));
 
+        lblDetailUser.setBackground(new java.awt.Color(1, 101, 165));
         lblDetailUser.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblDetailUser.setForeground(new java.awt.Color(255, 255, 255));
         lblDetailUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblDetailUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Double_Up_15px_1.png"))); // NOI18N
+        lblDetailUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Double_Up_15px_2.png"))); // NOI18N
         lblDetailUser.setText("Click here to view detail");
-        panel_dAdminUser.add(lblDetailUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 75, 290, 30));
+        lblDetailUser.setOpaque(true);
+        panel_dAdminUser.add(lblDetailUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(8, 84, 280, 20));
 
         lblAdminTotalUser.setBackground(new java.awt.Color(255, 0, 0));
-        lblAdminTotalUser.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblAdminTotalUser.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         lblAdminTotalUser.setForeground(new java.awt.Color(255, 255, 255));
         lblAdminTotalUser.setText("39");
-        lblAdminTotalUser.setOpaque(true);
-        panel_dAdminUser.add(lblAdminTotalUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, -1, -1));
+        panel_dAdminUser.add(lblAdminTotalUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 30, 30));
+
+        jLabel29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_User_Account_35px.png"))); // NOI18N
+        panel_dAdminUser.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, -1, -1));
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -1373,7 +1431,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
         jPanel10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204), 2));
 
-        panel_dInsTotal.setBackground(new java.awt.Color(255, 194, 10));
+        panel_dInsTotal.setBackground(new java.awt.Color(1, 114, 182));
         org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder6 = new org.jdesktop.swingx.border.DropShadowBorder();
         dropShadowBorder6.setShadowSize(7);
         panel_dInsTotal.setBorder(dropShadowBorder6);
@@ -1385,27 +1443,31 @@ public class WelcomeForm extends javax.swing.JFrame {
         });
         panel_dInsTotal.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel20.setFont(new java.awt.Font("Arial", 2, 18)); // NOI18N
+        jLabel20.setFont(new java.awt.Font("Arial", 2, 12)); // NOI18N
         jLabel20.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Company_35px.png"))); // NOI18N
-        jLabel20.setText("Total Insurance Company");
+        jLabel20.setText("Total Number of Insurance Company");
         jLabel20.setIconTextGap(20);
-        panel_dInsTotal.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 280, 90));
+        panel_dInsTotal.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 280, 80));
 
+        lblDetailInsurance2.setBackground(new java.awt.Color(1, 101, 165));
         lblDetailInsurance2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblDetailInsurance2.setForeground(new java.awt.Color(255, 255, 255));
         lblDetailInsurance2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblDetailInsurance2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Double_Up_15px_1.png"))); // NOI18N
+        lblDetailInsurance2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Double_Up_15px_2.png"))); // NOI18N
         lblDetailInsurance2.setText("Click here to view detail");
-        panel_dInsTotal.add(lblDetailInsurance2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 75, 290, 30));
+        lblDetailInsurance2.setOpaque(true);
+        panel_dInsTotal.add(lblDetailInsurance2, new org.netbeans.lib.awtextra.AbsoluteConstraints(8, 84, 280, 20));
 
         lblInsTotal.setBackground(new java.awt.Color(255, 0, 0));
-        lblInsTotal.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblInsTotal.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         lblInsTotal.setForeground(new java.awt.Color(255, 255, 255));
         lblInsTotal.setText("39");
-        lblInsTotal.setOpaque(true);
-        panel_dInsTotal.add(lblInsTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, -1, -1));
+        panel_dInsTotal.add(lblInsTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 30, 30));
 
-        panel_dInsPlan.setBackground(new java.awt.Color(255, 194, 10));
+        jLabel32.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Company_35px.png"))); // NOI18N
+        panel_dInsTotal.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, -1, -1));
+
+        panel_dInsPlan.setBackground(new java.awt.Color(1, 114, 182));
         org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder7 = new org.jdesktop.swingx.border.DropShadowBorder();
         dropShadowBorder7.setShadowSize(7);
         panel_dInsPlan.setBorder(dropShadowBorder7);
@@ -1417,27 +1479,31 @@ public class WelcomeForm extends javax.swing.JFrame {
         });
         panel_dInsPlan.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel21.setFont(new java.awt.Font("Arial", 2, 18)); // NOI18N
+        jLabel21.setFont(new java.awt.Font("Arial", 2, 12)); // NOI18N
         jLabel21.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Health_Book_35px.png"))); // NOI18N
-        jLabel21.setText("Total Plan");
+        jLabel21.setText("Total Number of Plan");
         jLabel21.setIconTextGap(20);
-        panel_dInsPlan.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 280, 90));
+        panel_dInsPlan.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 280, 80));
 
+        lblDetailPlan2.setBackground(new java.awt.Color(1, 101, 165));
         lblDetailPlan2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblDetailPlan2.setForeground(new java.awt.Color(255, 255, 255));
         lblDetailPlan2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblDetailPlan2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Double_Up_15px_1.png"))); // NOI18N
+        lblDetailPlan2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Double_Up_15px_2.png"))); // NOI18N
         lblDetailPlan2.setText("Click here to view detail");
-        panel_dInsPlan.add(lblDetailPlan2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 75, 290, 30));
+        lblDetailPlan2.setOpaque(true);
+        panel_dInsPlan.add(lblDetailPlan2, new org.netbeans.lib.awtextra.AbsoluteConstraints(8, 84, 280, 20));
 
         lblInsTotalPlan.setBackground(new java.awt.Color(255, 0, 0));
-        lblInsTotalPlan.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblInsTotalPlan.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         lblInsTotalPlan.setForeground(new java.awt.Color(255, 255, 255));
         lblInsTotalPlan.setText("39");
-        lblInsTotalPlan.setOpaque(true);
-        panel_dInsPlan.add(lblInsTotalPlan, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, -1, -1));
+        panel_dInsPlan.add(lblInsTotalPlan, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 30, 30));
 
-        panel_dInsPatient.setBackground(new java.awt.Color(255, 194, 10));
+        jLabel33.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Health_Book_35px.png"))); // NOI18N
+        panel_dInsPlan.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, -1, -1));
+
+        panel_dInsPatient.setBackground(new java.awt.Color(243, 156, 17));
         org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder8 = new org.jdesktop.swingx.border.DropShadowBorder();
         dropShadowBorder8.setShadowSize(7);
         panel_dInsPatient.setBorder(dropShadowBorder8);
@@ -1449,25 +1515,29 @@ public class WelcomeForm extends javax.swing.JFrame {
         });
         panel_dInsPatient.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel23.setFont(new java.awt.Font("Arial", 2, 18)); // NOI18N
+        jLabel23.setFont(new java.awt.Font("Arial", 2, 12)); // NOI18N
         jLabel23.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Company_35px.png"))); // NOI18N
-        jLabel23.setText("Total Patient");
+        jLabel23.setText("Total Number of Patient");
         jLabel23.setIconTextGap(20);
-        panel_dInsPatient.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 280, 90));
+        panel_dInsPatient.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 280, 80));
 
+        lblDetailPatient2.setBackground(new java.awt.Color(217, 139, 16));
         lblDetailPatient2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblDetailPatient2.setForeground(new java.awt.Color(255, 255, 255));
         lblDetailPatient2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblDetailPatient2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Double_Up_15px_1.png"))); // NOI18N
+        lblDetailPatient2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Double_Up_15px_2.png"))); // NOI18N
         lblDetailPatient2.setText("Click here to view detail");
-        panel_dInsPatient.add(lblDetailPatient2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 75, 290, 30));
+        lblDetailPatient2.setOpaque(true);
+        panel_dInsPatient.add(lblDetailPatient2, new org.netbeans.lib.awtextra.AbsoluteConstraints(8, 84, 280, 20));
 
         lblInsTotalPatient.setBackground(new java.awt.Color(255, 0, 0));
-        lblInsTotalPatient.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblInsTotalPatient.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         lblInsTotalPatient.setForeground(new java.awt.Color(255, 255, 255));
         lblInsTotalPatient.setText("39");
-        lblInsTotalPatient.setOpaque(true);
-        panel_dInsPatient.add(lblInsTotalPatient, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, -1, -1));
+        panel_dInsPatient.add(lblInsTotalPatient, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 30, 30));
+
+        jLabel34.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Cast_35px_1.png"))); // NOI18N
+        panel_dInsPatient.add(jLabel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, -1, -1));
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -1544,7 +1614,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
         jPanel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204), 2));
 
-        panel_dHPTotal.setBackground(new java.awt.Color(255, 194, 10));
+        panel_dHPTotal.setBackground(new java.awt.Color(1, 114, 182));
         org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder9 = new org.jdesktop.swingx.border.DropShadowBorder();
         dropShadowBorder9.setShadowSize(7);
         panel_dHPTotal.setBorder(dropShadowBorder9);
@@ -1556,27 +1626,31 @@ public class WelcomeForm extends javax.swing.JFrame {
         });
         panel_dHPTotal.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel22.setFont(new java.awt.Font("Arial", 2, 18)); // NOI18N
+        jLabel22.setFont(new java.awt.Font("Arial", 2, 12)); // NOI18N
         jLabel22.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Hospital_3_35px.png"))); // NOI18N
-        jLabel22.setText("Total Healthcare Provider");
+        jLabel22.setText("Total Number of Healthcare Provider");
         jLabel22.setIconTextGap(20);
-        panel_dHPTotal.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 280, 90));
+        panel_dHPTotal.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 280, 80));
 
+        lblDetailInsurance3.setBackground(new java.awt.Color(1, 101, 165));
         lblDetailInsurance3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblDetailInsurance3.setForeground(new java.awt.Color(255, 255, 255));
         lblDetailInsurance3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblDetailInsurance3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Double_Up_15px_1.png"))); // NOI18N
+        lblDetailInsurance3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Double_Up_15px_2.png"))); // NOI18N
         lblDetailInsurance3.setText("Click here to view detail");
-        panel_dHPTotal.add(lblDetailInsurance3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 75, 290, 30));
+        lblDetailInsurance3.setOpaque(true);
+        panel_dHPTotal.add(lblDetailInsurance3, new org.netbeans.lib.awtextra.AbsoluteConstraints(8, 84, 280, 20));
 
         lblHPTotal.setBackground(new java.awt.Color(255, 0, 0));
-        lblHPTotal.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblHPTotal.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         lblHPTotal.setForeground(new java.awt.Color(255, 255, 255));
         lblHPTotal.setText("39");
-        lblHPTotal.setOpaque(true);
-        panel_dHPTotal.add(lblHPTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, -1, -1));
+        panel_dHPTotal.add(lblHPTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 30, 30));
 
-        panel_dHPDoctor.setBackground(new java.awt.Color(255, 194, 10));
+        jLabel35.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Hospital_3_35px.png"))); // NOI18N
+        panel_dHPTotal.add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, -1, -1));
+
+        panel_dHPDoctor.setBackground(new java.awt.Color(1, 114, 182));
         org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder10 = new org.jdesktop.swingx.border.DropShadowBorder();
         dropShadowBorder10.setShadowSize(7);
         panel_dHPDoctor.setBorder(dropShadowBorder10);
@@ -1588,27 +1662,31 @@ public class WelcomeForm extends javax.swing.JFrame {
         });
         panel_dHPDoctor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel24.setFont(new java.awt.Font("Arial", 2, 18)); // NOI18N
+        jLabel24.setFont(new java.awt.Font("Arial", 2, 12)); // NOI18N
         jLabel24.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Doctor_Male_35px.png"))); // NOI18N
-        jLabel24.setText("Total Doctor");
+        jLabel24.setText("Total Number of Doctor");
         jLabel24.setIconTextGap(20);
-        panel_dHPDoctor.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 280, 90));
+        panel_dHPDoctor.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 280, 80));
 
+        lblDetailDoctor3.setBackground(new java.awt.Color(1, 101, 165));
         lblDetailDoctor3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblDetailDoctor3.setForeground(new java.awt.Color(255, 255, 255));
         lblDetailDoctor3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblDetailDoctor3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Double_Up_15px_1.png"))); // NOI18N
+        lblDetailDoctor3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Double_Up_15px_2.png"))); // NOI18N
         lblDetailDoctor3.setText("Click here to view detail");
-        panel_dHPDoctor.add(lblDetailDoctor3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 75, 290, 30));
+        lblDetailDoctor3.setOpaque(true);
+        panel_dHPDoctor.add(lblDetailDoctor3, new org.netbeans.lib.awtextra.AbsoluteConstraints(8, 84, 280, 20));
 
         lblHPTotalDoctor.setBackground(new java.awt.Color(255, 0, 0));
-        lblHPTotalDoctor.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblHPTotalDoctor.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         lblHPTotalDoctor.setForeground(new java.awt.Color(255, 255, 255));
         lblHPTotalDoctor.setText("39");
-        lblHPTotalDoctor.setOpaque(true);
-        panel_dHPDoctor.add(lblHPTotalDoctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, -1, -1));
+        panel_dHPDoctor.add(lblHPTotalDoctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 30, 30));
 
-        panel_dHPPatient.setBackground(new java.awt.Color(255, 194, 10));
+        jLabel36.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Doctor_Male_35px.png"))); // NOI18N
+        panel_dHPDoctor.add(jLabel36, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, -1, -1));
+
+        panel_dHPPatient.setBackground(new java.awt.Color(243, 156, 17));
         org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder11 = new org.jdesktop.swingx.border.DropShadowBorder();
         dropShadowBorder11.setShadowSize(7);
         panel_dHPPatient.setBorder(dropShadowBorder11);
@@ -1620,25 +1698,29 @@ public class WelcomeForm extends javax.swing.JFrame {
         });
         panel_dHPPatient.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel25.setFont(new java.awt.Font("Arial", 2, 18)); // NOI18N
+        jLabel25.setFont(new java.awt.Font("Arial", 2, 12)); // NOI18N
         jLabel25.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Company_35px.png"))); // NOI18N
-        jLabel25.setText("Total Patient");
+        jLabel25.setText("Total Number of Patient");
         jLabel25.setIconTextGap(20);
-        panel_dHPPatient.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 280, 90));
+        panel_dHPPatient.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 280, 80));
 
+        lblDetailPatient3.setBackground(new java.awt.Color(217, 139, 16));
         lblDetailPatient3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblDetailPatient3.setForeground(new java.awt.Color(255, 255, 255));
         lblDetailPatient3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblDetailPatient3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Double_Up_15px_1.png"))); // NOI18N
+        lblDetailPatient3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Double_Up_15px_2.png"))); // NOI18N
         lblDetailPatient3.setText("Click here to view detail");
-        panel_dHPPatient.add(lblDetailPatient3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 75, 290, 30));
+        lblDetailPatient3.setOpaque(true);
+        panel_dHPPatient.add(lblDetailPatient3, new org.netbeans.lib.awtextra.AbsoluteConstraints(8, 84, 280, 20));
 
         lblHPTotalPatient.setBackground(new java.awt.Color(255, 0, 0));
-        lblHPTotalPatient.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblHPTotalPatient.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         lblHPTotalPatient.setForeground(new java.awt.Color(255, 255, 255));
         lblHPTotalPatient.setText("39");
-        lblHPTotalPatient.setOpaque(true);
-        panel_dHPPatient.add(lblHPTotalPatient, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, -1, -1));
+        panel_dHPPatient.add(lblHPTotalPatient, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 30, 30));
+
+        jLabel37.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Cast_35px_1.png"))); // NOI18N
+        panel_dHPPatient.add(jLabel37, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, -1, -1));
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -2404,6 +2486,11 @@ public class WelcomeForm extends javax.swing.JFrame {
 
         panel_home.add(panel_hHealthcarePro, "card3");
 
+        panel_hDoctor.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                panel_hDoctorComponentResized(evt);
+            }
+        });
         panel_hDoctor.setLayout(new java.awt.BorderLayout());
 
         jXCollapsiblePane1.setCollapsed(true);
@@ -2556,13 +2643,16 @@ public class WelcomeForm extends javax.swing.JFrame {
 
         panel_hDoctor.add(panel_hDoctorMain, java.awt.BorderLayout.CENTER);
 
-        btnToggle.setBackground(new java.awt.Color(239, 240, 244));
+        btnToggle.setBackground(new java.awt.Color(255, 255, 0));
         btnToggle.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnToggle.setForeground(new java.awt.Color(18, 55, 92));
         btnToggle.setText(">>  Toggle Doctor List / Patient List By Specific Doctor  <<");
         btnToggle.setAlignmentX(0.5F);
         btnToggle.setBorder(null);
+        btnToggle.setContentAreaFilled(false);
         btnToggle.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnToggle.setFocusPainted(false);
+        btnToggle.setOpaque(true);
         btnToggle.setPreferredSize(new java.awt.Dimension(311, 20));
         btnToggle.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -2573,6 +2663,7 @@ public class WelcomeForm extends javax.swing.JFrame {
             }
         });
         panel_hDoctor.add(btnToggle, java.awt.BorderLayout.SOUTH);
+        btnToggle.setBackground(Color.YELLOW);
 
         panel_home.add(panel_hDoctor, "card11");
 
@@ -2756,23 +2847,15 @@ public class WelcomeForm extends javax.swing.JFrame {
 
         panel_home.add(panel_hStatistic, "card6");
 
-        jLabel5.setText("Update");
-
         javax.swing.GroupLayout panel_hUpdatesLayout = new javax.swing.GroupLayout(panel_hUpdates);
         panel_hUpdates.setLayout(panel_hUpdatesLayout);
         panel_hUpdatesLayout.setHorizontalGroup(
             panel_hUpdatesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panel_hUpdatesLayout.createSequentialGroup()
-                .addGap(335, 335, 335)
-                .addComponent(jLabel5)
-                .addContainerGap(625, Short.MAX_VALUE))
+            .addGap(0, 995, Short.MAX_VALUE)
         );
         panel_hUpdatesLayout.setVerticalGroup(
             panel_hUpdatesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panel_hUpdatesLayout.createSequentialGroup()
-                .addGap(247, 247, 247)
-                .addComponent(jLabel5)
-                .addContainerGap(325, Short.MAX_VALUE))
+            .addGap(0, 586, Short.MAX_VALUE)
         );
 
         panel_home.add(panel_hUpdates, "card7");
@@ -3015,6 +3098,8 @@ public class WelcomeForm extends javax.swing.JFrame {
         
         showPanelInCard(panel_home, panel_hPatient);
         
+        SubTable.setTableHeader(tblPatient, new Color(240, 240, 240), Color.BLACK, new Font("Tahoma", Font.PLAIN, 12));
+        
         TextFieldSearch.setTextLook(tfSearchPatient);
     }//GEN-LAST:event_panel_patientMousePressed
 
@@ -3148,6 +3233,10 @@ public class WelcomeForm extends javax.swing.JFrame {
         SubTable.setTableHeader(tblDoctor, new Color(240, 240, 240), Color.BLACK, new Font("Tahoma", Font.PLAIN, 12));
         
         TextFieldSearch.setTextLook(tfSearchDoctor);
+        
+        if (jXCollapsiblePane1.isCollapsed()) {
+            System.out.print("Collapsed");
+        }
     }//GEN-LAST:event_panel_doctorMousePressed
 
     private void panel_findMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panel_findMousePressed
@@ -3424,17 +3513,6 @@ public class WelcomeForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tblUserMouseClicked
 
-    private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
-        if (jXCollapsiblePane1.isCollapsed()) {
-            panel_form5.setPreferredSize(panel_hDoctorMain.getSize());
-        } else {
-            int width = getContentPane().getWidth();
-            int height = getContentPane().getHeight();
-            
-            panel_form5.setPreferredSize(new Dimension(width, height));
-        }
-    }//GEN-LAST:event_formComponentResized
-
     private void btnToggleMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnToggleMouseEntered
         btnToggle.setText("<html><u>>>  Toggle Doctor List / Patient List By Specific Doctor  &#60&#60</u></html>");
     }//GEN-LAST:event_btnToggleMouseEntered
@@ -3491,6 +3569,17 @@ public class WelcomeForm extends javax.swing.JFrame {
    
         findProviderName();
     }//GEN-LAST:event_cboDocActionPerformed
+
+    private void panel_hDoctorComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_panel_hDoctorComponentResized
+        int width = panel_hDoctorMain.getWidth();
+        int height = panel_hDoctorMain.getHeight();
+        
+        if (jXCollapsiblePane1.isCollapsed()) {
+            frm5main.setPreferredSize(panel_hDoctorMain.getSize());
+        } else {           
+            frm5main.setSize(new Dimension(width, height));
+        }
+    }//GEN-LAST:event_panel_hDoctorComponentResized
            
     /**
      * @param args the command line arguments
@@ -3530,6 +3619,7 @@ public class WelcomeForm extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbSearchPlan;
     private javax.swing.JComboBox<String> cbSearchUser;
     private javax.swing.JComboBox<String> cboDoc;
+    private javax.swing.JPanel frm5main;
     private javax.swing.JPanel indAbout;
     private javax.swing.JPanel indDashboard;
     private javax.swing.JPanel indDoctor;
@@ -3560,10 +3650,21 @@ public class WelcomeForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel10;

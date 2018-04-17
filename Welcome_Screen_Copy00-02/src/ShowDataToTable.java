@@ -32,7 +32,7 @@ public class ShowDataToTable {
         try {
             Class.forName(driver);
             con = DriverManager.getConnection(url);
-            stmt = con.createStatement();
+            stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             rs = stmt.executeQuery(query);
             
             
@@ -45,7 +45,7 @@ public class ShowDataToTable {
                 
                 model.addRow(o);
             }            
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             JOptionPane.showMessageDialog(null, ex);
         }
     }
