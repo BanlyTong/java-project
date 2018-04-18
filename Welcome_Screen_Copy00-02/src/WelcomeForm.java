@@ -28,6 +28,8 @@ public class WelcomeForm extends javax.swing.JFrame {
     FrmSearchDoctor frmFDoctor = new FrmSearchDoctor();    
     FrmSearchPatient frmFPatient = new FrmSearchPatient();
     FrmSearchTreatmentMedicine frmFTreatment = new FrmSearchTreatmentMedicine(); 
+    
+    UpdateInsurance uIns = new UpdateInsurance(this, true);
      
     public WelcomeForm() {
         setLookAndFeel();
@@ -331,6 +333,23 @@ public class WelcomeForm extends javax.swing.JFrame {
         });
     }
     
+    private void mouseEnteredExited(JLabel label) {
+        label.addMouseListener(new MouseAdapter() {
+            
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                label.setBackground(new Color(255, 255, 224));
+                label.setBorder(BorderFactory.createLineBorder(Color.yellow, 2));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                label.setBackground(new Color(240, 240, 240));
+                label.setBorder(null);
+            }
+        });
+    }
+    
     private void setEventToComponent() {
         // Dashboard / Admin
         mouseEnteredExited(panel_dAdminHP, lblDetailHP);
@@ -350,9 +369,23 @@ public class WelcomeForm extends javax.swing.JFrame {
         mouseEnteredExited(panel_dHPDoctor, lblDetailDoctor3);
         mouseEnteredExited(panel_dHPPatient, lblDetailPatient3);
         
+        // Button view
         mouseEnteredExited(panel_viewDoctor);
         mouseEnteredExited(panel_viewDisease);
         mouseEnteredExited(panel_viewPlan);
+        
+        // Update tab
+        mouseEnteredExited(lblUIns);
+        mouseEnteredExited(lblUHP);
+        mouseEnteredExited(lblUHPlan);
+        mouseEnteredExited(lblUDoctor);
+        mouseEnteredExited(lblUPatient);
+        mouseEnteredExited(lblUUser);
+        
+        // Find tab
+        mouseEnteredExited(lblDoctor);
+        mouseEnteredExited(lblPatient);
+        mouseEnteredExited(lblTreatment);
     }
     
      /**
@@ -568,6 +601,15 @@ public class WelcomeForm extends javax.swing.JFrame {
         panel_hStatistic = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         panel_hUpdates = new javax.swing.JPanel();
+        jPanel12 = new javax.swing.JPanel();
+        jPanel13 = new javax.swing.JPanel();
+        lblUIns = new javax.swing.JLabel();
+        lblUHP = new javax.swing.JLabel();
+        lblUHPlan = new javax.swing.JLabel();
+        jPanel14 = new javax.swing.JPanel();
+        lblUDoctor = new javax.swing.JLabel();
+        lblUPatient = new javax.swing.JLabel();
+        lblUUser = new javax.swing.JLabel();
         panel_hFind = new javax.swing.JPanel();
         panel_findOption = new javax.swing.JPanel();
         lblDoctor = new javax.swing.JLabel();
@@ -1550,7 +1592,7 @@ public class WelcomeForm extends javax.swing.JFrame {
                     .addComponent(panel_dInsPlan, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(panel_dInsPatient, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(343, Short.MAX_VALUE))
+                .addContainerGap(368, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1733,7 +1775,7 @@ public class WelcomeForm extends javax.swing.JFrame {
                     .addComponent(panel_dHPDoctor, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(panel_dHPPatient, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(343, Short.MAX_VALUE))
+                .addContainerGap(368, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1801,7 +1843,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 971, Short.MAX_VALUE)
+            .addGap(0, 996, Short.MAX_VALUE)
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1911,7 +1953,7 @@ public class WelcomeForm extends javax.swing.JFrame {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 951, Short.MAX_VALUE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(40, 40, 40)
@@ -1922,7 +1964,7 @@ public class WelcomeForm extends javax.swing.JFrame {
                 .addComponent(jLabel26)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cbSearchUser, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 478, Short.MAX_VALUE))
+                .addGap(35, 503, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2102,7 +2144,7 @@ public class WelcomeForm extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 951, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(40, 40, 40)
@@ -2266,7 +2308,7 @@ public class WelcomeForm extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 951, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(40, 40, 40)
@@ -2424,7 +2466,7 @@ public class WelcomeForm extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 951, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(39, 39, 39)
@@ -2583,7 +2625,7 @@ public class WelcomeForm extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 951, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(40, 40, 40)
@@ -2766,7 +2808,7 @@ public class WelcomeForm extends javax.swing.JFrame {
                 .addComponent(jLabel19)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cbSearchPatient, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 334, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 359, Short.MAX_VALUE)
                 .addComponent(panel_viewDisease, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35))
         );
@@ -2833,7 +2875,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         panel_hStatisticLayout.setHorizontalGroup(
             panel_hStatisticLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_hStatisticLayout.createSequentialGroup()
-                .addContainerGap(626, Short.MAX_VALUE)
+                .addContainerGap(651, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addGap(331, 331, 331))
         );
@@ -2847,15 +2889,120 @@ public class WelcomeForm extends javax.swing.JFrame {
 
         panel_home.add(panel_hStatistic, "card6");
 
+        jPanel12.setLayout(new java.awt.GridLayout(2, 0));
+
+        jPanel13.setLayout(new java.awt.GridLayout());
+
+        lblUIns.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        lblUIns.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblUIns.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Company_100px.png"))); // NOI18N
+        lblUIns.setText("Insurance Company");
+        lblUIns.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblUIns.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lblUIns.setIconTextGap(5);
+        lblUIns.setMaximumSize(new java.awt.Dimension(220, 137));
+        lblUIns.setMinimumSize(new java.awt.Dimension(220, 137));
+        lblUIns.setOpaque(true);
+        lblUIns.setPreferredSize(new java.awt.Dimension(220, 137));
+        lblUIns.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        lblUIns.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblUInsMouseClicked(evt);
+            }
+        });
+        jPanel13.add(lblUIns);
+
+        lblUHP.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        lblUHP.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblUHP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Hospital_3_100px.png"))); // NOI18N
+        lblUHP.setText("Healthcare Provider");
+        lblUHP.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblUHP.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lblUHP.setIconTextGap(5);
+        lblUHP.setMaximumSize(new java.awt.Dimension(220, 137));
+        lblUHP.setMinimumSize(new java.awt.Dimension(220, 137));
+        lblUHP.setOpaque(true);
+        lblUHP.setPreferredSize(new java.awt.Dimension(220, 137));
+        lblUHP.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jPanel13.add(lblUHP);
+
+        lblUHPlan.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        lblUHPlan.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblUHPlan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Health_Book_100px.png"))); // NOI18N
+        lblUHPlan.setText("Healthcare Plan");
+        lblUHPlan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblUHPlan.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lblUHPlan.setIconTextGap(5);
+        lblUHPlan.setMaximumSize(new java.awt.Dimension(220, 137));
+        lblUHPlan.setMinimumSize(new java.awt.Dimension(220, 137));
+        lblUHPlan.setOpaque(true);
+        lblUHPlan.setPreferredSize(new java.awt.Dimension(220, 137));
+        lblUHPlan.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jPanel13.add(lblUHPlan);
+
+        jPanel12.add(jPanel13);
+
+        jPanel14.setLayout(new java.awt.GridLayout());
+
+        lblUDoctor.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        lblUDoctor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblUDoctor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Doctor_Male_100px.png"))); // NOI18N
+        lblUDoctor.setText("Doctor");
+        lblUDoctor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblUDoctor.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lblUDoctor.setIconTextGap(5);
+        lblUDoctor.setMaximumSize(new java.awt.Dimension(220, 137));
+        lblUDoctor.setMinimumSize(new java.awt.Dimension(220, 137));
+        lblUDoctor.setOpaque(true);
+        lblUDoctor.setPreferredSize(new java.awt.Dimension(220, 137));
+        lblUDoctor.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jPanel14.add(lblUDoctor);
+
+        lblUPatient.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        lblUPatient.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblUPatient.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Cast_100px.png"))); // NOI18N
+        lblUPatient.setText("Patient");
+        lblUPatient.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblUPatient.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lblUPatient.setIconTextGap(5);
+        lblUPatient.setMaximumSize(new java.awt.Dimension(220, 137));
+        lblUPatient.setMinimumSize(new java.awt.Dimension(220, 137));
+        lblUPatient.setOpaque(true);
+        lblUPatient.setPreferredSize(new java.awt.Dimension(220, 137));
+        lblUPatient.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jPanel14.add(lblUPatient);
+
+        lblUUser.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        lblUUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblUUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_User_Account_100px.png"))); // NOI18N
+        lblUUser.setText("User");
+        lblUUser.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblUUser.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lblUUser.setIconTextGap(5);
+        lblUUser.setMaximumSize(new java.awt.Dimension(220, 137));
+        lblUUser.setMinimumSize(new java.awt.Dimension(220, 137));
+        lblUUser.setOpaque(true);
+        lblUUser.setPreferredSize(new java.awt.Dimension(220, 137));
+        lblUUser.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jPanel14.add(lblUUser);
+
+        jPanel12.add(jPanel14);
+
         javax.swing.GroupLayout panel_hUpdatesLayout = new javax.swing.GroupLayout(panel_hUpdates);
         panel_hUpdates.setLayout(panel_hUpdatesLayout);
         panel_hUpdatesLayout.setHorizontalGroup(
             panel_hUpdatesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 995, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_hUpdatesLayout.createSequentialGroup()
+                .addContainerGap(30, Short.MAX_VALUE)
+                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 960, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30))
         );
         panel_hUpdatesLayout.setVerticalGroup(
             panel_hUpdatesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 586, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_hUpdatesLayout.createSequentialGroup()
+                .addGap(71, 71, 71)
+                .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
+                .addGap(71, 71, 71))
         );
 
         panel_home.add(panel_hUpdates, "card7");
@@ -2877,12 +3024,6 @@ public class WelcomeForm extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblDoctorMouseClicked(evt);
             }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblDoctorMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblDoctorMouseExited(evt);
-            }
         });
         panel_findOption.add(lblDoctor);
 
@@ -2898,12 +3039,6 @@ public class WelcomeForm extends javax.swing.JFrame {
         lblPatient.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblPatientMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblPatientMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblPatientMouseExited(evt);
             }
         });
         panel_findOption.add(lblPatient);
@@ -2921,12 +3056,6 @@ public class WelcomeForm extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblTreatmentMouseClicked(evt);
             }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblTreatmentMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblTreatmentMouseExited(evt);
-            }
         });
         panel_findOption.add(lblTreatment);
 
@@ -2941,7 +3070,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         panel_hAboutLayout.setHorizontalGroup(
             panel_hAboutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_hAboutLayout.createSequentialGroup()
-                .addContainerGap(642, Short.MAX_VALUE)
+                .addContainerGap(667, Short.MAX_VALUE)
                 .addComponent(jLabel6)
                 .addGap(324, 324, 324))
         );
@@ -2989,7 +3118,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scpMain, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1262, Short.MAX_VALUE)
+            .addComponent(scpMain, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3328,46 +3457,16 @@ public class WelcomeForm extends javax.swing.JFrame {
             dd.setVisible(true);  
         }
     }//GEN-LAST:event_tblDoctorMouseClicked
-
-    private void lblDoctorMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblDoctorMouseEntered
-        lblDoctor.setBackground(new Color(255, 255, 224));
-    }//GEN-LAST:event_lblDoctorMouseEntered
-
-    private void lblDoctorMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblDoctorMouseExited
-        lblDoctor.setBackground(new Color(240,240,240));
-    }//GEN-LAST:event_lblDoctorMouseExited
-
-    private void lblPatientMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPatientMouseEntered
-        lblPatient.setBackground(new Color(255, 255, 224));
-    }//GEN-LAST:event_lblPatientMouseEntered
-
-    private void lblPatientMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPatientMouseExited
-        lblPatient.setBackground(new Color(240,240,240));
-    }//GEN-LAST:event_lblPatientMouseExited
-
-    private void lblTreatmentMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTreatmentMouseEntered
-        lblTreatment.setBackground(new Color(255, 255, 224));
-    }//GEN-LAST:event_lblTreatmentMouseEntered
-
-    private void lblTreatmentMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTreatmentMouseExited
-        lblTreatment.setBackground(new Color(240,240,240));
-    }//GEN-LAST:event_lblTreatmentMouseExited
     
     private void lblDoctorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblDoctorMouseClicked
-        lblDoctorMouseExited(evt);
-        
         frmFDoctor.setVisible(true);
     }//GEN-LAST:event_lblDoctorMouseClicked
        
     private void lblPatientMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPatientMouseClicked
-        lblPatientMouseExited(evt);
-        
         frmFPatient.setVisible(true);
     }//GEN-LAST:event_lblPatientMouseClicked
     
     private void lblTreatmentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTreatmentMouseClicked
-        lblTreatmentMouseExited(evt);
-        
         frmFTreatment.setVisible(true);
     }//GEN-LAST:event_lblTreatmentMouseClicked
         
@@ -3580,6 +3679,10 @@ public class WelcomeForm extends javax.swing.JFrame {
             frm5main.setSize(new Dimension(width, height));
         }
     }//GEN-LAST:event_panel_hDoctorComponentResized
+
+    private void lblUInsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUInsMouseClicked
+        uIns.setVisible(true);
+    }//GEN-LAST:event_lblUInsMouseClicked
            
     /**
      * @param args the command line arguments
@@ -3669,6 +3772,9 @@ public class WelcomeForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -3744,6 +3850,12 @@ public class WelcomeForm extends javax.swing.JFrame {
     private javax.swing.JLabel lblSearchHP5;
     private javax.swing.JLabel lblStatistic;
     private javax.swing.JLabel lblTreatment;
+    private javax.swing.JLabel lblUDoctor;
+    private javax.swing.JLabel lblUHP;
+    private javax.swing.JLabel lblUHPlan;
+    private javax.swing.JLabel lblUIns;
+    private javax.swing.JLabel lblUPatient;
+    private javax.swing.JLabel lblUUser;
     private javax.swing.JLabel lblUpdate;
     private javax.swing.JLabel lblp;
     private javax.swing.JMenuItem menuLogout;
