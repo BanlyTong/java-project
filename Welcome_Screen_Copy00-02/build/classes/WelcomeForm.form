@@ -120,6 +120,9 @@
               <SubComponents>
                 <Component class="javax.swing.JTable" name="tbInfo">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Calibri" size="11" style="0"/>
+                    </Property>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="4" rowCount="0">
                         <Column editable="false" title="Patient ID" type="java.lang.Object"/>
@@ -213,7 +216,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="scpMain" alignment="1" pref="1000" max="32767" attributes="0"/>
+          <Component id="scpMain" alignment="1" pref="1265" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -3364,7 +3367,7 @@
                                 <Component class="javax.swing.JTable" name="tblInsCom">
                                   <Properties>
                                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                                      <Font name="Segoe UI" size="12" style="0"/>
+                                      <Font name="Calibri" size="12" style="0"/>
                                     </Property>
                                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                                       <Table columnCount="3" rowCount="0">
@@ -3655,7 +3658,7 @@
                                 <Component class="javax.swing.JTable" name="tblPlan">
                                   <Properties>
                                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                                      <Font name="Segoe UI" size="12" style="0"/>
+                                      <Font name="Calibri" size="12" style="0"/>
                                     </Property>
                                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                                       <Table columnCount="3" rowCount="0">
@@ -3931,7 +3934,7 @@
                             <Component class="javax.swing.JTable" name="tblHP">
                               <Properties>
                                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                                  <Font name="Segoe UI" size="12" style="0"/>
+                                  <Font name="Calibri" size="12" style="0"/>
                                 </Property>
                                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                                   <Table columnCount="3" rowCount="0">
@@ -4230,7 +4233,7 @@
                                 <Component class="javax.swing.JTable" name="tblDoctor">
                                   <Properties>
                                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                                      <Font name="Segoe UI" size="12" style="0"/>
+                                      <Font name="Calibri" size="12" style="0"/>
                                     </Property>
                                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                                       <Table columnCount="7" rowCount="0">
@@ -4589,7 +4592,7 @@
                                 <Component class="javax.swing.JTable" name="tblPatient">
                                   <Properties>
                                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                                      <Font name="Segoe UI" size="12" style="0"/>
+                                      <Font name="Calibri" size="12" style="0"/>
                                     </Property>
                                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                                       <Table columnCount="9" rowCount="0">
@@ -4878,6 +4881,9 @@
                                 </Property>
                                 <Property name="verticalTextPosition" type="int" value="3"/>
                               </Properties>
+                              <Events>
+                                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblUDoctorMouseClicked"/>
+                              </Events>
                             </Component>
                             <Component class="javax.swing.JLabel" name="lblUPatient">
                               <Properties>

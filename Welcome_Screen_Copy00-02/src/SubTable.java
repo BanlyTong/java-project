@@ -2,11 +2,11 @@
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -18,7 +18,7 @@ import javax.swing.table.TableCellRenderer;
  *
  * @author Sathya
  */
-public class SubTable extends javax.swing.JTable {
+public class SubTable {
     public static void removeAllRows(JTable table, DefaultTableModel model) {
         while (table.getRowCount() > 0) {
             model.removeRow(0);
@@ -30,23 +30,21 @@ public class SubTable extends javax.swing.JTable {
         table.getTableHeader().setBackground(bg);
         table.getTableHeader().setForeground(fg);
         table.getTableHeader().setFont(font);
+        
         ((DefaultTableCellRenderer)table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
     }
     
-//    @Override
-//    public Component prepareRenderer(TableCellRenderer ren, int r, int c) {
-//        Component comp = super.prepareRenderer(ren, r, c);
-//        
-//        if (r % 2 == 0 && !isCellSelected(r, c)) {
-//            comp.setBackground(new Color(242, 242, 242));
-//        }
-//        else if (!isCellSelected(r, c)) {
-//            comp.setBackground(new Color(255, 255, 255));
-//        }
-//        else {
-//            comp.setBackground(new Color(165, 207, 241));
-//        }
-//        
-//        return comp;        
-//    }
+    public static void setDefaultTableRender(JTable jTable) {
+        jTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer()
+        {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
+            {
+                final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                c.setBackground(isSelected ? new Color(0,120,215) : row % 2 == 0 ? new Color(255, 255, 255) : new Color(242, 242, 242));
+                c.setForeground(isSelected ? Color.WHITE : Color.BLACK);
+                return c;
+            }
+        });
+    }
 }

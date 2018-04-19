@@ -1,4 +1,6 @@
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -34,9 +36,16 @@ public class UpdateInsurance extends javax.swing.JDialog {
     
     public UpdateInsurance(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        
+        setLookAndFeels();
+        
         initComponents();
         
-        getEventFromTable();
+        setDefaultTableRender();
+        
+        getEventFromTable();       
+        
+        setTableHeader();
         
         sd = new ShowDataToTable("SELECT * FROM Insurance", tbInsurance, 3);
         
@@ -75,6 +84,29 @@ public class UpdateInsurance extends javax.swing.JDialog {
         formLoad();
         
         textFieldInput();
+    }
+    
+    private void setDefaultTableRender() {
+        SubTable.setDefaultTableRender(tbInsurance);
+        SubTable.setDefaultTableRender(tbContact);
+    }
+    
+    private void setTableHeader() {
+        SubTable.setTableHeader(tbInsurance, new Color(240, 240, 240), Color.BLACK, new Font("Tahoma", Font.PLAIN, 12));
+        SubTable.setTableHeader(tbContact, new Color(240, 240, 240), Color.BLACK, new Font("Tahoma", Font.PLAIN, 12));
+    }
+    
+    private void setLookAndFeels() {
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Windows".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(UpdateInsurance.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
     }
     
     private void executeSQLQuery(String query, String message) {
@@ -173,7 +205,7 @@ public class UpdateInsurance extends javax.swing.JDialog {
         setPanelEnabled(panel_CP1, false);
         
         btnNew.setEnabled(true);
-        btnUpdate.setEnabled(false);
+        btnEdit.setEnabled(false);
         btnDelete.setEnabled(false);
         
         tbInsurance.setEnabled(true);
@@ -228,10 +260,12 @@ public class UpdateInsurance extends javax.swing.JDialog {
         btnAdd = new javax.swing.JButton();
         btnRemove = new javax.swing.JButton();
         btnNew = new javax.swing.JButton();
-        btnUpdate = new javax.swing.JButton();
+        btnEdit = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1000, 700));
+        setResizable(false);
 
         panel_main.setPreferredSize(new java.awt.Dimension(1280, 700));
 
@@ -243,17 +277,17 @@ public class UpdateInsurance extends javax.swing.JDialog {
 
         jLabel2.setText("ID:");
 
-        btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Save_13px.png"))); // NOI18N
+        btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Save_20px.png"))); // NOI18N
         btnSave.setText("Save");
         btnSave.setFocusPainted(false);
-        btnSave.setPreferredSize(new java.awt.Dimension(73, 25));
+        btnSave.setPreferredSize(new java.awt.Dimension(73, 28));
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaveActionPerformed(evt);
             }
         });
 
-        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Cancel_13px_1.png"))); // NOI18N
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Cancel_20px.png"))); // NOI18N
         btnCancel.setText("Cancel");
         btnCancel.setFocusPainted(false);
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -278,7 +312,7 @@ public class UpdateInsurance extends javax.swing.JDialog {
                         .addGroup(panel_insLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panel_insLayout.createSequentialGroup()
                                 .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 129, Short.MAX_VALUE))
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(txtAddress, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(txtName, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addGroup(panel_insLayout.createSequentialGroup()
@@ -288,6 +322,9 @@ public class UpdateInsurance extends javax.swing.JDialog {
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
+
+        panel_insLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnCancel, btnSave});
+
         panel_insLayout.setVerticalGroup(
             panel_insLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_insLayout.createSequentialGroup()
@@ -318,17 +355,17 @@ public class UpdateInsurance extends javax.swing.JDialog {
 
         jLabel6.setText("Phone:");
 
-        btnInsertCP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Arrow_13px_1.png"))); // NOI18N
+        btnInsertCP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Arrow_20px.png"))); // NOI18N
         btnInsertCP.setText("Insert");
         btnInsertCP.setFocusPainted(false);
-        btnInsertCP.setPreferredSize(new java.awt.Dimension(78, 25));
+        btnInsertCP.setPreferredSize(new java.awt.Dimension(78, 28));
         btnInsertCP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnInsertCPActionPerformed(evt);
             }
         });
 
-        btnCancelCP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Cancel_13px_1.png"))); // NOI18N
+        btnCancelCP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Cancel_20px.png"))); // NOI18N
         btnCancelCP.setText("Cancel");
         btnCancelCP.setFocusPainted(false);
         btnCancelCP.setPreferredSize(new java.awt.Dimension(81, 25));
@@ -379,8 +416,7 @@ public class UpdateInsurance extends javax.swing.JDialog {
 
         panel_CPLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnCancelCP, btnInsertCP});
 
-        tbInsurance.setBackground(new java.awt.Color(57, 109, 160));
-        tbInsurance.setForeground(new java.awt.Color(255, 255, 51));
+        tbInsurance.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         tbInsurance.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -397,6 +433,8 @@ public class UpdateInsurance extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
+        tbInsurance.setRowHeight(20);
+        tbInsurance.setSelectionForeground(new java.awt.Color(0, 0, 0));
         tbInsurance.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tbInsurance.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -409,6 +447,7 @@ public class UpdateInsurance extends javax.swing.JDialog {
 
         panel_CP1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)), "Contact Person", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12), new java.awt.Color(255, 51, 51))); // NOI18N
 
+        tbContact.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         tbContact.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -425,6 +464,7 @@ public class UpdateInsurance extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
+        tbContact.setRowHeight(20);
         tbContact.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tbContact.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -433,17 +473,17 @@ public class UpdateInsurance extends javax.swing.JDialog {
         });
         jScrollPane2.setViewportView(tbContact);
 
-        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Plus_Math_13px.png"))); // NOI18N
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Plus_Math_20px.png"))); // NOI18N
         btnAdd.setText("Add");
         btnAdd.setFocusPainted(false);
-        btnAdd.setPreferredSize(new java.awt.Dimension(68, 25));
+        btnAdd.setPreferredSize(new java.awt.Dimension(68, 28));
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddActionPerformed(evt);
             }
         });
 
-        btnRemove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Subtract_13px.png"))); // NOI18N
+        btnRemove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Subtract_20px.png"))); // NOI18N
         btnRemove.setText("Remove");
         btnRemove.setFocusPainted(false);
         btnRemove.addActionListener(new java.awt.event.ActionListener() {
@@ -481,27 +521,27 @@ public class UpdateInsurance extends javax.swing.JDialog {
 
         panel_CP1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAdd, btnRemove});
 
-        btnNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Add_New_13px.png"))); // NOI18N
+        btnNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Add_New_20px.png"))); // NOI18N
         btnNew.setText("New");
         btnNew.setFocusPainted(false);
-        btnNew.setPreferredSize(new java.awt.Dimension(70, 25));
+        btnNew.setPreferredSize(new java.awt.Dimension(70, 28));
         btnNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNewActionPerformed(evt);
             }
         });
 
-        btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Refresh_13px.png"))); // NOI18N
-        btnUpdate.setText("Update");
-        btnUpdate.setFocusPainted(false);
-        btnUpdate.setPreferredSize(new java.awt.Dimension(84, 25));
-        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Edit_20px.png"))); // NOI18N
+        btnEdit.setText("Edit");
+        btnEdit.setFocusPainted(false);
+        btnEdit.setPreferredSize(new java.awt.Dimension(84, 25));
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdateActionPerformed(evt);
+                btnEditActionPerformed(evt);
             }
         });
 
-        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Delete_13px.png"))); // NOI18N
+        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Delete_20px.png"))); // NOI18N
         btnDelete.setText("Delete");
         btnDelete.setFocusPainted(false);
         btnDelete.setPreferredSize(new java.awt.Dimension(80, 25));
@@ -529,7 +569,7 @@ public class UpdateInsurance extends javax.swing.JDialog {
                             .addGroup(panel_mainLayout.createSequentialGroup()
                                 .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -538,6 +578,9 @@ public class UpdateInsurance extends javax.swing.JDialog {
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 939, Short.MAX_VALUE))))
                 .addContainerGap())
         );
+
+        panel_mainLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnDelete, btnEdit, btnNew});
+
         panel_mainLayout.setVerticalGroup(
             panel_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_mainLayout.createSequentialGroup()
@@ -550,9 +593,9 @@ public class UpdateInsurance extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addGroup(panel_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 54, Short.MAX_VALUE))
+                        .addGap(0, 42, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbCount)
@@ -560,6 +603,8 @@ public class UpdateInsurance extends javax.swing.JDialog {
                 .addComponent(panel_CP1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
+
+        panel_mainLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnDelete, btnEdit, btnNew});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -598,7 +643,7 @@ public class UpdateInsurance extends javax.swing.JDialog {
             
             formLoad();
             btnAdd.setEnabled(true);
-            btnUpdate.setEnabled(true);
+            btnEdit.setEnabled(true);
             btnDelete.setEnabled(true);
         }
     }//GEN-LAST:event_btnCancelCPActionPerformed
@@ -617,7 +662,7 @@ public class UpdateInsurance extends javax.swing.JDialog {
         
         showDataToTableCP();
    
-        btnUpdate.setEnabled(true);
+        btnEdit.setEnabled(true);
         btnDelete.setEnabled(true);
         
         btnAdd.setEnabled(true);
@@ -630,7 +675,7 @@ public class UpdateInsurance extends javax.swing.JDialog {
         
         btnAdd.setEnabled(false);
         btnInsertCP.setEnabled(false);
-        btnUpdate.setEnabled(false);
+        btnEdit.setEnabled(false);
         btnNew.setEnabled(false);
         btnDelete.setEnabled(false);
         
@@ -660,7 +705,7 @@ public class UpdateInsurance extends javax.swing.JDialog {
         btnNew.setEnabled(false);
         btnAdd.setEnabled(false);
         btnRemove.setEnabled(false);
-        btnUpdate.setEnabled(false);
+        btnEdit.setEnabled(false);
         btnDelete.setEnabled(false);
         
         tbInsurance.setEnabled(false);
@@ -676,14 +721,14 @@ public class UpdateInsurance extends javax.swing.JDialog {
         btnSave.setEnabled(false);
     }//GEN-LAST:event_btnNewActionPerformed
 
-    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         isUpdate = true;
         
         setPanelEnabled(panel_ins, true);
         
         txtID.setEnabled(false);
         
-        btnUpdate.setEnabled(false);
+        btnEdit.setEnabled(false);
         btnNew.setEnabled(false);
         btnDelete.setEnabled(false);
         btnAdd.setEnabled(false);
@@ -697,7 +742,7 @@ public class UpdateInsurance extends javax.swing.JDialog {
         // Remove event MouseClicked from tbContact
         setEventEnabled(tbContact, eventC, false);
         setEventEnabled(tbInsurance, eventI, false);  
-    }//GEN-LAST:event_btnUpdateActionPerformed
+    }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         int i = tbInsurance.getSelectedRow();
@@ -783,11 +828,11 @@ public class UpdateInsurance extends javax.swing.JDialog {
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnCancelCP;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnInsertCP;
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnRemove;
     private javax.swing.JButton btnSave;
-    private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

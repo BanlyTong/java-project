@@ -30,24 +30,28 @@ public class WelcomeForm extends javax.swing.JFrame {
     FrmSearchTreatmentMedicine frmFTreatment = new FrmSearchTreatmentMedicine(); 
     
     UpdateInsurance uIns = new UpdateInsurance(this, true);
+    UpdateDoctor uDoc = new UpdateDoctor(this, true);
      
     public WelcomeForm() {
         setLookAndFeel();
         
         initComponents();
         
-        // Maximize jframe when start
+        setDefaultTableRender();
+
 //        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
+        panel_dashboardMousePressed(null);
+        
         panel_statistic.setVisible(false);
         
         showTotalToDashboard();
                 
         initForm5();
         
-        switchDoctorPatient();
-                
-        panel_dashboardMousePressed(null);
+        showDataToTable();
+        
+        switchDoctorPatient();                     
         
         frmLogin.addWindowListener(new WindowAdapter() {
             @Override
@@ -78,13 +82,24 @@ public class WelcomeForm extends javax.swing.JFrame {
             }
         });
         
-        setEventToComponent();
+        setEventMouseEnteredExited();       
+    }
     
+    private void showDataToTable() {
         sd = new ShowDataToTable("SELECT * FROM Provider", tblHP, 3);
         sd = new ShowDataToTable("SELECT * FROM Insurance", tblInsCom, 3);
         sd = new ShowDataToTable("SELECT * FROM [Plan]", tblPlan, 3);
         sd = new ShowDataToTable("SELECT ID, [First name] + ' ' + [Last name] AS [Name], Gender, DOB, Address, Area, Degree FROM Doctor", tblDoctor, 7);
         sd = new ShowDataToTable("SELECT Ssn, [First Name] + ' ' + [Last Name] AS [Name], Gender, DOB, Address, HealthCondition, Phone, [Employer Name], Contact FROM Patient", tblPatient, 9);
+    }
+    private void setDefaultTableRender() {
+        SubTable.setDefaultTableRender(tbInfo);
+        SubTable.setDefaultTableRender(tblDoctor);
+        SubTable.setDefaultTableRender(tblHP);
+        SubTable.setDefaultTableRender(tblInsCom);
+        SubTable.setDefaultTableRender(tblPatient);
+        SubTable.setDefaultTableRender(tblPlan);
+        SubTable.setDefaultTableRender(tblUser);
     }
     
     private void findProviderName(){
@@ -121,7 +136,7 @@ public class WelcomeForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, ex);
         }
         
-//        btnToggle.setFocusPainted(false);
+        SubTable.setTableHeader(tbInfo, new Color(240, 240, 240), Color.BLACK, new Font("Tahoma", Font.PLAIN, 12));
     }
     
     private void setLookAndFeel() {
@@ -350,7 +365,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         });
     }
     
-    private void setEventToComponent() {
+    private void setEventMouseEnteredExited() {
         // Dashboard / Admin
         mouseEnteredExited(panel_dAdminHP, lblDetailHP);
         mouseEnteredExited(panel_dAdminInsurance, lblDetailInsurance);
@@ -644,6 +659,7 @@ public class WelcomeForm extends javax.swing.JFrame {
             }
         });
 
+        tbInfo.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
         tbInfo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -714,7 +730,6 @@ public class WelcomeForm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Healthcare Management System v1.0");
         setBackground(new java.awt.Color(255, 255, 255));
-        setPreferredSize(new java.awt.Dimension(1000, 600));
 
         panel_left.setBackground(new java.awt.Color(18, 55, 92));
 
@@ -2110,7 +2125,7 @@ public class WelcomeForm extends javax.swing.JFrame {
 
         jScrollPane2.setBorder(null);
 
-        tblInsCom.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        tblInsCom.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         tblInsCom.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -2274,7 +2289,7 @@ public class WelcomeForm extends javax.swing.JFrame {
 
         jScrollPane3.setBorder(null);
 
-        tblPlan.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        tblPlan.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         tblPlan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -2432,7 +2447,7 @@ public class WelcomeForm extends javax.swing.JFrame {
 
         jScrollPane1.setBorder(null);
 
-        tblHP.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        tblHP.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         tblHP.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -2591,7 +2606,7 @@ public class WelcomeForm extends javax.swing.JFrame {
 
         jScrollPane4.setBorder(null);
 
-        tblDoctor.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        tblDoctor.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         tblDoctor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -2762,7 +2777,7 @@ public class WelcomeForm extends javax.swing.JFrame {
 
         jScrollPane5.setBorder(null);
 
-        tblPatient.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        tblPatient.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         tblPatient.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -2891,7 +2906,7 @@ public class WelcomeForm extends javax.swing.JFrame {
 
         jPanel12.setLayout(new java.awt.GridLayout(2, 0));
 
-        jPanel13.setLayout(new java.awt.GridLayout());
+        jPanel13.setLayout(new java.awt.GridLayout(1, 0));
 
         lblUIns.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         lblUIns.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -2942,7 +2957,7 @@ public class WelcomeForm extends javax.swing.JFrame {
 
         jPanel12.add(jPanel13);
 
-        jPanel14.setLayout(new java.awt.GridLayout());
+        jPanel14.setLayout(new java.awt.GridLayout(1, 0));
 
         lblUDoctor.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         lblUDoctor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -2956,6 +2971,11 @@ public class WelcomeForm extends javax.swing.JFrame {
         lblUDoctor.setOpaque(true);
         lblUDoctor.setPreferredSize(new java.awt.Dimension(220, 137));
         lblUDoctor.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        lblUDoctor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblUDoctorMouseClicked(evt);
+            }
+        });
         jPanel14.add(lblUDoctor);
 
         lblUPatient.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
@@ -3118,7 +3138,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scpMain, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
+            .addComponent(scpMain, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1265, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3683,6 +3703,10 @@ public class WelcomeForm extends javax.swing.JFrame {
     private void lblUInsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUInsMouseClicked
         uIns.setVisible(true);
     }//GEN-LAST:event_lblUInsMouseClicked
+
+    private void lblUDoctorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUDoctorMouseClicked
+        uDoc.setVisible(true);
+    }//GEN-LAST:event_lblUDoctorMouseClicked
            
     /**
      * @param args the command line arguments
