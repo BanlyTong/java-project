@@ -55,7 +55,7 @@ public class FrmSearchTreatmentMedicine extends javax.swing.JFrame {
         colorForeExited = lblClose.getForeground();
         
         sub = new SubFrame(jPanel1, this, new Color(0, 160, 174), 1);
-//        sub = new SubFrame(jPanel1, this, new Color(255, 2, 0), 3);
+
         sub.closeButton(lblClose, this, colorBackExited, colorForeExited);
 //        DecoratedForm();
         
@@ -100,9 +100,17 @@ public class FrmSearchTreatmentMedicine extends javax.swing.JFrame {
 
             },
             new String [] {
-
+                "Treatment"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tbTreatment);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Light", 1, 36)); // NOI18N
@@ -115,9 +123,17 @@ public class FrmSearchTreatmentMedicine extends javax.swing.JFrame {
 
             },
             new String [] {
-
+                "Medicine"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(tbMedicine);
 
         lblClose.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 12)); // NOI18N
@@ -318,8 +334,8 @@ public class FrmSearchTreatmentMedicine extends javax.swing.JFrame {
     {
         mdlTbMed = (DefaultTableModel) tbMedicine.getModel();
         mdlTbTreat = (DefaultTableModel) tbTreatment.getModel();
-        mdlTbMed.addColumn("Medicine");
-        mdlTbTreat.addColumn("Treatment");
+//        mdlTbMed.addColumn("Medicine");
+//        mdlTbTreat.addColumn("Treatment");
         tbMedicine.getTableHeader().setFont(new Font("Segoe UI Light",Font.PLAIN,20));
         tbTreatment.getTableHeader().setFont(new Font("Segoe UI Light",Font.PLAIN,20));
         tbMedicine.setRowHeight(35);

@@ -190,6 +190,7 @@ public class UpdateDoctor extends javax.swing.JDialog {
         lbCount = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Doctor Data Entry");
         setBackground(new java.awt.Color(0, 0, 204));
         setResizable(false);
 

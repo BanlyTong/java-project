@@ -19,18 +19,30 @@ public class WelcomeForm extends javax.swing.JFrame {
     
     DefaultTableModel model;
     
+    static boolean logout;
+
+    public static boolean isLogout() {
+        return logout;
+    }
+
+    public static void setLogout(boolean logout) {
+        WelcomeForm.logout = logout;
+    }
+    
     Connection con = null;
     Statement stmt = null;
     ResultSet rsDoc = null;
     ResultSet rs = null;
     
-    FrmLogin frmLogin  = new FrmLogin();     
+    FrmLogin frmLogin  = new FrmLogin();    
     FrmSearchDoctor frmFDoctor = new FrmSearchDoctor();    
     FrmSearchPatient frmFPatient = new FrmSearchPatient();
     FrmSearchTreatmentMedicine frmFTreatment = new FrmSearchTreatmentMedicine(); 
     
     UpdateInsurance uIns = new UpdateInsurance(this, true);
     UpdateDoctor uDoc = new UpdateDoctor(this, true);
+    UpdatePatient uPat = new UpdatePatient(this, true);
+    UpdatePlan uPlan = new UpdatePlan(this, true);
      
     public WelcomeForm() {
         setLookAndFeel();
@@ -41,11 +53,13 @@ public class WelcomeForm extends javax.swing.JFrame {
 
 //        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-        panel_dashboardMousePressed(null);
+        panel_insurance_comMousePressed(null);
         
         panel_statistic.setVisible(false);
         
         showTotalToDashboard();
+        
+        refreshData();
                 
         initForm5();
         
@@ -53,36 +67,62 @@ public class WelcomeForm extends javax.swing.JFrame {
         
         switchDoctorPatient();                     
         
+        afterLogin();
+        
+        setEventMouseEnteredExited();       
+    }
+    
+    private void refreshData() {
+        windowsClosedEvent(uDoc);
+        windowsClosedEvent(uPat);
+        windowsClosedEvent(uIns);
+        windowsClosedEvent(uPlan);
+    }
+    
+    private void afterLogin() {
         frmLogin.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
-                WelcomeForm.this.setVisible(true);
+                WelcomeForm.this.setVisible(true); 
+                   
+                changeLoginTextAndIcon();
+                
+                disableUpdate();
+                disableDashboard();
                 
                 if (frmLogin.isLoggedin()) {
                     panel_dashboardMousePressed(null);
                     
-                    changeLoginText();
-            
                     if (frmLogin.getAccountType().equals("Admin")) {
                         userLoginAdmin();
                     }   
-                    
+
                     if (frmLogin.getAccountType().equals("Insurance")) {
                         userLoginInsurance();
                     }
-                    
+
                     if (frmLogin.getAccountType().equals("Healthcare")) {
                         userLoginHealthcare();
                     }   
-                    
-//                    if (frmLogin.getAccountType().equals("Insurance")) {
-//                        
-//                    }
+
+                    if (frmLogin.getAccountType().equals("Insurance")) {
+                            
+                    }
+                } else {
+                    panel_insurance_comMousePressed(null);
                 }
             }
         });
-        
-        setEventMouseEnteredExited();       
+    }
+    
+    private void windowsClosedEvent(JDialog dialog) {
+        dialog.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                showDataToTable();
+                showTotalToDashboard();
+            }
+        });
     }
     
     private void showDataToTable() {
@@ -92,6 +132,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         sd = new ShowDataToTable("SELECT ID, [First name] + ' ' + [Last name] AS [Name], Gender, DOB, Address, Area, Degree FROM Doctor", tblDoctor, 7);
         sd = new ShowDataToTable("SELECT Ssn, [First Name] + ' ' + [Last Name] AS [Name], Gender, DOB, Address, HealthCondition, Phone, [Employer Name], Contact FROM Patient", tblPatient, 9);
     }
+    
     private void setDefaultTableRender() {
         SubTable.setDefaultTableRender(tbInfo);
         SubTable.setDefaultTableRender(tblDoctor);
@@ -109,15 +150,13 @@ public class WelcomeForm extends javax.swing.JFrame {
         try{        
             rsDoc.absolute(cboDoc.getSelectedIndex()+1);
             Statement stmtPro = con.createStatement();
-            ResultSet rsPro = stmtPro.executeQuery("Select *from Provider\n" 
-                +"where Provider.ID='"+rsDoc.getString("Provider.ID")+"'");
-            
-            while(rsPro.next())
-                txtPro.setText(rsPro.getString("Name"));
-            
-            rsPro.close();        
+            try (ResultSet rsPro = stmtPro.executeQuery("Select * from Provider\n" 
+                    +"where Provider.ID='"+rsDoc.getString("Provider.ID")+"'")) {
+                while(rsPro.next())
+                    txtPro.setText(rsPro.getString("Name"));
+            }        
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
     
@@ -148,7 +187,7 @@ public class WelcomeForm extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(WelcomeForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
     
@@ -192,6 +231,13 @@ public class WelcomeForm extends javax.swing.JFrame {
         lblUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Update_Disable_25px.png")));
     }
     
+    private void disableDashboard() {
+        lblLock1.setVisible(true);
+        
+        lblDashboard.setForeground(new Color(128, 128, 128));
+        lblDashboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Dashboard_25px_1.png")));
+    }
+    
     private void enableUpdate() {
         lblLock.setVisible(false);
         
@@ -199,40 +245,52 @@ public class WelcomeForm extends javax.swing.JFrame {
         lblUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Update_25px.png")));
     }
     
-    private void changeLoginText() {
-        lblLogin.setText(frmLogin.getUsername());
+    private void enableDashboard() {
+        lblLock1.setVisible(false);
         
-        if (frmLogin.getAccountType().equals("Insurance")) {
-            lblLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Company_30px.png")));
+        lblDashboard.setForeground(new Color(255, 255, 255));       
+        lblDashboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Dashboard_25px.png")));
+    }
+    
+    private void changeLoginTextAndIcon() {              
+        if (frmLogin.isLoggedin()) {
+            lblLogin.setText(frmLogin.getUsername());
+            
+            if (frmLogin.getAccountType().equals("Insurance")) {
+                lblLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Company_25px.png")));
+            } 
+
+            if (frmLogin.getAccountType().equals("Healthcare")) {
+                lblLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Hospital_3_25px_1.png")));
+            }    
+
+            if (frmLogin.getAccountType().equals("Normal")) {
+                lblLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_User_30px.png")));
+            }
+        
+            if (frmLogin.getAccountType().equals("Admin")) {
+                lblLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Admin_30px.png")));
+            }  
         }
-        
-        if (frmLogin.getAccountType().equals("Healthcare")) {
-            lblLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Hospital_3_30px.png")));
-        }    
-        
-        if (frmLogin.getAccountType().equals("Normal")) {
-            lblLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_User_30px.png")));
-        }
-        
-        if (frmLogin.getAccountType().equals("Admin")) {
-            lblLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Admin_30px.png")));
+        else {
+            lblLogin.setText("Log in / Register");
+            lblLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Add_User_Male_30px_4.png")));
         }
     }
     
     private void userLoginAdmin() {
         enableUpdate();
+        enableDashboard();
     }
     
-    private void userLoginInsurance() {
-        jLabel1.setText("Insurance");
-        
+    private void userLoginInsurance() {       
         disableUpdate();
+        enableDashboard();
     }
     
-    private void userLoginHealthcare() {
-        jLabel1.setText("Healthcare");
-        
+    private void userLoginHealthcare() {        
         disableUpdate();
+        enableDashboard();
     }
     
     private void connectDatabase(String query) {        
@@ -429,6 +487,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         panel_dashboard = new javax.swing.JPanel();
         lblDashboard = new javax.swing.JLabel();
         indDashboard = new javax.swing.JPanel();
+        lblLock1 = new javax.swing.JLabel();
         panel_insurance_com = new javax.swing.JPanel();
         lblInsuranceCom = new javax.swing.JLabel();
         indInsurance = new javax.swing.JPanel();
@@ -749,8 +808,8 @@ public class WelcomeForm extends javax.swing.JFrame {
         panel_dashboard.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblDashboard.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
-        lblDashboard.setForeground(new java.awt.Color(255, 255, 255));
-        lblDashboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Dashboard_25px.png"))); // NOI18N
+        lblDashboard.setForeground(new java.awt.Color(128, 128, 128));
+        lblDashboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Dashboard_25px_1.png"))); // NOI18N
         lblDashboard.setText("Dashboard");
         lblDashboard.setIconTextGap(20);
         panel_dashboard.add(lblDashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 0, 280, 42));
@@ -771,6 +830,9 @@ public class WelcomeForm extends javax.swing.JFrame {
         );
 
         panel_dashboard.add(indDashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 42));
+
+        lblLock1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Lock_20px.png"))); // NOI18N
+        panel_dashboard.add(lblLock1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, -1, -1));
 
         panel_insurance_com.setBackground(new java.awt.Color(18, 55, 92));
         panel_insurance_com.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -2239,7 +2301,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         panel_hHPlanMain.setBackground(new java.awt.Color(239, 240, 244));
 
         lbl2.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        lbl2.setText("Health Care Plans");
+        lbl2.setText("Healthcare Plans");
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204), 2));
@@ -2953,6 +3015,11 @@ public class WelcomeForm extends javax.swing.JFrame {
         lblUHPlan.setOpaque(true);
         lblUHPlan.setPreferredSize(new java.awt.Dimension(220, 137));
         lblUHPlan.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        lblUHPlan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblUHPlanMouseClicked(evt);
+            }
+        });
         jPanel13.add(lblUHPlan);
 
         jPanel12.add(jPanel13);
@@ -2990,6 +3057,11 @@ public class WelcomeForm extends javax.swing.JFrame {
         lblUPatient.setOpaque(true);
         lblUPatient.setPreferredSize(new java.awt.Dimension(220, 137));
         lblUPatient.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        lblUPatient.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblUPatientMouseClicked(evt);
+            }
+        });
         jPanel14.add(lblUPatient);
 
         lblUUser.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
@@ -3180,35 +3252,35 @@ public class WelcomeForm extends javax.swing.JFrame {
     }//GEN-LAST:event_panel_healthcareProMousePressed
 
     private void panel_dashboardMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panel_dashboardMousePressed
-        setColorChooseSidePane(panel_dashboard, panel_healthcarePro, panel_healthcarePlan, panel_insurance_com, panel_about, panel_statistic, panel_update, panel_find, panel_doctor, panel_patient);
+        if (frmLogin.isLoggedin()) {
+            setColorChooseSidePane(panel_dashboard, panel_healthcarePro, panel_healthcarePlan, panel_insurance_com, panel_about, panel_statistic, panel_update, panel_find, panel_doctor, panel_patient);
         
-        setIndexChooseSidePane(true, false, false, false, false, false, false, false, false, false);
+            setIndexChooseSidePane(true, false, false, false, false, false, false, false, false, false);
         
-        if (frmLogin.isLoggedin() && frmLogin.getAccountType().equals("Admin")) {
-            showPanelInCard(panel_home, panel_hDashboard);
-            showPanelInCard(panel_hDashboard, panel_dAdmin);
-        }
         
-        else if (frmLogin.isLoggedin() && frmLogin.getAccountType().equals("Insurance")) {
-            showPanelInCard(panel_home, panel_hDashboard);
-            showPanelInCard(panel_hDashboard, panel_dInsurance);
-        }
-        
-        else if (frmLogin.isLoggedin() && frmLogin.getAccountType().equals("Healthcare")) {
-            showPanelInCard(panel_home, panel_hDashboard);
-            showPanelInCard(panel_hDashboard, panel_dHealthcare);            
-        }
-        
-        else if (frmLogin.isLoggedin() && frmLogin.getAccountType().equals("Normal")) {
-            showPanelInCard(panel_home, panel_hDashboard);
-            showPanelInCard(panel_hDashboard, panel_dNormal);
-        }
-        
+            if (frmLogin.getAccountType().equals("Admin")) {
+                showPanelInCard(panel_home, panel_hDashboard);
+                showPanelInCard(panel_hDashboard, panel_dAdmin);
+            }
+
+            else if (frmLogin.getAccountType().equals("Insurance")) {
+                showPanelInCard(panel_home, panel_hDashboard);
+                showPanelInCard(panel_hDashboard, panel_dInsurance);
+            }
+
+            else if (frmLogin.getAccountType().equals("Healthcare")) {
+                showPanelInCard(panel_home, panel_hDashboard);
+                showPanelInCard(panel_hDashboard, panel_dHealthcare);            
+            }
+
+            else {
+                showPanelInCard(panel_home, panel_hDashboard);
+                showPanelInCard(panel_hDashboard, panel_dNormal);
+            }
+        }        
         else {
-            showPanelInCard(panel_home, panel_hDashboard);
-            showPanelInCard(panel_hDashboard, panel_empty);
+            JOptionPane.showConfirmDialog(null, "Please Login to view this option!", "Cannot use this option", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
         }
-//        showPanelInCard(panel_home, panel_hDashboard);
     }//GEN-LAST:event_panel_dashboardMousePressed
 
     private void panel_statisticMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panel_statisticMousePressed
@@ -3502,8 +3574,10 @@ public class WelcomeForm extends javax.swing.JFrame {
     }//GEN-LAST:event_lblLoginMouseClicked
 
     private void menuLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLogoutActionPerformed
-        this.setVisible(false);
+        setLogout(true);
         
+        this.setVisible(false);
+
         frmLogin.setVisible(true);
     }//GEN-LAST:event_menuLogoutActionPerformed
 
@@ -3683,7 +3757,7 @@ public class WelcomeForm extends javax.swing.JFrame {
                     mcName});
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
+            JOptionPane.showMessageDialog(null, ex);
         }
    
         findProviderName();
@@ -3707,6 +3781,14 @@ public class WelcomeForm extends javax.swing.JFrame {
     private void lblUDoctorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUDoctorMouseClicked
         uDoc.setVisible(true);
     }//GEN-LAST:event_lblUDoctorMouseClicked
+
+    private void lblUPatientMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUPatientMouseClicked
+        uPat.setVisible(true);
+    }//GEN-LAST:event_lblUPatientMouseClicked
+
+    private void lblUHPlanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUHPlanMouseClicked
+        uPlan.setVisible(true);
+    }//GEN-LAST:event_lblUHPlanMouseClicked
            
     /**
      * @param args the command line arguments
@@ -3864,6 +3946,7 @@ public class WelcomeForm extends javax.swing.JFrame {
     private javax.swing.JLabel lblInsuranceCom;
     private javax.swing.JLabel lblInsuranceCom2;
     private javax.swing.JLabel lblLock;
+    private javax.swing.JLabel lblLock1;
     private javax.swing.JLabel lblLogin;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblPatient;

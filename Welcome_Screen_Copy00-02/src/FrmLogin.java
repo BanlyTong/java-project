@@ -7,7 +7,10 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import javax.swing.*;
 
 /**
@@ -28,8 +31,9 @@ public class FrmLogin extends javax.swing.JFrame implements FocusListener, KeyLi
 
     ButtonGroup bg;
 
-    private String accountType;
-    private String username;
+    String accountType;
+    String username;
+    String date;
     
     SubFrame sub;
 
@@ -63,13 +67,17 @@ public class FrmLogin extends javax.swing.JFrame implements FocusListener, KeyLi
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=HealthCareService;user=sa;password=sathya123;");
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
         }
 
         SimpleButton();
 
         initComponents();
 
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyy HH:mm");
+	Date date = new Date();
+        this.date = dateFormat.format(date);
+        
         sub = new SubFrame(panel_main, this);
 
         configControl();
@@ -135,6 +143,11 @@ public class FrmLogin extends javax.swing.JFrame implements FocusListener, KeyLi
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
         setResizable(false);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         pnlSignup.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -434,6 +447,10 @@ public class FrmLogin extends javax.swing.JFrame implements FocusListener, KeyLi
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+        if (WelcomeForm.isLogout()) {
+            this.setLoggedin(false);
+        }
+        
         closeJFrame();
     }//GEN-LAST:event_btnExitActionPerformed
 
@@ -501,7 +518,7 @@ public class FrmLogin extends javax.swing.JFrame implements FocusListener, KeyLi
         }
         
         if (this.isLoggedin()) {
-            JOptionPane.showMessageDialog(null, "Login Successful");
+            JOptionPane.showMessageDialog(null, "Welcom to Management Healthcare Service.");
             
             closeJFrame();
         }
@@ -516,6 +533,7 @@ public class FrmLogin extends javax.swing.JFrame implements FocusListener, KeyLi
 
     private void btnSignupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignupActionPerformed
         // TODO add your handling code here:
+        boolean b = true;
 
         if (rdbInsurance.isSelected() == true) {
             accountType = "Insurance";
@@ -531,51 +549,72 @@ public class FrmLogin extends javax.swing.JFrame implements FocusListener, KeyLi
         try {
             //First Name
             if (txtFirstName.getForeground().equals(new Color(153, 153, 153)) && (txtFirstName.getText().equals("First Name"))) {
+                b = false;
                 throw new Exception("Please enter your First Name");
             }
             //Last Name
             if (txtLastName.getForeground().equals(new Color(153, 153, 153)) && (txtLastName.getText().equals("Last Name"))) {
+                b = false;
                 throw new Exception("Please enter your Last Name");
             }
             //Username
             if (txtUsername.getForeground().equals(new Color(153, 153, 153)) && (txtUsername.getText().equals("Username"))) {
+                b = false;
                 throw new Exception("Please enter your username");
             }
             //Password
             if (Arrays.equals(txtPassword.getPassword(), "Password".toCharArray()) && txtPassword.getForeground().equals(new Color(153, 153, 153))) {
+                b = false;
                 throw new Exception("Please enter your password");
             }
             //Confirm Password
             if (Arrays.equals(txtConfirmPassword.getPassword(), "Confirm Password".toCharArray()) && txtConfirmPassword.getForeground().equals(new Color(153, 153, 153))) {
+                b = false;
                 throw new Exception("Please confirm your password");
             }
             if (!Arrays.equals(txtPassword.getPassword(), txtConfirmPassword.getPassword())) {
+                b = false;
                 throw new Exception("Password don't match");
+            }
+            if (bg.getSelection() == null) {
+                b = false;
+                throw new Exception("Plese select user type");
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Missing Information", JOptionPane.OK_OPTION);
         }
         try {
-            st = con.createStatement();
-            st.executeUpdate(sqlSignup);
-//            rs.moveToInsertRow();
-//            rs.updateString(0, txtUsername.getText());
-//            rs.updateString(1, txtFirstName.getText());
-//            rs.updateString(2, txtLastName.getText());
-//            rs.updateString(3, txtPassword.getPassword().toString());
-//            rs.insertRow();
-            //rs.updateRow();
-            suceeded = true;
+            if (b == true) {
+                st = con.createStatement();
+                if (st.executeUpdate(sqlSignup) == 1) {
+                    suceeded = true;
+                }
+            }
         } catch (Exception e) {
-//            JOptionPane.showMessageDialog(null,"Cannot Sign Up at this time, Please try again later!");
-            JOptionPane.showMessageDialog(null, "The Username already exist");
+            JOptionPane.showMessageDialog(null, "Username already exist!", "Cannot register", JOptionPane.WARNING_MESSAGE);
         }
         if (suceeded) {
-            JOptionPane.showMessageDialog(null, "Yayyyyyyyyyy!");
+            JOptionPane.showMessageDialog(null, "Register Successful");
+            formComponentShown(null);
         }
-
     }//GEN-LAST:event_btnSignupActionPerformed
 
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        setForegroundTextInput(txtFirstName, "First Name");
+        setForegroundTextInput(txtLastName, "Last Name");
+        setForegroundTextInput(txtLoginUsername, "Username");
+        setForegroundTextInput(txtUsername, "Username");
+        bg.clearSelection();
+        ConfigPasswordField();
+        txtPassword.setForeground(new Color(153, 153, 153));
+        txtConfirmPassword.setForeground(new Color(153, 153, 153));
+        txtLoginPassword.setForeground(new Color(153, 153, 153));
+    }//GEN-LAST:event_formComponentShown
+
+    private void setForegroundTextInput(JTextField text, String str) {
+        text.setForeground(new Color(153, 153, 153));
+        text.setText(str);
+    }
     /**
      * @param args the command line arguments
      */
@@ -672,8 +711,8 @@ public class FrmLogin extends javax.swing.JFrame implements FocusListener, KeyLi
 
     private void InitQuery() {
         sqlLogin = "select * from [User]";
-        sqlSignup = "insert into [User] (username, [First Name], [Last Name], [password], [type]) "
-                + "values('" + txtUsername.getText() + "', '" + txtFirstName.getText() + "', '" + txtLastName.getText() + "', '" + txtPassword.getText().toString() + "', '" + accountType + "')";
+        sqlSignup = "insert into [User] (username, [First Name], [Last Name], [password], [type], joinDate) "
+                + "values('" + txtUsername.getText() + "', '" + txtFirstName.getText() + "', '" + txtLastName.getText() + "', '" + txtPassword.getText().toString() + "', '" + accountType + "', '" + date + "')";
     }
 
     private void configControl() {

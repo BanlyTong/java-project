@@ -52,38 +52,32 @@ public class UpdateInsurance extends javax.swing.JDialog {
         tbInsurance.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                int i = tbInsurance.getSelectedRow();
-                if (i > 0){
-                    lbCount.setText(i + 1 + "/" + tbInsurance.getRowCount());
-                    showDataToTableCP();
-                    
-                    txtID.setText(model.getValueAt(i, 0).toString());
-                    txtName.setText(model.getValueAt(i, 1).toString());
-                    txtAddress.setText(model.getValueAt(i, 2).toString());
-                    
-                    btnAdd.setEnabled(true);
-                }               
+                setTextLabelCount();          
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
-                int i = tbInsurance.getSelectedRow();
-                if (i >= 0){
-                    lbCount.setText(i + 1 + "/" + tbInsurance.getRowCount());
-                    showDataToTableCP();
-                    
-                    txtID.setText(model.getValueAt(i, 0).toString());
-                    txtName.setText(model.getValueAt(i, 1).toString());
-                    txtAddress.setText(model.getValueAt(i, 2).toString());
-                    
-                    btnAdd.setEnabled(true);
-                }
+                setTextLabelCount();
             }
         });
         
         formLoad();
         
         textFieldInput();
+    }
+    
+    private void setTextLabelCount() {
+        int i = tbInsurance.getSelectedRow();
+        if (i >= 0){
+            lbCount.setText(i + 1 + "/" + tbInsurance.getRowCount());
+            showDataToTableCP();
+                    
+            txtID.setText(model.getValueAt(i, 0).toString());
+            txtName.setText(model.getValueAt(i, 1).toString());
+            txtAddress.setText(model.getValueAt(i, 2).toString());
+                    
+            btnAdd.setEnabled(true);
+        }
     }
     
     private void setDefaultTableRender() {
@@ -118,7 +112,7 @@ public class UpdateInsurance extends javax.swing.JDialog {
             if (message.equals("Deleted") || message.equals("Removed")) {
                 if (JOptionPane.showConfirmDialog(null, 
                         "Are you sure you want to " + message.substring(0, 6).toLowerCase() + " this record?", 
-                        "Confirm Action", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        message.substring(0, 6), JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     if (stmt.executeUpdate(query) == 1) {
                         JOptionPane.showMessageDialog(null, "Data " + message + " Successful", "Information", JOptionPane.INFORMATION_MESSAGE);
                         
@@ -264,6 +258,7 @@ public class UpdateInsurance extends javax.swing.JDialog {
         btnDelete = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Insurance Data Entry");
         setPreferredSize(new java.awt.Dimension(1000, 700));
         setResizable(false);
 
