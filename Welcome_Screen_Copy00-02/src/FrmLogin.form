@@ -113,11 +113,11 @@
                                       <Component id="txtConfirmPassword" alignment="0" max="32767" attributes="0"/>
                                       <Component id="pnlPassword" alignment="0" max="32767" attributes="0"/>
                                   </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="rdbInsurance" min="-2" pref="127" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
-                                      <Component id="rdbHealthCare" min="-2" pref="127" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Component id="rdbInsurance" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                                      <Component id="rdbHealthCare" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                                       <Component id="rdbNormal" min="-2" pref="127" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -143,12 +143,12 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="txtConfirmPassword" min="-2" pref="42" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="rdbInsurance" pref="34" max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                               <Component id="rdbHealthCare" alignment="3" max="32767" attributes="0"/>
-                              <Component id="rdbNormal" alignment="3" max="32767" attributes="0"/>
+                              <Component id="rdbNormal" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
+                          <Component id="rdbInsurance" min="-2" pref="34" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                       <Component id="btnSignup" min="-2" pref="67" max="-2" attributes="0"/>
@@ -285,7 +285,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI Light" size="18" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Insurance"/>
+                <Property name="text" type="java.lang.String" value="Insurance Company"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JRadioButton" name="rdbHealthCare">
@@ -296,7 +296,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI Light" size="18" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="HealthCare"/>
+                <Property name="text" type="java.lang.String" value="Healthcare Provider"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JRadioButton" name="rdbNormal">

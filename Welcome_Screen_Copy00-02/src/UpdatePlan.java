@@ -170,6 +170,7 @@ public class UpdatePlan extends javax.swing.JDialog {
         setTitle("Plan Data Entry");
         setResizable(false);
 
+        tbPlan.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         tbPlan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -186,6 +187,7 @@ public class UpdatePlan extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
+        tbPlan.setRowHeight(20);
         tbPlan.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbPlanMouseClicked(evt);

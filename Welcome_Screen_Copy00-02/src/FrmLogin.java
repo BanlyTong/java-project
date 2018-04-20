@@ -74,7 +74,7 @@ public class FrmLogin extends javax.swing.JFrame implements FocusListener, KeyLi
 
         initComponents();
 
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyy HH:mm");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	Date date = new Date();
         this.date = dateFormat.format(date);
         
@@ -213,11 +213,11 @@ public class FrmLogin extends javax.swing.JFrame implements FocusListener, KeyLi
 
         rdbInsurance.setBackground(new java.awt.Color(255, 255, 255));
         rdbInsurance.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
-        rdbInsurance.setText("Insurance");
+        rdbInsurance.setText("Insurance Company");
 
         rdbHealthCare.setBackground(new java.awt.Color(255, 255, 255));
         rdbHealthCare.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
-        rdbHealthCare.setText("HealthCare");
+        rdbHealthCare.setText("Healthcare Provider");
 
         rdbNormal.setBackground(new java.awt.Color(255, 255, 255));
         rdbNormal.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
@@ -245,10 +245,10 @@ public class FrmLogin extends javax.swing.JFrame implements FocusListener, KeyLi
                                 .addComponent(txtConfirmPassword)
                                 .addComponent(pnlPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(pnlSignupLayout.createSequentialGroup()
-                                .addComponent(rdbInsurance, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(37, 37, 37)
-                                .addComponent(rdbHealthCare, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(37, 37, 37)
+                                .addComponent(rdbInsurance)
+                                .addGap(36, 36, 36)
+                                .addComponent(rdbHealthCare)
+                                .addGap(36, 36, 36)
                                 .addComponent(rdbNormal, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(37, Short.MAX_VALUE))
         );
@@ -267,11 +267,11 @@ public class FrmLogin extends javax.swing.JFrame implements FocusListener, KeyLi
                 .addGap(18, 18, 18)
                 .addComponent(txtConfirmPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(pnlSignupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(rdbInsurance, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                .addGroup(pnlSignupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlSignupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(rdbHealthCare, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(rdbNormal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(rdbNormal))
+                    .addComponent(rdbInsurance, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(42, 42, 42)
                 .addComponent(btnSignup, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(103, 103, 103))
@@ -532,14 +532,14 @@ public class FrmLogin extends javax.swing.JFrame implements FocusListener, KeyLi
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnSignupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignupActionPerformed
-        // TODO add your handling code here:
+
         boolean b = true;
 
         if (rdbInsurance.isSelected() == true) {
-            accountType = "Insurance";
+            accountType = "Insurance Company";
         }
         if (rdbHealthCare.isSelected() == true) {
-            accountType = "Healthcare";
+            accountType = "Healthcare Provider";
         }
         if (rdbNormal.isSelected() == true) {
             accountType = "Normal";

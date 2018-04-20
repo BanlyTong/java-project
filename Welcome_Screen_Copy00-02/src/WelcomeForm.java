@@ -43,6 +43,8 @@ public class WelcomeForm extends javax.swing.JFrame {
     UpdateDoctor uDoc = new UpdateDoctor(this, true);
     UpdatePatient uPat = new UpdatePatient(this, true);
     UpdatePlan uPlan = new UpdatePlan(this, true);
+    UpdateProvider uPro = new UpdateProvider(this, true);
+    UpdateUser uUser = new UpdateUser(this, true);
      
     public WelcomeForm() {
         setLookAndFeel();
@@ -77,6 +79,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         windowsClosedEvent(uPat);
         windowsClosedEvent(uIns);
         windowsClosedEvent(uPlan);
+        windowsClosedEvent(uUser);
     }
     
     private void afterLogin() {
@@ -85,6 +88,8 @@ public class WelcomeForm extends javax.swing.JFrame {
             public void windowClosed(WindowEvent e) {
                 WelcomeForm.this.setVisible(true); 
                    
+                refreshData();
+                
                 changeLoginTextAndIcon();
                 
                 disableUpdate();
@@ -97,15 +102,15 @@ public class WelcomeForm extends javax.swing.JFrame {
                         userLoginAdmin();
                     }   
 
-                    if (frmLogin.getAccountType().equals("Insurance")) {
+                    if (frmLogin.getAccountType().equals("Insurance Company")) {
                         userLoginInsurance();
                     }
 
-                    if (frmLogin.getAccountType().equals("Healthcare")) {
+                    if (frmLogin.getAccountType().equals("Healthcare Provider")) {
                         userLoginHealthcare();
                     }   
 
-                    if (frmLogin.getAccountType().equals("Insurance")) {
+                    if (frmLogin.getAccountType().equals("Normal")) {
                             
                     }
                 } else {
@@ -131,6 +136,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         sd = new ShowDataToTable("SELECT * FROM [Plan]", tblPlan, 3);
         sd = new ShowDataToTable("SELECT ID, [First name] + ' ' + [Last name] AS [Name], Gender, DOB, Address, Area, Degree FROM Doctor", tblDoctor, 7);
         sd = new ShowDataToTable("SELECT Ssn, [First Name] + ' ' + [Last Name] AS [Name], Gender, DOB, Address, HealthCondition, Phone, [Employer Name], Contact FROM Patient", tblPatient, 9);
+        sd = new ShowDataToTable("SELECT * FROM [User]", tblUser, 6);
     }
     
     private void setDefaultTableRender() {
@@ -256,11 +262,11 @@ public class WelcomeForm extends javax.swing.JFrame {
         if (frmLogin.isLoggedin()) {
             lblLogin.setText(frmLogin.getUsername());
             
-            if (frmLogin.getAccountType().equals("Insurance")) {
+            if (frmLogin.getAccountType().equals("Insurance Company")) {
                 lblLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Company_25px.png")));
             } 
 
-            if (frmLogin.getAccountType().equals("Healthcare")) {
+            if (frmLogin.getAccountType().equals("Healthcare Provider")) {
                 lblLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Hospital_3_25px_1.png")));
             }    
 
@@ -556,6 +562,8 @@ public class WelcomeForm extends javax.swing.JFrame {
         lblDetailUser = new javax.swing.JLabel();
         lblAdminTotalUser = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
+        jLabel39 = new javax.swing.JLabel();
+        jLabel40 = new javax.swing.JLabel();
         panel_dInsurance = new javax.swing.JPanel();
         panel_dInsMain = new javax.swing.JPanel();
         lbl5 = new javax.swing.JLabel();
@@ -575,6 +583,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         lblDetailPatient2 = new javax.swing.JLabel();
         lblInsTotalPatient = new javax.swing.JLabel();
         jLabel34 = new javax.swing.JLabel();
+        jLabel38 = new javax.swing.JLabel();
         panel_dHealthcare = new javax.swing.JPanel();
         panel_dHPMain = new javax.swing.JPanel();
         lbl8 = new javax.swing.JLabel();
@@ -594,10 +603,12 @@ public class WelcomeForm extends javax.swing.JFrame {
         lblDetailPatient3 = new javax.swing.JLabel();
         lblHPTotalPatient = new javax.swing.JLabel();
         jLabel37 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
         panel_dNormal = new javax.swing.JPanel();
         panel_hInsMain4 = new javax.swing.JPanel();
         lbl7 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
+        jLabel17 = new javax.swing.JLabel();
         panel_user = new javax.swing.JPanel();
         panel_hInsMain1 = new javax.swing.JPanel();
         lbl9 = new javax.swing.JLabel();
@@ -608,9 +619,6 @@ public class WelcomeForm extends javax.swing.JFrame {
         cbSearchUser = new javax.swing.JComboBox<>();
         jScrollPane6 = new javax.swing.JScrollPane();
         tblUser = new javax.swing.JTable();
-        panel_empty = new javax.swing.JPanel();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
         panel_hInsurance_com = new javax.swing.JPanel();
         panel_hInsMain = new javax.swing.JPanel();
         lbl1 = new javax.swing.JLabel();
@@ -1243,7 +1251,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         panel_dAdminMain.setBackground(new java.awt.Color(239, 240, 244));
 
         lbl4.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        lbl4.setText("Dashboard / Admin");
+        lbl4.setText("Welcome to Dashboard");
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204), 2));
@@ -1480,7 +1488,7 @@ public class WelcomeForm extends javax.swing.JFrame {
                         .addComponent(panel_dAdminDoctor, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(panel_dAdminPatient, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1497,8 +1505,16 @@ public class WelcomeForm extends javax.swing.JFrame {
                     .addComponent(panel_dAdminPatient, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(panel_dAdminUser, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(141, Short.MAX_VALUE))
+                .addContainerGap(118, Short.MAX_VALUE))
         );
+
+        jLabel39.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel39.setForeground(new java.awt.Color(165, 165, 165));
+        jLabel39.setText("Dashboard / Insurance Company");
+
+        jLabel40.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel40.setForeground(new java.awt.Color(165, 165, 165));
+        jLabel40.setText("Dashboard / Admin");
 
         javax.swing.GroupLayout panel_dAdminMainLayout = new javax.swing.GroupLayout(panel_dAdminMain);
         panel_dAdminMain.setLayout(panel_dAdminMainLayout);
@@ -1509,9 +1525,16 @@ public class WelcomeForm extends javax.swing.JFrame {
                 .addGroup(panel_dAdminMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(panel_dAdminMainLayout.createSequentialGroup()
-                        .addComponent(lbl4)
+                        .addGroup(panel_dAdminMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbl4)
+                            .addComponent(jLabel40))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(panel_dAdminMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panel_dAdminMainLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jLabel39)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         panel_dAdminMainLayout.setVerticalGroup(
             panel_dAdminMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1519,8 +1542,15 @@ public class WelcomeForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(lbl4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel40)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(panel_dAdminMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panel_dAdminMainLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jLabel39)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout panel_dAdminLayout = new javax.swing.GroupLayout(panel_dAdmin);
@@ -1545,7 +1575,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         panel_dInsMain.setBackground(new java.awt.Color(239, 240, 244));
 
         lbl5.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        lbl5.setText("Dashboard / Insurance");
+        lbl5.setText("Welcome to Dashboard");
 
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
         jPanel10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204), 2));
@@ -1680,8 +1710,12 @@ public class WelcomeForm extends javax.swing.JFrame {
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(panel_dInsPlan, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(panel_dInsPatient, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(268, Short.MAX_VALUE))
+                .addContainerGap(245, Short.MAX_VALUE))
         );
+
+        jLabel38.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel38.setForeground(new java.awt.Color(165, 165, 165));
+        jLabel38.setText("Dashboard / Insurance Company");
 
         javax.swing.GroupLayout panel_dInsMainLayout = new javax.swing.GroupLayout(panel_dInsMain);
         panel_dInsMain.setLayout(panel_dInsMainLayout);
@@ -1690,10 +1724,12 @@ public class WelcomeForm extends javax.swing.JFrame {
             .addGroup(panel_dInsMainLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panel_dInsMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(panel_dInsMainLayout.createSequentialGroup()
-                        .addComponent(lbl5)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(panel_dInsMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbl5)
+                            .addComponent(jLabel38))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panel_dInsMainLayout.setVerticalGroup(
@@ -1701,6 +1737,8 @@ public class WelcomeForm extends javax.swing.JFrame {
             .addGroup(panel_dInsMainLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lbl5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel38)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -1728,7 +1766,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         panel_dHPMain.setBackground(new java.awt.Color(239, 240, 244));
 
         lbl8.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        lbl8.setText("Dashboard / Healthcare Provider");
+        lbl8.setText("Welcome to Dashboard");
 
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
         jPanel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204), 2));
@@ -1863,8 +1901,12 @@ public class WelcomeForm extends javax.swing.JFrame {
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(panel_dHPDoctor, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(panel_dHPPatient, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(268, Short.MAX_VALUE))
+                .addContainerGap(245, Short.MAX_VALUE))
         );
+
+        jLabel18.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(165, 165, 165));
+        jLabel18.setText("Dashboard / Healthcare Provider");
 
         javax.swing.GroupLayout panel_dHPMainLayout = new javax.swing.GroupLayout(panel_dHPMain);
         panel_dHPMain.setLayout(panel_dHPMainLayout);
@@ -1873,10 +1915,12 @@ public class WelcomeForm extends javax.swing.JFrame {
             .addGroup(panel_dHPMainLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panel_dHPMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(panel_dHPMainLayout.createSequentialGroup()
-                        .addComponent(lbl8)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(panel_dHPMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbl8)
+                            .addComponent(jLabel18))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panel_dHPMainLayout.setVerticalGroup(
@@ -1884,6 +1928,8 @@ public class WelcomeForm extends javax.swing.JFrame {
             .addGroup(panel_dHPMainLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lbl8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel18)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -1911,7 +1957,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         panel_hInsMain4.setBackground(new java.awt.Color(239, 240, 244));
 
         lbl7.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        lbl7.setText("Dashboard / Normal");
+        lbl7.setText("Welcome to Dashboard");
 
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
         jPanel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204), 2));
@@ -1924,8 +1970,12 @@ public class WelcomeForm extends javax.swing.JFrame {
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 522, Short.MAX_VALUE)
+            .addGap(0, 499, Short.MAX_VALUE)
         );
+
+        jLabel17.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(165, 165, 165));
+        jLabel17.setText("Dashboard / Normal User");
 
         javax.swing.GroupLayout panel_hInsMain4Layout = new javax.swing.GroupLayout(panel_hInsMain4);
         panel_hInsMain4.setLayout(panel_hInsMain4Layout);
@@ -1936,7 +1986,9 @@ public class WelcomeForm extends javax.swing.JFrame {
                 .addGroup(panel_hInsMain4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(panel_hInsMain4Layout.createSequentialGroup()
-                        .addComponent(lbl7)
+                        .addGroup(panel_hInsMain4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbl7)
+                            .addComponent(jLabel17))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -1945,6 +1997,8 @@ public class WelcomeForm extends javax.swing.JFrame {
             .addGroup(panel_hInsMain4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lbl7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel17)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -2002,11 +2056,11 @@ public class WelcomeForm extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Username", "First Name", "Last Name", "Password", "Type"
+                "Username", "First Name", "Last Name", "Password", "Type", "Join Date"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, true, true
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -2102,35 +2156,6 @@ public class WelcomeForm extends javax.swing.JFrame {
         );
 
         panel_hDashboard.add(panel_user, "card6");
-
-        jLabel17.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel17.setText("Please Log in to view this option.");
-
-        jLabel18.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel18.setText("Nothing to show here.");
-
-        javax.swing.GroupLayout panel_emptyLayout = new javax.swing.GroupLayout(panel_empty);
-        panel_empty.setLayout(panel_emptyLayout);
-        panel_emptyLayout.setHorizontalGroup(
-            panel_emptyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panel_emptyLayout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addGroup(panel_emptyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel17)
-                    .addComponent(jLabel18))
-                .addContainerGap())
-        );
-        panel_emptyLayout.setVerticalGroup(
-            panel_emptyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panel_emptyLayout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(jLabel18)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel17)
-                .addContainerGap())
-        );
-
-        panel_hDashboard.add(panel_empty, "card7");
 
         panel_home.add(panel_hDashboard, "card2");
 
@@ -3001,6 +3026,11 @@ public class WelcomeForm extends javax.swing.JFrame {
         lblUHP.setOpaque(true);
         lblUHP.setPreferredSize(new java.awt.Dimension(220, 137));
         lblUHP.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        lblUHP.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblUHPMouseClicked(evt);
+            }
+        });
         jPanel13.add(lblUHP);
 
         lblUHPlan.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
@@ -3076,6 +3106,11 @@ public class WelcomeForm extends javax.swing.JFrame {
         lblUUser.setOpaque(true);
         lblUUser.setPreferredSize(new java.awt.Dimension(220, 137));
         lblUUser.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        lblUUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblUUserMouseClicked(evt);
+            }
+        });
         jPanel14.add(lblUUser);
 
         jPanel12.add(jPanel14);
@@ -3252,6 +3287,8 @@ public class WelcomeForm extends javax.swing.JFrame {
     }//GEN-LAST:event_panel_healthcareProMousePressed
 
     private void panel_dashboardMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panel_dashboardMousePressed
+        showTotalToDashboard();
+        
         if (frmLogin.isLoggedin()) {
             setColorChooseSidePane(panel_dashboard, panel_healthcarePro, panel_healthcarePlan, panel_insurance_com, panel_about, panel_statistic, panel_update, panel_find, panel_doctor, panel_patient);
         
@@ -3263,12 +3300,12 @@ public class WelcomeForm extends javax.swing.JFrame {
                 showPanelInCard(panel_hDashboard, panel_dAdmin);
             }
 
-            else if (frmLogin.getAccountType().equals("Insurance")) {
+            else if (frmLogin.getAccountType().equals("Insurance Company")) {
                 showPanelInCard(panel_home, panel_hDashboard);
                 showPanelInCard(panel_hDashboard, panel_dInsurance);
             }
 
-            else if (frmLogin.getAccountType().equals("Healthcare")) {
+            else if (frmLogin.getAccountType().equals("Healthcare Provider")) {
                 showPanelInCard(panel_home, panel_hDashboard);
                 showPanelInCard(panel_hDashboard, panel_dHealthcare);            
             }
@@ -3604,6 +3641,10 @@ public class WelcomeForm extends javax.swing.JFrame {
     private void panel_dAdminUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panel_dAdminUserMouseClicked
         showPanelInCard(panel_home, panel_hDashboard);
         showPanelInCard(panel_hDashboard, panel_user);
+        
+        SubTable.setTableHeader(tblUser, new Color(240, 240, 240), Color.BLACK, new Font("Tahoma", Font.PLAIN, 12));
+        
+        TextFieldSearch.setTextLook(tfSearchUser);
     }//GEN-LAST:event_panel_dAdminUserMouseClicked
 
     private void panel_dInsPlanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panel_dInsPlanMouseClicked
@@ -3699,7 +3740,27 @@ public class WelcomeForm extends javax.swing.JFrame {
     }//GEN-LAST:event_tblPatientMouseClicked
 
     private void tfSearchUserKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfSearchUserKeyReleased
-        // TODO add your handling code here:
+        String search = tfSearchUser.getText();
+        
+        if (cbSearchUser.getSelectedIndex() == 0) {
+            sd = new ShowDataToTable("Select * From [User] Where username Like '%" + search + "%'", tblUser, 6);
+        }
+        
+        if (cbSearchUser.getSelectedIndex() == 1) {
+            sd = new ShowDataToTable("Select * From [User] Where [First Name] Like '%" + search + "%'", tblUser, 6);
+        }
+        
+        if (cbSearchUser.getSelectedIndex() == 2) {
+            sd = new ShowDataToTable("Select * From [User] Where [Last Name] Like '%" + search + "%'", tblUser, 6);
+        }
+        
+        if (cbSearchUser.getSelectedIndex() == 3) {
+            sd = new ShowDataToTable("Select * From [User] Where [type] Like '%" + search + "%'", tblUser, 6);
+        }
+        
+        if (cbSearchUser.getSelectedIndex() == 4) {
+            sd = new ShowDataToTable("Select * From [User] Where joinDate Like '%" + search + "%'", tblUser, 6);
+        }
     }//GEN-LAST:event_tfSearchUserKeyReleased
 
     private void tblUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUserMouseClicked
@@ -3789,6 +3850,14 @@ public class WelcomeForm extends javax.swing.JFrame {
     private void lblUHPlanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUHPlanMouseClicked
         uPlan.setVisible(true);
     }//GEN-LAST:event_lblUHPlanMouseClicked
+
+    private void lblUHPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUHPMouseClicked
+        uPro.setVisible(true);
+    }//GEN-LAST:event_lblUHPMouseClicked
+
+    private void lblUUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUUserMouseClicked
+        uUser.setVisible(true);
+    }//GEN-LAST:event_lblUUserMouseClicked
            
     /**
      * @param args the command line arguments
@@ -3870,7 +3939,10 @@ public class WelcomeForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
+    private javax.swing.JLabel jLabel38;
+    private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -3988,7 +4060,6 @@ public class WelcomeForm extends javax.swing.JFrame {
     private javax.swing.JPanel panel_dNormal;
     private javax.swing.JPanel panel_dashboard;
     private javax.swing.JPanel panel_doctor;
-    private javax.swing.JPanel panel_empty;
     private javax.swing.JPanel panel_find;
     private javax.swing.JPanel panel_findOption;
     private javax.swing.JPanel panel_form5;

@@ -258,7 +258,7 @@ public class UpdateInsurance extends javax.swing.JDialog {
         btnDelete = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Insurance Data Entry");
+        setTitle("Insurance Company Data Entry");
         setPreferredSize(new java.awt.Dimension(1000, 700));
         setResizable(false);
 
@@ -411,7 +411,7 @@ public class UpdateInsurance extends javax.swing.JDialog {
 
         panel_CPLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnCancelCP, btnInsertCP});
 
-        tbInsurance.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        tbInsurance.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         tbInsurance.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
