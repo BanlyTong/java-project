@@ -5,8 +5,6 @@ public class PatientPlan extends javax.swing.JDialog {
 
     private final SubFrame sub;
     
-    private final ShowDataToTable sd;
-    
     private static String ID;
     
     private final Color colorForeExited;
@@ -26,7 +24,7 @@ public class PatientPlan extends javax.swing.JDialog {
         
         SubTable.setTableHeader(tblPatientPlan, new Color(240, 240, 240), Color.BLACK, new Font("Tahoma", Font.PLAIN, 12));
         
-        sd = new ShowDataToTable("SELECT P.Name, P.Description \n" +
+        ShowDataToTable.show("SELECT P.Name, P.Description \n" +
                                 "FROM Patient Pt INNER JOIN [Transaction] T \n" +
                                 "ON Pt.Ssn = T.[Patient.Ssn] INNER JOIN [Plan] P \n" +
                                 "ON P.ID = T.[Plan.ID]\n" +
@@ -58,7 +56,7 @@ public class PatientPlan extends javax.swing.JDialog {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204), 2));
 
-        tblPatientPlan.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
+        tblPatientPlan.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         tblPatientPlan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 

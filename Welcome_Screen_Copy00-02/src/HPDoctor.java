@@ -26,7 +26,7 @@ public class HPDoctor extends javax.swing.JDialog {
         
         SubTable.setTableHeader(tblHPDoctor, new Color(240, 240, 240), Color.BLACK, new Font("Tahoma", Font.PLAIN, 12));
         
-        sd = new ShowDataToTable("SELECT ([First name] + ' ' + [Last name]), Area \n" +
+        ShowDataToTable.show("SELECT ([First name] + ' ' + [Last name]), Area \n" +
                                 "FROM Doctor \n" +
                                 "WHERE Doctor.[Provider.ID] = '" + ID + "'", 
                                 tblHPDoctor, 2);
@@ -57,7 +57,7 @@ public class HPDoctor extends javax.swing.JDialog {
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204), 2));
 
-        tblHPDoctor.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
+        tblHPDoctor.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         tblHPDoctor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 

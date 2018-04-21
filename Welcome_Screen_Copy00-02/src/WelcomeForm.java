@@ -111,8 +111,9 @@ public class WelcomeForm extends javax.swing.JFrame {
                     }   
 
                     if (frmLogin.getAccountType().equals("Normal")) {
-                            
+                        userLoginNormal();
                     }
+                    
                 } else {
                     panel_insurance_comMousePressed(null);
                 }
@@ -131,12 +132,12 @@ public class WelcomeForm extends javax.swing.JFrame {
     }
     
     private void showDataToTable() {
-        sd = new ShowDataToTable("SELECT * FROM Provider", tblHP, 3);
-        sd = new ShowDataToTable("SELECT * FROM Insurance", tblInsCom, 3);
-        sd = new ShowDataToTable("SELECT * FROM [Plan]", tblPlan, 3);
-        sd = new ShowDataToTable("SELECT ID, [First name] + ' ' + [Last name] AS [Name], Gender, DOB, Address, Area, Degree FROM Doctor", tblDoctor, 7);
-        sd = new ShowDataToTable("SELECT Ssn, [First Name] + ' ' + [Last Name] AS [Name], Gender, DOB, Address, HealthCondition, Phone, [Employer Name], Contact FROM Patient", tblPatient, 9);
-        sd = new ShowDataToTable("SELECT * FROM [User]", tblUser, 6);
+        ShowDataToTable.show("SELECT * FROM Provider", tblHP, 3);
+        ShowDataToTable.show("SELECT * FROM Insurance", tblInsCom, 3);
+        ShowDataToTable.show("SELECT * FROM [Plan]", tblPlan, 3);
+        ShowDataToTable.show("SELECT ID, [First name] + ' ' + [Last name] AS [Name], Gender, DOB, Address, Area, Degree FROM Doctor", tblDoctor, 7);
+        ShowDataToTable.show("SELECT Ssn, [First Name] + ' ' + [Last Name] AS [Name], Gender, DOB, Address, HealthCondition, Phone, [Employer Name], Contact FROM Patient", tblPatient, 9);
+        ShowDataToTable.show("SELECT * FROM [User]", tblUser, 6);
     }
     
     private void setDefaultTableRender() {
@@ -295,6 +296,11 @@ public class WelcomeForm extends javax.swing.JFrame {
     }
     
     private void userLoginHealthcare() {        
+        disableUpdate();
+        enableDashboard();
+    }
+    
+    private void userLoginNormal() {
         disableUpdate();
         enableDashboard();
     }
@@ -726,7 +732,7 @@ public class WelcomeForm extends javax.swing.JFrame {
             }
         });
 
-        tbInfo.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
+        tbInfo.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         tbInfo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -2212,7 +2218,7 @@ public class WelcomeForm extends javax.swing.JFrame {
 
         jScrollPane2.setBorder(null);
 
-        tblInsCom.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        tblInsCom.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         tblInsCom.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -2376,7 +2382,7 @@ public class WelcomeForm extends javax.swing.JFrame {
 
         jScrollPane3.setBorder(null);
 
-        tblPlan.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        tblPlan.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         tblPlan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -2534,7 +2540,7 @@ public class WelcomeForm extends javax.swing.JFrame {
 
         jScrollPane1.setBorder(null);
 
-        tblHP.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        tblHP.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         tblHP.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -2693,7 +2699,7 @@ public class WelcomeForm extends javax.swing.JFrame {
 
         jScrollPane4.setBorder(null);
 
-        tblDoctor.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        tblDoctor.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         tblDoctor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -2864,7 +2870,7 @@ public class WelcomeForm extends javax.swing.JFrame {
 
         jScrollPane5.setBorder(null);
 
-        tblPatient.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        tblPatient.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         tblPatient.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -3377,15 +3383,15 @@ public class WelcomeForm extends javax.swing.JFrame {
         String search = tfSearchHP.getText();
         
         if (cbSearchHP.getSelectedIndex() == 0) {
-            sd = new ShowDataToTable("Select * From Provider Where ID Like '%" + search + "%'", tblHP, 3);
+            ShowDataToTable.show("Select * From Provider Where ID Like '%" + search + "%'", tblHP, 3);
         }
         
         if (cbSearchHP.getSelectedIndex() == 1) {
-            sd = new ShowDataToTable("Select * From Provider Where NAME Like '%" + search + "%'", tblHP, 3);
+            ShowDataToTable.show("Select * From Provider Where NAME Like '%" + search + "%'", tblHP, 3);
         }
         
         if (cbSearchHP.getSelectedIndex() == 2) {
-            sd = new ShowDataToTable("Select * From Provider Where Address Like '%" + search + "%'", tblHP, 3);
+            ShowDataToTable.show("Select * From Provider Where Address Like '%" + search + "%'", tblHP, 3);
         }
     }//GEN-LAST:event_tfSearchHPKeyReleased
 
@@ -3407,31 +3413,33 @@ public class WelcomeForm extends javax.swing.JFrame {
     }//GEN-LAST:event_tblHPMouseClicked
 
     private void panel_viewDoctorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panel_viewDoctorMouseClicked
-        int index = tblHP.getSelectedRow();
-        
-        model = (DefaultTableModel)tblHP.getModel();
-        
-        String ID = model.getValueAt(index, 0).toString();
-        
-        HPDoctor hpDoc = new HPDoctor(ID, this, true);
-        
-        hpDoc.setSize(600, 400);
-        hpDoc.setVisible(true);
+        try {
+            int index = tblHP.getSelectedRow();
+
+            model = (DefaultTableModel)tblHP.getModel();
+
+            String ID = model.getValueAt(index, 0).toString();
+
+            HPDoctor hpDoc = new HPDoctor(ID, this, true);
+
+            hpDoc.setSize(600, 400);
+            hpDoc.setVisible(true);
+        } catch (Exception ex) { }
     }//GEN-LAST:event_panel_viewDoctorMouseClicked
 
     private void tfSearchInsComKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfSearchInsComKeyReleased
         String search = tfSearchInsCom.getText();
         
         if (cbSearchIns.getSelectedIndex() == 0) {
-            sd = new ShowDataToTable("Select * From Insurance Where ID Like '%" + search + "%'", tblInsCom, 3);
+            ShowDataToTable.show("Select * From Insurance Where ID Like '%" + search + "%'", tblInsCom, 3);
         }
         
         if (cbSearchIns.getSelectedIndex() == 1) {
-            sd = new ShowDataToTable("Select * From Insurance Where Name Like '%" + search + "%'", tblInsCom, 3);
+            ShowDataToTable.show("Select * From Insurance Where Name Like '%" + search + "%'", tblInsCom, 3);
         }
         
         if (cbSearchIns.getSelectedIndex() == 2) {
-            sd = new ShowDataToTable("Select * From Insurance Where Addresss Like '%" + search + "%'", tblInsCom, 3);
+            ShowDataToTable.show("Select * From Insurance Where Addresss Like '%" + search + "%'", tblInsCom, 3);
         }
     }//GEN-LAST:event_tfSearchInsComKeyReleased
 
@@ -3491,10 +3499,6 @@ public class WelcomeForm extends javax.swing.JFrame {
         SubTable.setTableHeader(tblDoctor, new Color(240, 240, 240), Color.BLACK, new Font("Tahoma", Font.PLAIN, 12));
         
         TextFieldSearch.setTextLook(tfSearchDoctor);
-        
-        if (jXCollapsiblePane1.isCollapsed()) {
-            System.out.print("Collapsed");
-        }
     }//GEN-LAST:event_panel_doctorMousePressed
 
     private void panel_findMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panel_findMousePressed
@@ -3509,15 +3513,15 @@ public class WelcomeForm extends javax.swing.JFrame {
         String search = tfSearchPlan.getText();
         
         if (cbSearchPlan.getSelectedIndex() == 0) {
-            sd = new ShowDataToTable("SELECT * FROM [Plan] WHERE ID LIKE '%" + search + "%'", tblPlan, 3);
+            ShowDataToTable.show("SELECT * FROM [Plan] WHERE ID LIKE '%" + search + "%'", tblPlan, 3);
         }
         
         if (cbSearchPlan.getSelectedIndex() == 1) {
-            sd = new ShowDataToTable("SELECT * FROM [Plan] WHERE Name LIKE '%" + search + "%'", tblPlan, 3);
+            ShowDataToTable.show("SELECT * FROM [Plan] WHERE Name LIKE '%" + search + "%'", tblPlan, 3);
         }
         
         if (cbSearchPlan.getSelectedIndex() == 2) {
-            sd = new ShowDataToTable("SELECT * FROM [Plan] WHERE Description LIKE '%" + search + "%'", tblPlan, 3);
+            ShowDataToTable.show("SELECT * FROM [Plan] WHERE Description LIKE '%" + search + "%'", tblPlan, 3);
         }
     }//GEN-LAST:event_tfSearchPlanKeyReleased
 
@@ -3533,41 +3537,43 @@ public class WelcomeForm extends javax.swing.JFrame {
         String search = tfSearchDoctor.getText();
         
         if (cbSearchDoctor.getSelectedIndex() == 0) {
-            sd = new ShowDataToTable("SELECT ID, [First name] + ' ' + [Last name] AS [Name], Gender, DOB, Address, Area, Degree FROM Doctor WHERE ID LIKE '%" + search + "%'", tblDoctor, 7);
+            ShowDataToTable.show("SELECT ID, [First name] + ' ' + [Last name] AS [Name], Gender, DOB, Address, Area, Degree FROM Doctor WHERE ID LIKE '%" + search + "%'", tblDoctor, 7);
         }
         
         if (cbSearchDoctor.getSelectedIndex() == 1) {
-            sd = new ShowDataToTable("SELECT ID, [First name] + ' ' + [Last name] AS [Name], Gender, DOB, Address, Area, Degree FROM Doctor WHERE [First name] + [Last name] LIKE '%" + search + "%'", tblDoctor, 7);
+            ShowDataToTable.show("SELECT ID, [First name] + ' ' + [Last name] AS [Name], Gender, DOB, Address, Area, Degree FROM Doctor WHERE [First name] + [Last name] LIKE '%" + search + "%'", tblDoctor, 7);
         }
         
         if (cbSearchDoctor.getSelectedIndex() == 2) {
-            sd = new ShowDataToTable("SELECT ID, [First name] + ' ' + [Last name] AS [Name], Gender, DOB, Address, Area, Degree FROM Doctor WHERE DOB LIKE '%" + search + "%'", tblDoctor, 7);
+            ShowDataToTable.show("SELECT ID, [First name] + ' ' + [Last name] AS [Name], Gender, DOB, Address, Area, Degree FROM Doctor WHERE DOB LIKE '%" + search + "%'", tblDoctor, 7);
         }
         
         if (cbSearchDoctor.getSelectedIndex() == 3) {
-            sd = new ShowDataToTable("SELECT ID, [First name] + ' ' + [Last name] AS [Name], Gender, DOB, Address, Area, Degree FROM Doctor WHERE Address LIKE '%" + search + "%'", tblDoctor, 7);
+            ShowDataToTable.show("SELECT ID, [First name] + ' ' + [Last name] AS [Name], Gender, DOB, Address, Area, Degree FROM Doctor WHERE Address LIKE '%" + search + "%'", tblDoctor, 7);
         }
         
         if (cbSearchDoctor.getSelectedIndex() == 4) {
-            sd = new ShowDataToTable("SELECT ID, [First name] + ' ' + [Last name] AS [Name], Gender, DOB, Address, Area, Degree FROM Doctor WHERE Area LIKE '%" + search + "%'", tblDoctor, 7);
+            ShowDataToTable.show("SELECT ID, [First name] + ' ' + [Last name] AS [Name], Gender, DOB, Address, Area, Degree FROM Doctor WHERE Area LIKE '%" + search + "%'", tblDoctor, 7);
         }
         
         if (cbSearchDoctor.getSelectedIndex() == 5) {
-            sd = new ShowDataToTable("SELECT ID, [First name] + ' ' + [Last name] AS [Name], Gender, DOB, Address, Area, Degree FROM Doctor WHERE Degree LIKE '%" + search + "%'", tblDoctor, 7);
+            ShowDataToTable.show("SELECT ID, [First name] + ' ' + [Last name] AS [Name], Gender, DOB, Address, Area, Degree FROM Doctor WHERE Degree LIKE '%" + search + "%'", tblDoctor, 7);
         }
     }//GEN-LAST:event_tfSearchDoctorKeyReleased
 
     private void panel_viewProvider2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panel_viewProvider2MouseClicked
-        int index = tblDoctor.getSelectedRow();
+        try {
+            int index = tblDoctor.getSelectedRow();
         
-        model = (DefaultTableModel)tblDoctor.getModel();
+            model = (DefaultTableModel)tblDoctor.getModel();
         
-        String ID = model.getValueAt(index, 0).toString();
+            String ID = model.getValueAt(index, 0).toString();
         
-        DoctorHP docHP = new DoctorHP(ID, this, true);
+            DoctorHP docHP = new DoctorHP(ID, this, true);
         
-        docHP.setSize(800, 500);
-        docHP.setVisible(true);
+            docHP.setSize(800, 500);
+            docHP.setVisible(true);
+        } catch (Exception ex) { }
     }//GEN-LAST:event_panel_viewProvider2MouseClicked
 
     private void tblDoctorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDoctorMouseClicked
@@ -3675,35 +3681,35 @@ public class WelcomeForm extends javax.swing.JFrame {
         String search = tfSearchPatient.getText();
         
         if (cbSearchPatient.getSelectedIndex() == 0) {
-            sd = new ShowDataToTable("SELECT Ssn, [First Name] + ' ' + [Last Name] AS [Name], Gender, DOB, Address, HealthCondition, Phone, [Employer Name], Contact FROM Patient WHERE Ssn LIKE '%" + search + "%'", tblPatient, 9);
+            ShowDataToTable.show("SELECT Ssn, [First Name] + ' ' + [Last Name] AS [Name], Gender, DOB, Address, HealthCondition, Phone, [Employer Name], Contact FROM Patient WHERE Ssn LIKE '%" + search + "%'", tblPatient, 9);
         }
         
         if (cbSearchPatient.getSelectedIndex() == 1) {
-            sd = new ShowDataToTable("SELECT Ssn, [First Name] + ' ' + [Last Name] AS [Name], Gender, DOB, Address, HealthCondition, Phone, [Employer Name], Contact FROM Patient WHERE [First Name] + [Last Name] LIKE '%" + search + "%'", tblPatient, 9);
+            ShowDataToTable.show("SELECT Ssn, [First Name] + ' ' + [Last Name] AS [Name], Gender, DOB, Address, HealthCondition, Phone, [Employer Name], Contact FROM Patient WHERE [First Name] + [Last Name] LIKE '%" + search + "%'", tblPatient, 9);
         }
         
         if (cbSearchPatient.getSelectedIndex() == 2) {
-            sd = new ShowDataToTable("SELECT Ssn, [First Name] + ' ' + [Last Name] AS [Name], Gender, DOB, Address, HealthCondition, Phone, [Employer Name], Contact FROM Patient WHERE DOB LIKE '%" + search + "%'", tblPatient, 9);
+            ShowDataToTable.show("SELECT Ssn, [First Name] + ' ' + [Last Name] AS [Name], Gender, DOB, Address, HealthCondition, Phone, [Employer Name], Contact FROM Patient WHERE DOB LIKE '%" + search + "%'", tblPatient, 9);
         }
         
         if (cbSearchPatient.getSelectedIndex() == 3) {
-            sd = new ShowDataToTable("SELECT Ssn, [First Name] + ' ' + [Last Name] AS [Name], Gender, DOB, Address, HealthCondition, Phone, [Employer Name], Contact FROM Patient WHERE Address LIKE '%" + search + "%'", tblPatient, 9);
+            ShowDataToTable.show("SELECT Ssn, [First Name] + ' ' + [Last Name] AS [Name], Gender, DOB, Address, HealthCondition, Phone, [Employer Name], Contact FROM Patient WHERE Address LIKE '%" + search + "%'", tblPatient, 9);
         }
         
         if (cbSearchPatient.getSelectedIndex() == 4) {
-            sd = new ShowDataToTable("SELECT Ssn, [First Name] + ' ' + [Last Name] AS [Name], Gender, DOB, Address, HealthCondition, Phone, [Employer Name], Contact FROM Patient WHERE HealthCondition LIKE '%" + search + "%'", tblPatient, 9);
+            ShowDataToTable.show("SELECT Ssn, [First Name] + ' ' + [Last Name] AS [Name], Gender, DOB, Address, HealthCondition, Phone, [Employer Name], Contact FROM Patient WHERE HealthCondition LIKE '%" + search + "%'", tblPatient, 9);
         }
         
         if (cbSearchPatient.getSelectedIndex() == 5) {
-            sd = new ShowDataToTable("SELECT Ssn, [First Name] + ' ' + [Last Name] AS [Name], Gender, DOB, Address, HealthCondition, Phone, [Employer Name], Contact FROM Patient WHERE Phone LIKE '%" + search + "%'", tblPatient, 9);
+            ShowDataToTable.show("SELECT Ssn, [First Name] + ' ' + [Last Name] AS [Name], Gender, DOB, Address, HealthCondition, Phone, [Employer Name], Contact FROM Patient WHERE Phone LIKE '%" + search + "%'", tblPatient, 9);
         }
         
         if (cbSearchPatient.getSelectedIndex() == 6) {
-            sd = new ShowDataToTable("SELECT Ssn, [First Name] + ' ' + [Last Name] AS [Name], Gender, DOB, Address, HealthCondition, Phone, [Employer Name], Contact FROM Patient WHERE [Employer Name] LIKE '%" + search + "%'", tblPatient, 9);
+            ShowDataToTable.show("SELECT Ssn, [First Name] + ' ' + [Last Name] AS [Name], Gender, DOB, Address, HealthCondition, Phone, [Employer Name], Contact FROM Patient WHERE [Employer Name] LIKE '%" + search + "%'", tblPatient, 9);
         }
         
         if (cbSearchPatient.getSelectedIndex() == 7) {
-            sd = new ShowDataToTable("SELECT Ssn, [First Name] + ' ' + [Last Name] AS [Name], Gender, DOB, Address, HealthCondition, Phone, [Employer Name], Contact FROM Patient WHERE Contact LIKE '%" + search + "%'", tblPatient, 9);
+            ShowDataToTable.show("SELECT Ssn, [First Name] + ' ' + [Last Name] AS [Name], Gender, DOB, Address, HealthCondition, Phone, [Employer Name], Contact FROM Patient WHERE Contact LIKE '%" + search + "%'", tblPatient, 9);
         }
     }//GEN-LAST:event_tfSearchPatientKeyReleased
 
@@ -3743,23 +3749,23 @@ public class WelcomeForm extends javax.swing.JFrame {
         String search = tfSearchUser.getText();
         
         if (cbSearchUser.getSelectedIndex() == 0) {
-            sd = new ShowDataToTable("Select * From [User] Where username Like '%" + search + "%'", tblUser, 6);
+            ShowDataToTable.show("Select * From [User] Where username Like '%" + search + "%'", tblUser, 6);
         }
         
         if (cbSearchUser.getSelectedIndex() == 1) {
-            sd = new ShowDataToTable("Select * From [User] Where [First Name] Like '%" + search + "%'", tblUser, 6);
+            ShowDataToTable.show("Select * From [User] Where [First Name] Like '%" + search + "%'", tblUser, 6);
         }
         
         if (cbSearchUser.getSelectedIndex() == 2) {
-            sd = new ShowDataToTable("Select * From [User] Where [Last Name] Like '%" + search + "%'", tblUser, 6);
+            ShowDataToTable.show("Select * From [User] Where [Last Name] Like '%" + search + "%'", tblUser, 6);
         }
         
         if (cbSearchUser.getSelectedIndex() == 3) {
-            sd = new ShowDataToTable("Select * From [User] Where [type] Like '%" + search + "%'", tblUser, 6);
+            ShowDataToTable.show("Select * From [User] Where [type] Like '%" + search + "%'", tblUser, 6);
         }
         
         if (cbSearchUser.getSelectedIndex() == 4) {
-            sd = new ShowDataToTable("Select * From [User] Where joinDate Like '%" + search + "%'", tblUser, 6);
+            ShowDataToTable.show("Select * From [User] Where joinDate Like '%" + search + "%'", tblUser, 6);
         }
     }//GEN-LAST:event_tfSearchUserKeyReleased
 

@@ -6,8 +6,6 @@ public class InsuranceHP extends javax.swing.JDialog {
 
     private final SubFrame sub;
     
-    private final ShowDataToTable sd;
-    
     private static String ID;
     
     private final Color colorForeExited;
@@ -27,7 +25,7 @@ public class InsuranceHP extends javax.swing.JDialog {
         
         SubTable.setTableHeader(tblInsuranceHP, new Color(240, 240, 240), Color.BLACK, new Font("Tahoma", Font.PLAIN, 12));
         
-        sd = new ShowDataToTable("SELECT Pro.Name, Pro.Address, Con.Name, Con.Phone\n" +
+        ShowDataToTable.show("SELECT Pro.Name, Pro.Address, Con.Name, Con.Phone\n" +
                                 "FROM Cooperate Co FULL JOIN Provider Pro\n" +
                                 "ON Pro.ID = Co.[Provider.ID] FULL JOIN ProviderContact Con\n" +
                                 "ON Pro.ID = Con.[Provider.ID]\n" +
@@ -60,7 +58,7 @@ public class InsuranceHP extends javax.swing.JDialog {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204), 2));
 
-        tblInsuranceHP.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
+        tblInsuranceHP.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         tblInsuranceHP.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 

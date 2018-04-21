@@ -5,16 +5,16 @@ import javax.swing.table.DefaultTableModel;
 
 public class ShowDataToTable {
     
-    Connection con = null;
-    Statement stmt = null;
-    ResultSet rs = null;
+    static Connection con = null;
+    static Statement stmt = null;
+    static ResultSet rs = null;
     
-    String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    String url = "jdbc:sqlserver://localhost:1433;databaseName=HealthCareService;user=sa;password=sathya123;";
+    static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+    static String url = "jdbc:sqlserver://localhost:1433;databaseName=HealthCareService;user=sa;password=sathya123;";
     
-    DefaultTableModel model;
+    static DefaultTableModel model;
 
-    public ShowDataToTable(String query, JTable table, int numberOfCulumn) { 
+    public static void show(String query, JTable table, int numberOfCulumn) { 
         model = (DefaultTableModel) table.getModel();
 
         SubTable.removeAllRows(table, model);

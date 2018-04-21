@@ -20,8 +20,6 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 public class UpdateProvider extends javax.swing.JDialog {
-
-    ShowDataToTable sd;
     
     DefaultTableModel model;
     
@@ -47,7 +45,7 @@ public class UpdateProvider extends javax.swing.JDialog {
         
         setTableHeader();
         
-        sd = new ShowDataToTable("SELECT * FROM Provider", tbProvider, 3);
+        ShowDataToTable.show("SELECT * FROM Provider", tbProvider, 3);
         
         tbProvider.addKeyListener(new KeyAdapter() {
             @Override
@@ -217,7 +215,7 @@ public class UpdateProvider extends javax.swing.JDialog {
 
         String ID = model.getValueAt(index, 0).toString();
         
-        sd = new ShowDataToTable("SELECT Name, Phone FROM ProviderContact WHERE [Provider.ID] = '" + ID + "'", tbContact, 2);
+        ShowDataToTable.show("SELECT Name, Phone FROM ProviderContact WHERE [Provider.ID] = '" + ID + "'", tbContact, 2);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -749,7 +747,7 @@ public class UpdateProvider extends javax.swing.JDialog {
         
         executeSQLQuery("DELETE FROM Provider WHERE ID = '" + ID + "'", "Deleted");
         
-        sd = new ShowDataToTable("SELECT * FROM Provider", tbProvider, 3);
+        ShowDataToTable.show("SELECT * FROM Provider", tbProvider, 3);
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
@@ -775,7 +773,7 @@ public class UpdateProvider extends javax.swing.JDialog {
         }
         formLoad();
             
-        sd = new ShowDataToTable("SELECT * FROM Provider", tbProvider, 3);
+        ShowDataToTable.show("SELECT * FROM Provider", tbProvider, 3);
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void tbContactMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbContactMouseClicked

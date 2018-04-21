@@ -47,7 +47,7 @@ public class UpdateInsurance extends javax.swing.JDialog {
         
         setTableHeader();
         
-        sd = new ShowDataToTable("SELECT * FROM Insurance", tbInsurance, 3);
+        ShowDataToTable.show("SELECT * FROM Insurance", tbInsurance, 3);
         
         tbInsurance.addKeyListener(new KeyAdapter() {
             @Override
@@ -217,7 +217,7 @@ public class UpdateInsurance extends javax.swing.JDialog {
 
         String ID = model.getValueAt(index, 0).toString();
         
-        sd = new ShowDataToTable("SELECT Name, Phone FROM InsuranceContact WHERE [Insurance.ID] = '" + ID + "'", tbContact, 2);
+        ShowDataToTable.show("SELECT Name, Phone FROM InsuranceContact WHERE [Insurance.ID] = '" + ID + "'", tbContact, 2);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -748,7 +748,7 @@ public class UpdateInsurance extends javax.swing.JDialog {
         
         executeSQLQuery("DELETE FROM Insurance WHERE ID = '" + ID + "'", "Deleted");
         
-        sd = new ShowDataToTable("SELECT * FROM Insurance", tbInsurance, 3);
+        ShowDataToTable.show("SELECT * FROM Insurance", tbInsurance, 3);
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
@@ -774,7 +774,7 @@ public class UpdateInsurance extends javax.swing.JDialog {
         }
         formLoad();
             
-        sd = new ShowDataToTable("SELECT * FROM Insurance", tbInsurance, 3);
+        ShowDataToTable.show("SELECT * FROM Insurance", tbInsurance, 3);
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void tbContactMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbContactMouseClicked

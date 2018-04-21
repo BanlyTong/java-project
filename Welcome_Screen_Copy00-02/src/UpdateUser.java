@@ -96,7 +96,7 @@ public class UpdateUser extends javax.swing.JDialog {
     }
     
     private void showDataToTable() {
-        sd = new ShowDataToTable("SELECT * FROM [User]", tbUser, 6);
+        ShowDataToTable.show("SELECT * FROM [User]", tbUser, 6);
     }
     
     private void setPanelEnabled(JPanel panel, Boolean isEnabled) {
@@ -341,6 +341,7 @@ public class UpdateUser extends javax.swing.JDialog {
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnDelete, btnEdit});
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
