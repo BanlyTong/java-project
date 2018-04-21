@@ -2,31 +2,17 @@
 import java.awt.Color;
 import java.awt.Font;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+public class InsuranceHP extends javax.swing.JDialog {
 
-/**
- *
- * @author Sathya
- */
-public class InsuranceHP extends javax.swing.JFrame {
-
-    /**
-     * Creates new form InsuranceHP
-     */
-    private SubFrame sub;
-    
-    private ShowDataToTable sd;
+    private final SubFrame sub;
     
     private static String ID;
     
-    private Color colorForeExited;
-    private Color colorBackExited;
+    private final Color colorForeExited;
+    private final Color colorBackExited;
     
-    public InsuranceHP(String id) {
+    public InsuranceHP(String id, java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
         
         colorForeExited = this.lblClose.getForeground();
@@ -39,11 +25,12 @@ public class InsuranceHP extends javax.swing.JFrame {
         
         SubTable.setTableHeader(tblInsuranceHP, new Color(240, 240, 240), Color.BLACK, new Font("Tahoma", Font.PLAIN, 12));
         
-        sd = new ShowDataToTable("SELECT P.ID, P.NAME, p.Address\n" +
-                                "FROM Insurance Ins INNER JOIN Cooperate Co \n" +
-                                "ON Ins.ID = Co.[Insurance.ID] INNER JOIN Provider P\n" +
-                                "ON P.ID = co.[Provider.ID]\n" +
-                                "WHERE Ins.ID = '" + ID + "'", tblInsuranceHP, 3);
+        ShowDataToTable.show("SELECT Pro.Name, Pro.Address, Con.Name, Con.Phone\n" +
+                                "FROM Cooperate Co FULL JOIN Provider Pro\n" +
+                                "ON Pro.ID = Co.[Provider.ID] FULL JOIN ProviderContact Con\n" +
+                                "ON Pro.ID = Con.[Provider.ID]\n" +
+                                "WHERE Co.[Insurance.ID] = '" + ID + "'\n" +
+                                "ORDER BY Pro.NAME", tblInsuranceHP, 4);
     }
 
     /**
@@ -62,25 +49,26 @@ public class InsuranceHP extends javax.swing.JFrame {
         tblInsuranceHP = new javax.swing.JTable();
         lblClose = new javax.swing.JLabel();
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
 
         lblHealthcarePro3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        lblHealthcarePro3.setText("Health Care Provider List");
+        lblHealthcarePro3.setText("Healthcare Provider List");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204), 2));
 
-        tblInsuranceHP.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
+        tblInsuranceHP.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         tblInsuranceHP.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Name", "Address"
+                "Healthcare Provider's Name", "Address", "Contact Person's Name", "Contact Person's Telephone"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -185,7 +173,14 @@ public class InsuranceHP extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new InsuranceHP(ID).setVisible(true);
+                InsuranceHP dialog = new InsuranceHP(ID, new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
             }
         });
     }

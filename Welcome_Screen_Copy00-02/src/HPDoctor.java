@@ -1,22 +1,8 @@
-
 import java.awt.Color;
 import java.awt.Font;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+public class HPDoctor extends javax.swing.JDialog {
 
-/**
- *
- * @author Sathya
- */
-public class HPDoctor extends javax.swing.JFrame {
-
-    /**
-     * Creates new form HPDoctor
-     */
     private Color colorBackExited;
     private Color colorForeExited;
     
@@ -26,7 +12,8 @@ public class HPDoctor extends javax.swing.JFrame {
     
     private static String ID;
     
-    public HPDoctor(String id) {
+    public HPDoctor(String id, java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
         
         HPDoctor.ID = id;
@@ -39,7 +26,7 @@ public class HPDoctor extends javax.swing.JFrame {
         
         SubTable.setTableHeader(tblHPDoctor, new Color(240, 240, 240), Color.BLACK, new Font("Tahoma", Font.PLAIN, 12));
         
-        sd = new ShowDataToTable("SELECT ([First name] + ' ' + [Last name]), Area \n" +
+        ShowDataToTable.show("SELECT ([First name] + ' ' + [Last name]), Area \n" +
                                 "FROM Doctor \n" +
                                 "WHERE Doctor.[Provider.ID] = '" + ID + "'", 
                                 tblHPDoctor, 2);
@@ -61,7 +48,7 @@ public class HPDoctor extends javax.swing.JFrame {
         tblHPDoctor = new javax.swing.JTable();
         lblClose = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
 
         lblHealthcarePro8.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
@@ -70,7 +57,7 @@ public class HPDoctor extends javax.swing.JFrame {
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204), 2));
 
-        tblHPDoctor.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
+        tblHPDoctor.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         tblHPDoctor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -185,7 +172,14 @@ public class HPDoctor extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new HPDoctor(ID).setVisible(true);
+                HPDoctor dialog = new HPDoctor(ID, new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
             }
         });
     }

@@ -1,22 +1,8 @@
 import java.awt.Color;
 import java.awt.Font;
-import javax.swing.JFrame;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author Sathya
- */
-public class HPInsurance extends JFrame {
-    /**
-     * Creates new form HPInsurance
-     */
-    
+public class HPInsurance extends javax.swing.JDialog {
+ 
     private SubFrame sub;
     
     private ShowDataToTable sd;
@@ -26,7 +12,8 @@ public class HPInsurance extends JFrame {
     private Color colorForeExited;
     private Color colorBackExited;
     
-    public HPInsurance(String id) {   
+    public HPInsurance(String id, java.awt.Frame parent, boolean modal) {   
+        super(parent, modal);
         initComponents();
         
         colorForeExited = this.lblClose.getForeground();
@@ -39,7 +26,7 @@ public class HPInsurance extends JFrame {
         
         SubTable.setTableHeader(tblHPInsurance, new Color(240, 240, 240), Color.BLACK, new Font("Tahoma", Font.PLAIN, 12));
         
-        sd = new ShowDataToTable("SELECT ins.Name, ins.Addresss, inc.Name, inc.Phone\n" +
+        ShowDataToTable.show("SELECT ins.Name, ins.Addresss, inc.Name, inc.Phone\n" +
                                 "FROM Cooperate co FULL JOIN Insurance ins \n" +
                                 "ON co.[Insurance.ID] = ins.ID FULL JOIN InsuranceContact inc \n" +
                                 "ON inc.[Insurance.ID] = ins.ID\n" +
@@ -63,7 +50,7 @@ public class HPInsurance extends JFrame {
         tblHPInsurance = new javax.swing.JTable();
         lblClose = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
 
         lblHealthcarePro3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
@@ -72,7 +59,7 @@ public class HPInsurance extends JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204), 2));
 
-        tblHPInsurance.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
+        tblHPInsurance.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         tblHPInsurance.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -183,10 +170,18 @@ public class HPInsurance extends JFrame {
             java.util.logging.Logger.getLogger(HPInsurance.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new HPInsurance(ID).setVisible(true);
+            HPInsurance dialog = new HPInsurance(ID, new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
         });
     }
 

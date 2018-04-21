@@ -1,22 +1,8 @@
 import java.awt.Color;
 import java.awt.Font;
-import javax.swing.JFrame;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+public class InsurancePlan extends javax.swing.JDialog {
 
-/**
- *
- * @author Sathya
- */
-public class InsurancePlan extends JFrame {
-    /**
-     * Creates new form HPInsurance
-     */
-    
     private SubFrame sub;
     
     private ShowDataToTable sd;
@@ -26,7 +12,8 @@ public class InsurancePlan extends JFrame {
     private Color colorForeExited;
     private Color colorBackExited;
     
-    public InsurancePlan(String id) {   
+    public InsurancePlan(String id, java.awt.Frame parent, boolean modal) {   
+        super(parent, modal);
         initComponents();
         
         colorForeExited = this.lblClose.getForeground();
@@ -39,7 +26,7 @@ public class InsurancePlan extends JFrame {
         
         SubTable.setTableHeader(tblInsurancePlan, new Color(240, 240, 240), Color.BLACK, new Font("Tahoma", Font.PLAIN, 12));
         
-        sd = new ShowDataToTable("SELECT P.Name, P.Description\n" +
+        ShowDataToTable.show("SELECT P.Name, P.Description\n" +
                                 "FROM [Plan] P FULL JOIN Insurance I\n" +
                                 "ON P.[Insurance.ID] = I.ID\n" +
                                 "WHERE I.ID = '" + ID + "'", tblInsurancePlan, 2);
@@ -61,16 +48,16 @@ public class InsurancePlan extends JFrame {
         tblInsurancePlan = new javax.swing.JTable();
         lblClose = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
 
         lblHealthcarePro3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        lblHealthcarePro3.setText("Health Care Plans List");
+        lblHealthcarePro3.setText("Healthcare Plans List");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204), 2));
 
-        tblInsurancePlan.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
+        tblInsurancePlan.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         tblInsurancePlan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -184,7 +171,14 @@ public class InsurancePlan extends JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new HPInsurance(ID).setVisible(true);
+            InsurancePlan dialog = new InsurancePlan(ID, new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
         });
     }
 
