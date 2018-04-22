@@ -15,7 +15,6 @@ import org.jdesktop.swingx.border.DropShadowBorder;
 import static javax.swing.border.BevelBorder.RAISED;
 
 public class WelcomeForm extends javax.swing.JFrame {
-    ShowDataToTable sd = null;
     
     DefaultTableModel model;
     
@@ -138,6 +137,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         ShowDataToTable.show("SELECT ID, [First name] + ' ' + [Last name] AS [Name], Gender, DOB, Address, Area, Degree FROM Doctor", tblDoctor, 7);
         ShowDataToTable.show("SELECT Ssn, [First Name] + ' ' + [Last Name] AS [Name], Gender, DOB, Address, HealthCondition, Phone, [Employer Name], Contact FROM Patient", tblPatient, 9);
         ShowDataToTable.show("SELECT * FROM [User]", tblUser, 6);
+        initForm5();
     }
     
     private void setDefaultTableRender() {
@@ -169,9 +169,8 @@ public class WelcomeForm extends javax.swing.JFrame {
     
     private void initForm5() { 
         try{
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;"
-                    +"databasename=HealthCareService;user=sa;password=sathya123;");
+            Class.forName(Database.driver);
+            con = DriverManager.getConnection(Database.url);
             stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
             rsDoc = stmt.executeQuery("select *from Doctor");
             
@@ -307,8 +306,8 @@ public class WelcomeForm extends javax.swing.JFrame {
     
     private void connectDatabase(String query) {        
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");            
-            con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=HealthCareService;user=sa;password=sathya123;");           
+            Class.forName(Database.driver);            
+            con = DriverManager.getConnection(Database.url);           
             stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);            
             rs = stmt.executeQuery(query);           
         } catch (ClassNotFoundException | SQLException ex) {
@@ -482,7 +481,7 @@ public class WelcomeForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        pmLogin = new javax.swing.JPopupMenu();
+        pmLogout = new javax.swing.JPopupMenu();
         menuLogout = new javax.swing.JMenuItem();
         panel_form5 = new javax.swing.JPanel();
         frm5main = new javax.swing.JPanel();
@@ -715,7 +714,7 @@ public class WelcomeForm extends javax.swing.JFrame {
                 menuLogoutActionPerformed(evt);
             }
         });
-        pmLogin.add(menuLogout);
+        pmLogout.add(menuLogout);
 
         panel_form5.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
         panel_form5.setMinimumSize(new java.awt.Dimension(311, 15));
@@ -3607,7 +3606,7 @@ public class WelcomeForm extends javax.swing.JFrame {
         
     private void lblLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLoginMouseClicked
         if (frmLogin.isLoggedin()) {
-            pmLogin.show(panel_home, lblLogin.getX(), lblLogin.getY());
+            pmLogout.show(panel_home, lblLogin.getX(), lblLogin.getY());
         }
         else {
             this.setVisible(false);
@@ -4102,7 +4101,7 @@ public class WelcomeForm extends javax.swing.JFrame {
     private javax.swing.JPanel panel_viewDoctor2;
     private javax.swing.JPanel panel_viewPlan;
     private javax.swing.JPanel panel_viewProvider2;
-    private javax.swing.JPopupMenu pmLogin;
+    private javax.swing.JPopupMenu pmLogout;
     private javax.swing.JScrollPane scpMain;
     private javax.swing.JTable tbInfo;
     private javax.swing.JTable tblDoctor;

@@ -29,9 +29,8 @@ public class UpdatePatient extends javax.swing.JDialog {
     private ResultSet rs;
     private DefaultTableModel model;
     private String sql="select * from [Patient];";
-    private String driver="com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    private String url="jdbc:sqlserver://localhost:1433;" +
-                "databaseName=HealthCareService;user=sa;password=sathya123;";
+    private String driver=Database.driver;
+    private String url=Database.url;
     public UpdatePatient(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();

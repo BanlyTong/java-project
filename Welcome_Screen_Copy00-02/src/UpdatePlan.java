@@ -31,9 +31,8 @@ public class UpdatePlan extends javax.swing.JDialog {
             sqlInsur="select ID,Name from Insurance",
             sqlDesc="select Description from [Plan] where ID=",
             sqlHas="select Insurance.ID,Insurance.Name from Insurance inner join [Plan] on Insurance.ID=[Plan].[Insurance.ID] where [Plan].ID=";
-    private String driver="com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    private String url="jdbc:sqlserver://localhost:1433;" +
-                "databaseName=HealthCareService;user=sa;password=sathya123;";
+    private String driver=Database.driver;
+    private String url=Database.url;
     
     public UpdatePlan(java.awt.Frame parent, boolean modal){
         super(parent, modal);

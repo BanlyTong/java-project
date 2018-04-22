@@ -55,8 +55,8 @@ public class UpdateUser extends javax.swing.JDialog {
     
     private void executeSQLQuery(String query, String message) {
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");            
-            con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=HealthCareService;user=sa;password=sathya123;");           
+            Class.forName(Database.driver);            
+            con = DriverManager.getConnection(Database.url);           
             stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);            
             
             if (message.equals("Deleted")) {

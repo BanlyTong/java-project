@@ -43,9 +43,8 @@ public class UpdateDoctor extends javax.swing.JDialog {
         SubTable.setDefaultTableRender(tbDoctor);
         SubTable.setTableHeader(tbDoctor, new Color(240, 240, 240), Color.BLACK, new Font("Tahoma", Font.PLAIN, 12));
         
-        String driver="com.microsoft.sqlserver.jdbc.SQLServerDriver";
-        String url="jdbc:sqlserver://localhost:1433;" +
-                "databaseName=HealthCareService;user=sa;password=sathya123;";
+        String driver=Database.driver;
+        String url=Database.url;
         
         try{
             Class.forName(driver);

@@ -65,8 +65,8 @@ public class FrmLogin extends javax.swing.JFrame implements FocusListener, KeyLi
     
     public FrmLogin() {
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=HealthCareService;user=sa;password=sathya123;");
+            Class.forName(Database.driver);
+            con = DriverManager.getConnection(Database.url);
         } catch (ClassNotFoundException | SQLException e) {
         }
 
@@ -514,7 +514,7 @@ public class FrmLogin extends javax.swing.JFrame implements FocusListener, KeyLi
             }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Lol, Wtf");
+            JOptionPane.showMessageDialog(null, e);
         }
         
         if (this.isLoggedin()) {

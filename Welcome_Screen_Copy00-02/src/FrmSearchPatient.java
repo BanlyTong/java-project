@@ -43,8 +43,8 @@ public class FrmSearchPatient extends javax.swing.JFrame implements FocusListene
         
         try
         {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=HealthCareService;user=sa;password=sathya123;");
+            Class.forName(Database.driver);
+            con = DriverManager.getConnection(Database.url);
         }catch(Exception e)
         {
             e.printStackTrace();
