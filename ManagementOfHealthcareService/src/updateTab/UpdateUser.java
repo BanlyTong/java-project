@@ -387,8 +387,7 @@ public class UpdateUser extends javax.swing.JDialog {
             
             String joinDate = datef.format(date1);
             
-            if (edit) {
-                
+            if (edit) {                
                 executeSQLQuery("UPDATE [User] "
                         + "SET [First Name] = '" + txtFName.getText() + "', [Last Name] = '" + txtLName.getText() + "',"
                         + " password = '" + txtPwd.getText() + "', type = '" + cbType.getSelectedItem() + "'"

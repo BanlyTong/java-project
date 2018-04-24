@@ -1,4 +1,4 @@
-package searchTab;
+package main;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -23,8 +23,6 @@ import javax.swing.*;
 import myClass.Database;
 import myClass.SubFrame;
 import myClass.TextFieldBehavior;
-
-import main.MainForm;
 
 /**
  *
@@ -531,7 +529,7 @@ public class FrmLogin extends javax.swing.JFrame implements FocusListener, KeyLi
         }
         
         if (this.isLoggedin()) {
-            JOptionPane.showMessageDialog(null, "Welcom to Management Healthcare Service.");
+            JOptionPane.showMessageDialog(null, "Welcom to Management of Healthcare Service!");
             
             closeJFrame();
         }
@@ -607,7 +605,7 @@ public class FrmLogin extends javax.swing.JFrame implements FocusListener, KeyLi
             JOptionPane.showMessageDialog(null, "Username already exist!", "Cannot register", JOptionPane.WARNING_MESSAGE);
         }
         if (suceeded) {
-            JOptionPane.showMessageDialog(null, "Register Successful");
+            JOptionPane.showMessageDialog(null, "Register Successful!");
             formComponentShown(null);
         }
     }//GEN-LAST:event_btnSignupActionPerformed
@@ -725,7 +723,7 @@ public class FrmLogin extends javax.swing.JFrame implements FocusListener, KeyLi
     private void InitQuery() {
         sqlLogin = "select * from [User]";
         sqlSignup = "insert into [User] (username, [First Name], [Last Name], [password], [type], joinDate) "
-                + "values('" + txtUsername.getText() + "', '" + txtFirstName.getText() + "', '" + txtLastName.getText() + "', '" + txtPassword.getText().toString() + "', '" + accountType + "', '" + date + "')";
+                + "values('" + txtUsername.getText() + "', '" + txtFirstName.getText() + "', '" + txtLastName.getText() + "', '" + txtPassword.getText() + "', '" + accountType + "', '" + date + "')";
     }
 
     private void configControl() {

@@ -287,6 +287,7 @@ public class UpdateDoctor extends javax.swing.JDialog {
         jLabel7.setText("Area");
 
         dcDOB.setDateFormatString("yyyy-MM-dd");
+        dcDOB.setFocusable(false);
         dcDOB.setMaxSelectableDate(new java.util.Date(253370743277000L));
         dcDOB.setMinSelectableDate(new java.util.Date(-62135791123000L));
 

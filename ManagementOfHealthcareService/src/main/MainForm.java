@@ -1,36 +1,34 @@
 package main;
 
-import patient.PatientDisease;
-import patient.PatientPlan;
-import insurance.InsuranceHP;
-import insurance.InsurancePlan;
-import provider.HPDoctor;
-import provider.HPInsurance;
-import doctor.DoctorHP;
-import doctor.DoctorDisease;
-import myClass.Database;
-import myClass.SubTable;
-import myClass.ShowDataToTable;
-import myClass.TextFieldSearch;
-import updateTab.UpdateUser;
-import updateTab.UpdatePatient;
-import updateTab.UpdateProvider;
-import updateTab.UpdatePlan;
-import updateTab.UpdateInsurance;
-import updateTab.UpdateDoctor;
-import searchTab.FrmSearchDoctor;
-import searchTab.FrmSearchTreatmentMedicine;
-import searchTab.FrmLogin;
-import searchTab.FrmSearchPatient;
+import patient.*;
+import insurance.*;
+import provider.*;
+import doctor.*;
+import myClass.*;
+import updateTab.*;
+import searchTab.*;
+
 import java.sql.*;
 
 import java.util.Map;
 
 import java.awt.*;
+
 import java.awt.event.*;
+
 import java.awt.font.TextAttribute;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+
+import java.util.Date;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.swing.*;
+
 import javax.swing.table.DefaultTableModel;
 
 import org.jdesktop.swingx.JXCollapsiblePane;
@@ -43,7 +41,13 @@ public class MainForm extends javax.swing.JFrame {
     DefaultTableModel model;
     
     static boolean logout;
-
+    
+    boolean updatePwdClicked;
+    
+    Date jDate;
+    
+    String password;
+    
     public static boolean isLogout() {
         return logout;
     }
@@ -70,6 +74,7 @@ public class MainForm extends javax.swing.JFrame {
     UpdateUser uUser = new UpdateUser(this, true);
      
     public MainForm() {
+             
         setLookAndFeel();
         
         initComponents();
@@ -95,6 +100,91 @@ public class MainForm extends javax.swing.JFrame {
         afterLogin();
         
         setEventMouseEnteredExited();       
+    }
+    
+    private void executeSQLQuery(String query, String message) {
+        try {
+            Class.forName(Database.driver);            
+            con = DriverManager.getConnection(Database.url);           
+            stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);            
+                 
+            if (stmt.executeUpdate(query) == 1) {
+                JOptionPane.showMessageDialog(null, "Data " + message + " Successful", "Information", JOptionPane.INFORMATION_MESSAGE);              
+                
+                JOptionPane.showMessageDialog(null, "You must re-login!");              
+                
+                menuLogoutActionPerformed(null);                
+            } else {
+                JOptionPane.showMessageDialog(null, "Data not " + message, "Information", JOptionPane.INFORMATION_MESSAGE);
+            }  
+            
+            menuProfileActionPerformed(null);
+        } catch (ClassNotFoundException | SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+    }
+    
+    private void getProfileInformation() {
+        if (frmLogin.getAccountType().equals("Insurance Company")) {
+            lblIconTypeN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Company_100px.png")));
+            lblIconTypeU.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Company_100px.png")));
+        } 
+
+        if (frmLogin.getAccountType().equals("Healthcare Provider")) {
+            lblIconTypeN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Hospital_3_100px.png")));
+            lblIconTypeU.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Hospital_3_100px.png")));
+        }    
+
+        if (frmLogin.getAccountType().equals("Normal")) {
+            lblIconTypeN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_User_100px.png")));
+            lblIconTypeU.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_User_100px.png")));
+        }
+        
+        if (frmLogin.getAccountType().equals("Admin")) {
+            lblIconTypeN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Admin_100px.png")));
+            lblIconTypeU.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Admin_100px.png")));
+        }
+        
+        connectDatabase("Select * From [User] Where [User].username = '" + frmLogin.getUsername()+ "'");
+      
+        try {
+                       
+            while (rs.next()) {
+                String joinDate = rs.getString("joinDate");
+                password = rs.getString("password");
+                
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            
+                jDate = null;
+            
+                try {
+                    jDate = df.parse(joinDate);
+                } catch (ParseException ex) {
+                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                String type = rs.getString("type");
+                
+                // Set text to Normal Profile
+                lblUser.setText(rs.getString("username"));
+                lblFName.setText(rs.getString("First Name"));
+                lblLName.setText(rs.getString("Last Name"));
+                lblPos.setText(rs.getString("type"));
+                lblJoinDate.setText(rs.getString("joinDate"));
+                
+                // set text to Update Profile
+                tfUsername.setText(rs.getString("username"));
+                tfFName.setText(rs.getString("First Name"));
+                tfLName.setText(rs.getString("Last Name"));
+                cbType.setSelectedIndex(type.equals("Admin") ? 1 : type.equals("Insurance Company") ? 2 : 
+                        type.equals("Healthcare Provider") ? 3 : 4);
+                dcJoin.setDate(jDate);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        
     }
     
     private void refreshData() {
@@ -506,6 +596,7 @@ public class MainForm extends javax.swing.JFrame {
     private void initComponents() {
 
         pmLogout = new javax.swing.JPopupMenu();
+        menuProfile = new javax.swing.JMenuItem();
         menuLogout = new javax.swing.JMenuItem();
         panel_form5 = new javax.swing.JPanel();
         frm5main = new javax.swing.JPanel();
@@ -591,7 +682,6 @@ public class MainForm extends javax.swing.JFrame {
         lblDetailUser = new javax.swing.JLabel();
         lblAdminTotalUser = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
-        jLabel39 = new javax.swing.JLabel();
         jLabel40 = new javax.swing.JLabel();
         panel_dInsurance = new javax.swing.JPanel();
         panel_dInsMain = new javax.swing.JPanel();
@@ -648,6 +738,54 @@ public class MainForm extends javax.swing.JFrame {
         cbSearchUser = new javax.swing.JComboBox<>();
         jScrollPane6 = new javax.swing.JScrollPane();
         tblUser = new javax.swing.JTable();
+        panel_profile = new javax.swing.JPanel();
+        panel_profileN = new javax.swing.JPanel();
+        lbl10 = new javax.swing.JLabel();
+        panel_showProfile = new javax.swing.JPanel();
+        panel = new javax.swing.JPanel();
+        lblIconTypeN = new javax.swing.JLabel();
+        jLabel41 = new javax.swing.JLabel();
+        jLabel50 = new javax.swing.JLabel();
+        jLabel43 = new javax.swing.JLabel();
+        jLabel52 = new javax.swing.JLabel();
+        jLabel53 = new javax.swing.JLabel();
+        lblUpdateUser = new javax.swing.JLabel();
+        lblUser = new javax.swing.JLabel();
+        lblFName = new javax.swing.JLabel();
+        lblLName = new javax.swing.JLabel();
+        lblPos = new javax.swing.JLabel();
+        lblJoinDate = new javax.swing.JLabel();
+        panel_profileU = new javax.swing.JPanel();
+        lbl11 = new javax.swing.JLabel();
+        panel1 = new javax.swing.JPanel();
+        lblIconTypeU = new javax.swing.JLabel();
+        jLabel46 = new javax.swing.JLabel();
+        jLabel51 = new javax.swing.JLabel();
+        jLabel47 = new javax.swing.JLabel();
+        jLabel60 = new javax.swing.JLabel();
+        jLabel61 = new javax.swing.JLabel();
+        tfUsername = new javax.swing.JTextField();
+        tfFName = new javax.swing.JTextField();
+        tfLName = new javax.swing.JTextField();
+        cbType = new javax.swing.JComboBox<>();
+        dcJoin = new com.toedter.calendar.JDateChooser();
+        jPanel1 = new javax.swing.JPanel();
+        lblUpdatePwd = new javax.swing.JLabel();
+        jLabel49 = new javax.swing.JLabel();
+        jLabel62 = new javax.swing.JLabel();
+        jLabel63 = new javax.swing.JLabel();
+        tfOldPwd = new javax.swing.JPasswordField();
+        tfNewPwd = new javax.swing.JPasswordField();
+        tfConPwd = new javax.swing.JPasswordField();
+        lblNotChecked = new javax.swing.JLabel();
+        lblChecked = new javax.swing.JLabel();
+        lblTempUpdatePwd = new javax.swing.JLabel();
+        lblNotChecked1 = new javax.swing.JLabel();
+        lblChecked1 = new javax.swing.JLabel();
+        lblNotChecked2 = new javax.swing.JLabel();
+        lblChecked2 = new javax.swing.JLabel();
+        lblCancel = new javax.swing.JLabel();
+        lblSave = new javax.swing.JLabel();
         panel_hInsurance_com = new javax.swing.JPanel();
         panel_hInsMain = new javax.swing.JPanel();
         lbl1 = new javax.swing.JLabel();
@@ -728,6 +866,17 @@ public class MainForm extends javax.swing.JFrame {
         lblTreatment = new javax.swing.JLabel();
         panel_hAbout = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
+
+        menuProfile.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        menuProfile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Customer_25px.png"))); // NOI18N
+        menuProfile.setText("My Profile");
+        menuProfile.setIconTextGap(15);
+        menuProfile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuProfileActionPerformed(evt);
+            }
+        });
+        pmLogout.add(menuProfile);
 
         menuLogout.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         menuLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Logout_Rounded_Left_25px.png"))); // NOI18N
@@ -1517,7 +1666,7 @@ public class MainForm extends javax.swing.JFrame {
                         .addComponent(panel_dAdminDoctor, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(panel_dAdminPatient, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addContainerGap(84, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1537,10 +1686,6 @@ public class MainForm extends javax.swing.JFrame {
                 .addContainerGap(118, Short.MAX_VALUE))
         );
 
-        jLabel39.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel39.setForeground(new java.awt.Color(165, 165, 165));
-        jLabel39.setText("Dashboard / Insurance Company");
-
         jLabel40.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel40.setForeground(new java.awt.Color(165, 165, 165));
         jLabel40.setText("Dashboard / Admin");
@@ -1559,11 +1704,6 @@ public class MainForm extends javax.swing.JFrame {
                             .addComponent(jLabel40))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(panel_dAdminMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panel_dAdminMainLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jLabel39)
-                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         panel_dAdminMainLayout.setVerticalGroup(
             panel_dAdminMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1575,11 +1715,6 @@ public class MainForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
-            .addGroup(panel_dAdminMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panel_dAdminMainLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jLabel39)
-                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout panel_dAdminLayout = new javax.swing.GroupLayout(panel_dAdmin);
@@ -1728,7 +1863,7 @@ public class MainForm extends javax.swing.JFrame {
                     .addComponent(panel_dInsPlan, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(panel_dInsPatient, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(368, Short.MAX_VALUE))
+                .addContainerGap(397, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1919,7 +2054,7 @@ public class MainForm extends javax.swing.JFrame {
                     .addComponent(panel_dHPDoctor, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(panel_dHPPatient, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(368, Short.MAX_VALUE))
+                .addContainerGap(397, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1995,7 +2130,7 @@ public class MainForm extends javax.swing.JFrame {
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 996, Short.MAX_VALUE)
+            .addGap(0, 1025, Short.MAX_VALUE)
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2113,7 +2248,7 @@ public class MainForm extends javax.swing.JFrame {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 1005, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(40, 40, 40)
@@ -2124,7 +2259,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addComponent(jLabel26)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cbSearchUser, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 503, Short.MAX_VALUE))
+                .addGap(35, 532, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2185,6 +2320,437 @@ public class MainForm extends javax.swing.JFrame {
         );
 
         panel_hDashboard.add(panel_user, "card6");
+
+        panel_profile.setLayout(new java.awt.CardLayout());
+
+        lbl10.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        lbl10.setText("Profile Information");
+
+        panel_showProfile.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204), 2));
+
+        panel.setBackground(new java.awt.Color(255, 255, 255));
+
+        lblIconTypeN.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblIconTypeN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Company_100px.png"))); // NOI18N
+
+        jLabel41.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel41.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel41.setText("Username:");
+
+        jLabel50.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel50.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel50.setText("First Name:");
+
+        jLabel43.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel43.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel43.setText("Last Name:");
+
+        jLabel52.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel52.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel52.setText("Position:");
+
+        jLabel53.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel53.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel53.setText("Join Date:");
+
+        lblUpdateUser.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblUpdateUser.setForeground(new java.awt.Color(102, 102, 255));
+        lblUpdateUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblUpdateUser.setText("Click here to update profile information");
+        lblUpdateUser.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblUpdateUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblUpdateUserMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblUpdateUserMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblUpdateUserMouseExited(evt);
+            }
+        });
+
+        lblUser.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblUser.setForeground(new java.awt.Color(0, 204, 204));
+        lblUser.setText("lblUser");
+
+        lblFName.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblFName.setForeground(new java.awt.Color(0, 204, 204));
+        lblFName.setText("lblFName");
+
+        lblLName.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblLName.setForeground(new java.awt.Color(0, 204, 204));
+        lblLName.setText("lblLName");
+
+        lblPos.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblPos.setForeground(new java.awt.Color(0, 204, 204));
+        lblPos.setText("lblPos");
+
+        lblJoinDate.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblJoinDate.setForeground(new java.awt.Color(0, 204, 204));
+        lblJoinDate.setText("lblJoinDate");
+
+        javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
+        panel.setLayout(panelLayout);
+        panelLayout.setHorizontalGroup(
+            panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(lblIconTypeN, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelLayout.createSequentialGroup()
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel41)
+                            .addComponent(jLabel50)
+                            .addComponent(jLabel43)
+                            .addComponent(jLabel52)
+                            .addComponent(jLabel53))
+                        .addGap(18, 18, 18)
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblJoinDate, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+                            .addComponent(lblUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblFName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblLName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblPos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(lblUpdateUser, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(54, Short.MAX_VALUE))
+        );
+        panelLayout.setVerticalGroup(
+            panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelLayout.createSequentialGroup()
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelLayout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addComponent(lblIconTypeN, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelLayout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel41)
+                            .addComponent(lblUser))
+                        .addGap(16, 16, 16)
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel50)
+                            .addComponent(lblFName))
+                        .addGap(16, 16, 16)
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel43)
+                            .addComponent(lblLName))
+                        .addGap(16, 16, 16)
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel52)
+                            .addComponent(lblPos))
+                        .addGap(16, 16, 16)
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel53)
+                            .addComponent(lblJoinDate))
+                        .addGap(31, 31, 31)
+                        .addComponent(lblUpdateUser)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout panel_showProfileLayout = new javax.swing.GroupLayout(panel_showProfile);
+        panel_showProfile.setLayout(panel_showProfileLayout);
+        panel_showProfileLayout.setHorizontalGroup(
+            panel_showProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        panel_showProfileLayout.setVerticalGroup(
+            panel_showProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout panel_profileNLayout = new javax.swing.GroupLayout(panel_profileN);
+        panel_profileN.setLayout(panel_profileNLayout);
+        panel_profileNLayout.setHorizontalGroup(
+            panel_profileNLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_profileNLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panel_profileNLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbl10)
+                    .addComponent(panel_showProfile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(471, Short.MAX_VALUE))
+        );
+        panel_profileNLayout.setVerticalGroup(
+            panel_profileNLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_profileNLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbl10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panel_showProfile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(391, Short.MAX_VALUE))
+        );
+
+        panel_profile.add(panel_profileN, "card2");
+
+        lbl11.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        lbl11.setText("Profile Information");
+
+        panel1.setBackground(new java.awt.Color(255, 255, 255));
+        panel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204), 2));
+        panel1.setPreferredSize(new java.awt.Dimension(564, 226));
+
+        lblIconTypeU.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblIconTypeU.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Company_100px.png"))); // NOI18N
+
+        jLabel46.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel46.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel46.setText("Username:");
+
+        jLabel51.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel51.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel51.setText("First Name:");
+
+        jLabel47.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel47.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel47.setText("Last Name:");
+
+        jLabel60.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel60.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel60.setText("Position:");
+
+        jLabel61.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel61.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel61.setText("Join Date:");
+
+        tfUsername.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        tfUsername.setEnabled(false);
+
+        tfFName.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+
+        tfLName.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+
+        cbType.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        cbType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Select Type --", "Admin", "Insurance Company", "Healthcare Provider", "Normal" }));
+
+        dcJoin.setDateFormatString("yyyy-MM-dd");
+
+        javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
+        panel1.setLayout(panel1Layout);
+        panel1Layout.setHorizontalGroup(
+            panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel1Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(lblIconTypeU, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel46)
+                    .addComponent(jLabel51)
+                    .addComponent(jLabel47)
+                    .addComponent(jLabel60)
+                    .addComponent(jLabel61))
+                .addGap(18, 18, 18)
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(tfUsername)
+                    .addComponent(cbType, 0, 211, Short.MAX_VALUE)
+                    .addComponent(tfFName)
+                    .addComponent(tfLName)
+                    .addComponent(dcJoin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(50, Short.MAX_VALUE))
+        );
+        panel1Layout.setVerticalGroup(
+            panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel1Layout.createSequentialGroup()
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel1Layout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addComponent(lblIconTypeU, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panel1Layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel46)
+                            .addComponent(tfUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(11, 11, 11)
+                        .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel51)
+                            .addComponent(tfFName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(11, 11, 11)
+                        .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel47)
+                            .addComponent(tfLName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(11, 11, 11)
+                        .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel60)
+                            .addComponent(cbType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(11, 11, 11)
+                        .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(dcJoin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel61))))
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204), 2));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblUpdatePwd.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblUpdatePwd.setForeground(new java.awt.Color(255, 51, 51));
+        lblUpdatePwd.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblUpdatePwd.setText("Update Password");
+        lblUpdatePwd.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblUpdatePwd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblUpdatePwdMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblUpdatePwdMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblUpdatePwdMouseExited(evt);
+            }
+        });
+        jPanel1.add(lblUpdatePwd, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 13, 300, -1));
+
+        jLabel49.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel49.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel49.setText("Old Password:");
+        jPanel1.add(jLabel49, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 46, -1, -1));
+
+        jLabel62.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel62.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel62.setText("New Password:");
+        jPanel1.add(jLabel62, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 99, -1, -1));
+
+        jLabel63.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel63.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel63.setText("Confirm Password:");
+        jPanel1.add(jLabel63, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 152, -1, -1));
+
+        tfOldPwd.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfOldPwdKeyReleased(evt);
+            }
+        });
+        jPanel1.add(tfOldPwd, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 67, 270, -1));
+
+        tfNewPwd.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfNewPwdKeyReleased(evt);
+            }
+        });
+        jPanel1.add(tfNewPwd, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 270, -1));
+
+        tfConPwd.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfConPwdKeyReleased(evt);
+            }
+        });
+        jPanel1.add(tfConPwd, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 173, 270, -1));
+
+        lblNotChecked.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblNotChecked.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Cancel_20px.png"))); // NOI18N
+        lblNotChecked.setToolTipText("Password Incorrect");
+        jPanel1.add(lblNotChecked, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 67, 20, 20));
+
+        lblChecked.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblChecked.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Ok_20px.png"))); // NOI18N
+        lblChecked.setToolTipText("Password Correct");
+        jPanel1.add(lblChecked, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 67, 20, 20));
+
+        lblTempUpdatePwd.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblTempUpdatePwd.setForeground(new java.awt.Color(255, 51, 51));
+        lblTempUpdatePwd.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTempUpdatePwd.setText("Update Password");
+        jPanel1.add(lblTempUpdatePwd, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 13, 300, 15));
+
+        lblNotChecked1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblNotChecked1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Cancel_20px.png"))); // NOI18N
+        lblNotChecked1.setToolTipText("Password Incorrect");
+        jPanel1.add(lblNotChecked1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 120, 20, 20));
+
+        lblChecked1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblChecked1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Ok_20px.png"))); // NOI18N
+        lblChecked1.setToolTipText("Password Correct");
+        jPanel1.add(lblChecked1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 120, 20, 20));
+
+        lblNotChecked2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblNotChecked2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Cancel_20px.png"))); // NOI18N
+        lblNotChecked2.setToolTipText("Password Incorrect");
+        jPanel1.add(lblNotChecked2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 173, 20, 20));
+
+        lblChecked2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblChecked2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Ok_20px.png"))); // NOI18N
+        lblChecked2.setToolTipText("Password Correct");
+        jPanel1.add(lblChecked2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 173, 20, 20));
+
+        lblCancel.setBackground(new java.awt.Color(255, 255, 255));
+        lblCancel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lblCancel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCancel.setText("Cancel");
+        lblCancel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        lblCancel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblCancel.setOpaque(true);
+        lblCancel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCancelMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblCancelMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblCancelMouseExited(evt);
+            }
+        });
+
+        lblSave.setBackground(new java.awt.Color(0, 204, 204));
+        lblSave.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lblSave.setForeground(new java.awt.Color(255, 255, 255));
+        lblSave.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblSave.setText("Save");
+        lblSave.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        lblSave.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblSave.setOpaque(true);
+        lblSave.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblSaveMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblSaveMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblSaveMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panel_profileULayout = new javax.swing.GroupLayout(panel_profileU);
+        panel_profileU.setLayout(panel_profileULayout);
+        panel_profileULayout.setHorizontalGroup(
+            panel_profileULayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_profileULayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panel_profileULayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel_profileULayout.createSequentialGroup()
+                        .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbl11))
+                .addContainerGap(127, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_profileULayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lblCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(422, 422, 422))
+        );
+        panel_profileULayout.setVerticalGroup(
+            panel_profileULayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_profileULayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbl11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panel_profileULayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE))
+                .addGap(28, 28, 28)
+                .addGroup(panel_profileULayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        panel_profile.add(panel_profileU, "card3");
+
+        panel_hDashboard.add(panel_profile, "card7");
 
         panel_home.add(panel_hDashboard, "card2");
 
@@ -2275,7 +2841,7 @@ public class MainForm extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1005, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(40, 40, 40)
@@ -2439,7 +3005,7 @@ public class MainForm extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1005, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(40, 40, 40)
@@ -2597,7 +3163,7 @@ public class MainForm extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1005, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(39, 39, 39)
@@ -2756,7 +3322,7 @@ public class MainForm extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 1005, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(40, 40, 40)
@@ -2939,7 +3505,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addComponent(jLabel19)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cbSearchPatient, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 359, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 388, Short.MAX_VALUE)
                 .addComponent(panel_viewDisease, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35))
         );
@@ -3006,7 +3572,7 @@ public class MainForm extends javax.swing.JFrame {
         panel_hStatisticLayout.setHorizontalGroup(
             panel_hStatisticLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_hStatisticLayout.createSequentialGroup()
-                .addContainerGap(651, Short.MAX_VALUE)
+                .addContainerGap(680, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addGap(331, 331, 331))
         );
@@ -3149,7 +3715,7 @@ public class MainForm extends javax.swing.JFrame {
         panel_hUpdatesLayout.setHorizontalGroup(
             panel_hUpdatesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_hUpdatesLayout.createSequentialGroup()
-                .addContainerGap(30, Short.MAX_VALUE)
+                .addContainerGap(59, Short.MAX_VALUE)
                 .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 960, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30))
         );
@@ -3226,7 +3792,7 @@ public class MainForm extends javax.swing.JFrame {
         panel_hAboutLayout.setHorizontalGroup(
             panel_hAboutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_hAboutLayout.createSequentialGroup()
-                .addContainerGap(667, Short.MAX_VALUE)
+                .addContainerGap(696, Short.MAX_VALUE)
                 .addComponent(jLabel6)
                 .addGap(324, 324, 324))
         );
@@ -3887,6 +4453,204 @@ public class MainForm extends javax.swing.JFrame {
     private void lblUUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUUserMouseClicked
         uUser.setVisible(true);
     }//GEN-LAST:event_lblUUserMouseClicked
+
+    private void lblUpdateUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateUserMouseClicked
+        showPanelInCard(panel_home, panel_hDashboard);
+        showPanelInCard(panel_hDashboard, panel_profile);
+        showPanelInCard(panel_profile, panel_profileU);
+        
+        tfOldPwd.setEnabled(false);
+        tfNewPwd.setEnabled(false);
+        tfConPwd.setEnabled(false);
+        
+        updatePwdClicked = false;
+        
+        lblChecked.setVisible(false);
+        lblNotChecked.setVisible(false);
+       
+        lblUpdatePwd.setVisible(true);
+        lblTempUpdatePwd.setVisible(false);
+               
+        tfOldPwd.setText(null);
+        tfNewPwd.setText(null);
+        tfConPwd.setText(null);
+        
+    }//GEN-LAST:event_lblUpdateUserMouseClicked
+
+    private void menuProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuProfileActionPerformed
+        showPanelInCard(panel_home, panel_hDashboard);
+        showPanelInCard(panel_hDashboard, panel_profile);
+        showPanelInCard(panel_profile, panel_profileN);
+        
+        getProfileInformation();
+    }//GEN-LAST:event_menuProfileActionPerformed
+
+    private void lblUpdateUserMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateUserMouseEntered
+        lblUpdateUser.setText("<html><u>Click here to update profile information</u></html>");
+    }//GEN-LAST:event_lblUpdateUserMouseEntered
+
+    private void lblUpdateUserMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateUserMouseExited
+        lblUpdateUser.setText("Click here to update profile information");
+    }//GEN-LAST:event_lblUpdateUserMouseExited
+
+    private void lblSaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseEntered
+        lblSave.setBackground(new Color(0, 222, 255));
+    }//GEN-LAST:event_lblSaveMouseEntered
+
+    private void lblSaveMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseExited
+        lblSave.setBackground(new Color(0, 204, 204));
+    }//GEN-LAST:event_lblSaveMouseExited
+
+    private void lblCancelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCancelMouseEntered
+        lblCancel.setBackground(new Color(255, 253, 200));
+    }//GEN-LAST:event_lblCancelMouseEntered
+
+    private void lblCancelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCancelMouseExited
+        lblCancel.setBackground(new Color(255, 255, 255));
+    }//GEN-LAST:event_lblCancelMouseExited
+
+    private void lblCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCancelMouseClicked
+        if (JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel?", "Cancel", 
+                JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            
+            showPanelInCard(panel_home, panel_hDashboard);
+            showPanelInCard(panel_hDashboard, panel_profile);
+            showPanelInCard(panel_profile, panel_profileN);
+            getProfileInformation();
+        }
+    }//GEN-LAST:event_lblCancelMouseClicked
+
+    private void lblSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseClicked
+        boolean ok = true;
+        
+        String newPassword = null;
+        try {
+            if (tfFName.getText().equals("")) {
+                ok = false;              
+                throw new Exception("Please Enter First Name!");
+            }
+            if (tfLName.getText().equals("")) {
+                ok = false;  
+                throw new Exception("Please Enter Last Name!");
+            }
+            if (frmLogin.getAccountType().equals("Admin") && cbType.getSelectedIndex() == 0 ||
+                !frmLogin.getAccountType().equals("Admin") && cbType.getSelectedIndex() == 0) {
+                ok = false;  
+                throw new Exception("Please Choose Your Position!");
+            }
+            if (!frmLogin.getAccountType().equals("Admin") && cbType.getSelectedIndex() == 1) {
+                ok = false;  
+                throw new Exception("Please Choose Other Position!");
+            }
+            if (dcJoin.getDate() == null) {
+                ok = false;  
+                throw new Exception("Please Choose Join Date!");
+            }
+            
+            if (updatePwdClicked) {
+                
+                if (Arrays.equals(tfOldPwd.getPassword(), "".toCharArray())) {
+                    ok = false;  
+                    throw new Exception("Please Enter Old Password!");
+                }
+                if (Arrays.equals(tfNewPwd.getPassword(), "".toCharArray())) {
+                    ok = false;  
+                    throw new Exception("Please Enter New Password!");
+                }
+                if (!Arrays.equals(tfNewPwd.getPassword(), tfConPwd.getPassword())) {
+                    ok = false;  
+                    throw new Exception("Password Does not Match!");
+                }
+                else {
+                    newPassword = tfConPwd.getText();
+                }
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null ,ex.getMessage());
+        }
+        
+        if (ok == true) {
+            Date date1 = dcJoin.getDate();
+            SimpleDateFormat datef = new SimpleDateFormat("yyyy-MM-dd");
+            
+            String joinDate = datef.format(date1);
+                
+            if (updatePwdClicked) {                
+                executeSQLQuery("UPDATE [User] "
+                        + "SET [First Name] = '" + tfFName.getText() + "', [Last Name] = '" + tfLName.getText() + "',"
+                        + " password = '" + newPassword + "', type = '" + cbType.getSelectedItem() + "'"
+                        + ", joinDate = '" + joinDate + "' "
+                        + "WHERE username = '" + tfUsername.getText() + "'", "Updated");
+            } else {
+                executeSQLQuery("UPDATE [User] "
+                        + "SET [First Name] = '" + tfFName.getText() + "', [Last Name] = '" + tfLName.getText() + "',"
+                        + " type = '" + cbType.getSelectedItem() + "', joinDate = '" + joinDate + "'"
+                        + " WHERE username = '" + tfUsername.getText() + "'", "Updated");
+            }
+        }
+        
+        showDataToTable();
+    }//GEN-LAST:event_lblSaveMouseClicked
+
+    private void lblUpdatePwdMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdatePwdMouseEntered
+        lblUpdatePwd.setText("<html><u>Update Password</u></html>");
+    }//GEN-LAST:event_lblUpdatePwdMouseEntered
+
+    private void lblUpdatePwdMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdatePwdMouseExited
+        lblUpdatePwd.setText("Update Password");
+    }//GEN-LAST:event_lblUpdatePwdMouseExited
+
+    private void lblUpdatePwdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdatePwdMouseClicked
+        updatePwdClicked = true;
+        
+        lblUpdatePwd.setVisible(false);
+        lblTempUpdatePwd.setVisible(true);
+        
+        tfOldPwd.setEnabled(true);
+        tfNewPwd.setEnabled(true);
+        tfConPwd.setEnabled(true);
+        
+        lblChecked.setVisible(false);
+        lblChecked1.setVisible(false);
+        lblChecked2.setVisible(false);
+        lblNotChecked.setVisible(false);
+        lblNotChecked1.setVisible(false);
+        lblNotChecked2.setVisible(false);
+    }//GEN-LAST:event_lblUpdatePwdMouseClicked
+
+    private void tfOldPwdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfOldPwdKeyReleased
+        if (Arrays.equals(tfOldPwd.getPassword(), password.toCharArray())) {
+            lblChecked.setVisible(true);
+            lblNotChecked.setVisible(false);
+        }
+        else {
+            lblNotChecked.setVisible(true);
+            lblChecked.setVisible(false);
+        }
+    }//GEN-LAST:event_tfOldPwdKeyReleased
+
+    private void tfNewPwdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfNewPwdKeyReleased
+        if (!Arrays.equals(tfNewPwd.getPassword(), password.toCharArray()) &&
+            !Arrays.equals(tfNewPwd.getPassword(), "".toCharArray())) {
+            lblChecked1.setVisible(true);
+            lblNotChecked1.setVisible(false);
+        }
+        else {
+            lblNotChecked1.setVisible(true);
+            lblChecked1.setVisible(false);
+        }
+    }//GEN-LAST:event_tfNewPwdKeyReleased
+
+    private void tfConPwdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfConPwdKeyReleased
+        if (Arrays.equals(tfNewPwd.getPassword(), tfConPwd.getPassword())) {
+            lblChecked2.setVisible(true);
+            lblNotChecked2.setVisible(false);
+        }
+        else {
+            lblNotChecked2.setVisible(true);
+            lblChecked2.setVisible(false);
+        }
+    }//GEN-LAST:event_tfConPwdKeyReleased
            
     /**
      * @param args the command line arguments
@@ -3926,7 +4690,9 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbSearchPatient;
     private javax.swing.JComboBox<String> cbSearchPlan;
     private javax.swing.JComboBox<String> cbSearchUser;
+    private javax.swing.JComboBox<String> cbType;
     private javax.swing.JComboBox<String> cboDoc;
+    private com.toedter.calendar.JDateChooser dcJoin;
     private javax.swing.JPanel frm5main;
     private javax.swing.JPanel indAbout;
     private javax.swing.JPanel indDashboard;
@@ -3970,14 +4736,27 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
-    private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel41;
+    private javax.swing.JLabel jLabel43;
+    private javax.swing.JLabel jLabel46;
+    private javax.swing.JLabel jLabel47;
+    private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel50;
+    private javax.swing.JLabel jLabel51;
+    private javax.swing.JLabel jLabel52;
+    private javax.swing.JLabel jLabel53;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel60;
+    private javax.swing.JLabel jLabel61;
+    private javax.swing.JLabel jLabel62;
+    private javax.swing.JLabel jLabel63;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
@@ -4006,6 +4785,8 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator6;
     private org.jdesktop.swingx.JXCollapsiblePane jXCollapsiblePane1;
     private javax.swing.JLabel lbl1;
+    private javax.swing.JLabel lbl10;
+    private javax.swing.JLabel lbl11;
     private javax.swing.JLabel lbl2;
     private javax.swing.JLabel lbl3;
     private javax.swing.JLabel lbl4;
@@ -4021,6 +4802,10 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JLabel lblAdminTotalPatient;
     private javax.swing.JLabel lblAdminTotalPlan;
     private javax.swing.JLabel lblAdminTotalUser;
+    private javax.swing.JLabel lblCancel;
+    private javax.swing.JLabel lblChecked;
+    private javax.swing.JLabel lblChecked1;
+    private javax.swing.JLabel lblChecked2;
     private javax.swing.JLabel lblDashboard;
     private javax.swing.JLabel lblDetailDoctor;
     private javax.swing.JLabel lblDetailDoctor3;
@@ -4035,6 +4820,7 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JLabel lblDetailPlan2;
     private javax.swing.JLabel lblDetailUser;
     private javax.swing.JLabel lblDoctor;
+    private javax.swing.JLabel lblFName;
     private javax.swing.JLabel lblFind;
     private javax.swing.JLabel lblHPTotal;
     private javax.swing.JLabel lblHPTotalDoctor;
@@ -4042,22 +4828,32 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JLabel lblHealthcarePro;
     private javax.swing.JLabel lblHealthcarePro1;
     private javax.swing.JLabel lblHealthcarePro2;
+    private javax.swing.JLabel lblIconTypeN;
+    private javax.swing.JLabel lblIconTypeU;
     private javax.swing.JLabel lblInsTotal;
     private javax.swing.JLabel lblInsTotalPatient;
     private javax.swing.JLabel lblInsTotalPlan;
     private javax.swing.JLabel lblInsuranceCom;
     private javax.swing.JLabel lblInsuranceCom2;
+    private javax.swing.JLabel lblJoinDate;
+    private javax.swing.JLabel lblLName;
     private javax.swing.JLabel lblLock;
     private javax.swing.JLabel lblLock1;
     private javax.swing.JLabel lblLogin;
     private javax.swing.JLabel lblLogo;
+    private javax.swing.JLabel lblNotChecked;
+    private javax.swing.JLabel lblNotChecked1;
+    private javax.swing.JLabel lblNotChecked2;
     private javax.swing.JLabel lblPatient;
+    private javax.swing.JLabel lblPos;
+    private javax.swing.JLabel lblSave;
     private javax.swing.JLabel lblSearchHP1;
     private javax.swing.JLabel lblSearchHP2;
     private javax.swing.JLabel lblSearchHP3;
     private javax.swing.JLabel lblSearchHP4;
     private javax.swing.JLabel lblSearchHP5;
     private javax.swing.JLabel lblStatistic;
+    private javax.swing.JLabel lblTempUpdatePwd;
     private javax.swing.JLabel lblTreatment;
     private javax.swing.JLabel lblUDoctor;
     private javax.swing.JLabel lblUHP;
@@ -4066,8 +4862,14 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JLabel lblUPatient;
     private javax.swing.JLabel lblUUser;
     private javax.swing.JLabel lblUpdate;
+    private javax.swing.JLabel lblUpdatePwd;
+    private javax.swing.JLabel lblUpdateUser;
+    private javax.swing.JLabel lblUser;
     private javax.swing.JLabel lblp;
     private javax.swing.JMenuItem menuLogout;
+    private javax.swing.JMenuItem menuProfile;
+    private javax.swing.JPanel panel;
+    private javax.swing.JPanel panel1;
     private javax.swing.JPanel panel_about;
     private javax.swing.JPanel panel_dAdmin;
     private javax.swing.JPanel panel_dAdminDoctor;
@@ -4117,6 +4919,10 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JPanel panel_login;
     private javax.swing.JPanel panel_main;
     private javax.swing.JPanel panel_patient;
+    private javax.swing.JPanel panel_profile;
+    private javax.swing.JPanel panel_profileN;
+    private javax.swing.JPanel panel_profileU;
+    private javax.swing.JPanel panel_showProfile;
     private javax.swing.JPanel panel_statistic;
     private javax.swing.JPanel panel_titlebar;
     private javax.swing.JPanel panel_update;
@@ -4135,12 +4941,18 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JTable tblPatient;
     private javax.swing.JTable tblPlan;
     private javax.swing.JTable tblUser;
+    private javax.swing.JPasswordField tfConPwd;
+    private javax.swing.JTextField tfFName;
+    private javax.swing.JTextField tfLName;
+    private javax.swing.JPasswordField tfNewPwd;
+    private javax.swing.JPasswordField tfOldPwd;
     private javax.swing.JTextField tfSearchDoctor;
     private javax.swing.JTextField tfSearchHP;
     private javax.swing.JTextField tfSearchInsCom;
     private javax.swing.JTextField tfSearchPatient;
     private javax.swing.JTextField tfSearchPlan;
     private javax.swing.JTextField tfSearchUser;
+    private javax.swing.JTextField tfUsername;
     private javax.swing.JTextField txtPro;
     // End of variables declaration//GEN-END:variables
 }
