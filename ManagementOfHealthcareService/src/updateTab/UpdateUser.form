@@ -179,12 +179,11 @@
         <Component class="javax.swing.JComboBox" name="cbType">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="5">
+              <StringArray count="4">
                 <StringItem index="0" value="-- Select Type --"/>
                 <StringItem index="1" value="Admin"/>
                 <StringItem index="2" value="Insurance Company"/>
                 <StringItem index="3" value="Healthcare Provider"/>
-                <StringItem index="4" value="Normal"/>
               </StringArray>
             </Property>
           </Properties>

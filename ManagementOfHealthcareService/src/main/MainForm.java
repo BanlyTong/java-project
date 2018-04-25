@@ -135,10 +135,10 @@ public class MainForm extends javax.swing.JFrame {
             lblIconTypeU.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Hospital_3_100px.png")));
         }    
 
-        if (frmLogin.getAccountType().equals("Normal")) {
-            lblIconTypeN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_User_100px.png")));
-            lblIconTypeU.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_User_100px.png")));
-        }
+//        if (frmLogin.getAccountType().equals("Normal")) {
+//            lblIconTypeN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_User_100px.png")));
+//            lblIconTypeU.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_User_100px.png")));
+//        }
         
         if (frmLogin.getAccountType().equals("Admin")) {
             lblIconTypeN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Admin_100px.png")));
@@ -176,8 +176,7 @@ public class MainForm extends javax.swing.JFrame {
                 tfUsername.setText(rs.getString("username"));
                 tfFName.setText(rs.getString("First Name"));
                 tfLName.setText(rs.getString("Last Name"));
-                cbType.setSelectedIndex(type.equals("Admin") ? 1 : type.equals("Insurance Company") ? 2 : 
-                        type.equals("Healthcare Provider") ? 3 : 4);
+                cbType.setSelectedIndex(type.equals("Admin") ? 1 : type.equals("Insurance Company") ? 2 : 3);
                 dcJoin.setDate(jDate);
             }
         } catch (SQLException ex) {
@@ -223,9 +222,9 @@ public class MainForm extends javax.swing.JFrame {
                         userLoginHealthcare();
                     }   
 
-                    if (frmLogin.getAccountType().equals("Normal")) {
-                        userLoginNormal();
-                    }
+//                    if (frmLogin.getAccountType().equals("Normal")) {
+//                        userLoginNormal();
+//                    }
                     
                 } else {
                     panel_insurance_comMousePressed(null);
@@ -384,9 +383,9 @@ public class MainForm extends javax.swing.JFrame {
                 lblLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Hospital_3_25px_1.png")));
             }    
 
-            if (frmLogin.getAccountType().equals("Normal")) {
-                lblLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_User_30px.png")));
-            }
+//            if (frmLogin.getAccountType().equals("Normal")) {
+//                lblLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_User_30px.png")));
+//            }
         
             if (frmLogin.getAccountType().equals("Admin")) {
                 lblLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Admin_30px.png")));
@@ -413,10 +412,10 @@ public class MainForm extends javax.swing.JFrame {
         enableDashboard();
     }
     
-    private void userLoginNormal() {
-        disableUpdate();
-        enableDashboard();
-    }
+//    private void userLoginNormal() {
+//        disableUpdate();
+//        enableDashboard();
+//    }
     
     private void connectDatabase(String query) {        
         try {
@@ -777,12 +776,9 @@ public class MainForm extends javax.swing.JFrame {
         tfOldPwd = new javax.swing.JPasswordField();
         tfNewPwd = new javax.swing.JPasswordField();
         tfConPwd = new javax.swing.JPasswordField();
-        lblNotChecked = new javax.swing.JLabel();
         lblChecked = new javax.swing.JLabel();
         lblTempUpdatePwd = new javax.swing.JLabel();
-        lblNotChecked1 = new javax.swing.JLabel();
         lblChecked1 = new javax.swing.JLabel();
-        lblNotChecked2 = new javax.swing.JLabel();
         lblChecked2 = new javax.swing.JLabel();
         lblCancel = new javax.swing.JLabel();
         lblSave = new javax.swing.JLabel();
@@ -2521,7 +2517,7 @@ public class MainForm extends javax.swing.JFrame {
         tfLName.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
         cbType.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        cbType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Select Type --", "Admin", "Insurance Company", "Healthcare Provider", "Normal" }));
+        cbType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Select Type --", "Admin", "Insurance Company", "Healthcare Provider" }));
 
         dcJoin.setDateFormatString("yyyy-MM-dd");
 
@@ -2637,14 +2633,9 @@ public class MainForm extends javax.swing.JFrame {
         });
         jPanel1.add(tfConPwd, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 173, 270, -1));
 
-        lblNotChecked.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblNotChecked.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Cancel_20px.png"))); // NOI18N
-        lblNotChecked.setToolTipText("Password Incorrect");
-        jPanel1.add(lblNotChecked, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 67, 20, 20));
-
         lblChecked.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblChecked.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Ok_20px.png"))); // NOI18N
-        lblChecked.setToolTipText("Password Correct");
+        lblChecked.setToolTipText("");
         jPanel1.add(lblChecked, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 67, 20, 20));
 
         lblTempUpdatePwd.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -2653,24 +2644,14 @@ public class MainForm extends javax.swing.JFrame {
         lblTempUpdatePwd.setText("Update Password");
         jPanel1.add(lblTempUpdatePwd, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 13, 300, 15));
 
-        lblNotChecked1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblNotChecked1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Cancel_20px.png"))); // NOI18N
-        lblNotChecked1.setToolTipText("Password Incorrect");
-        jPanel1.add(lblNotChecked1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 120, 20, 20));
-
         lblChecked1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblChecked1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Ok_20px.png"))); // NOI18N
-        lblChecked1.setToolTipText("Password Correct");
+        lblChecked1.setToolTipText("");
         jPanel1.add(lblChecked1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 120, 20, 20));
-
-        lblNotChecked2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblNotChecked2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Cancel_20px.png"))); // NOI18N
-        lblNotChecked2.setToolTipText("Password Incorrect");
-        jPanel1.add(lblNotChecked2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 173, 20, 20));
 
         lblChecked2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblChecked2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Ok_20px.png"))); // NOI18N
-        lblChecked2.setToolTipText("Password Correct");
+        lblChecked2.setToolTipText("");
         jPanel1.add(lblChecked2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 173, 20, 20));
 
         lblCancel.setBackground(new java.awt.Color(255, 255, 255));
@@ -3905,10 +3886,10 @@ public class MainForm extends javax.swing.JFrame {
                 showPanelInCard(panel_hDashboard, panel_dHealthcare);            
             }
 
-            else {
-                showPanelInCard(panel_home, panel_hDashboard);
-                showPanelInCard(panel_hDashboard, panel_dNormal);
-            }
+//            else {
+//                showPanelInCard(panel_home, panel_hDashboard);
+//                showPanelInCard(panel_hDashboard, panel_dNormal);
+//            }
         }        
         else {
             JOptionPane.showConfirmDialog(null, "Please Login to view this option!", "Cannot use this option", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
@@ -4464,9 +4445,6 @@ public class MainForm extends javax.swing.JFrame {
         tfConPwd.setEnabled(false);
         
         updatePwdClicked = false;
-        
-        lblChecked.setVisible(false);
-        lblNotChecked.setVisible(false);
        
         lblUpdatePwd.setVisible(true);
         lblTempUpdatePwd.setVisible(false);
@@ -4475,6 +4453,9 @@ public class MainForm extends javax.swing.JFrame {
         tfNewPwd.setText(null);
         tfConPwd.setText(null);
         
+        lblChecked.setVisible(false);
+        lblChecked1.setVisible(false);
+        lblChecked2.setVisible(false);
     }//GEN-LAST:event_lblUpdateUserMouseClicked
 
     private void menuProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuProfileActionPerformed
@@ -4613,42 +4594,39 @@ public class MainForm extends javax.swing.JFrame {
         lblChecked.setVisible(false);
         lblChecked1.setVisible(false);
         lblChecked2.setVisible(false);
-        lblNotChecked.setVisible(false);
-        lblNotChecked1.setVisible(false);
-        lblNotChecked2.setVisible(false);
     }//GEN-LAST:event_lblUpdatePwdMouseClicked
 
     private void tfOldPwdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfOldPwdKeyReleased
+        lblChecked.setVisible(true);
+        
         if (Arrays.equals(tfOldPwd.getPassword(), password.toCharArray())) {
-            lblChecked.setVisible(true);
-            lblNotChecked.setVisible(false);
+            lblChecked.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Ok_20px.png")));
         }
         else {
-            lblNotChecked.setVisible(true);
-            lblChecked.setVisible(false);
+            lblChecked.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Cancel_20px.png")));
         }
     }//GEN-LAST:event_tfOldPwdKeyReleased
 
     private void tfNewPwdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfNewPwdKeyReleased
+        lblChecked1.setVisible(true);
+        
         if (!Arrays.equals(tfNewPwd.getPassword(), password.toCharArray()) &&
             !Arrays.equals(tfNewPwd.getPassword(), "".toCharArray())) {
-            lblChecked1.setVisible(true);
-            lblNotChecked1.setVisible(false);
+            lblChecked1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Ok_20px.png")));
         }
         else {
-            lblNotChecked1.setVisible(true);
-            lblChecked1.setVisible(false);
+            lblChecked1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Cancel_20px.png")));
         }
     }//GEN-LAST:event_tfNewPwdKeyReleased
 
     private void tfConPwdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfConPwdKeyReleased
+        lblChecked2.setVisible(true);
+        
         if (Arrays.equals(tfNewPwd.getPassword(), tfConPwd.getPassword())) {
-            lblChecked2.setVisible(true);
-            lblNotChecked2.setVisible(false);
+            lblChecked2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Ok_20px.png")));
         }
         else {
-            lblNotChecked2.setVisible(true);
-            lblChecked2.setVisible(false);
+            lblChecked2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Cancel_20px.png")));
         }
     }//GEN-LAST:event_tfConPwdKeyReleased
            
@@ -4841,9 +4819,6 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JLabel lblLock1;
     private javax.swing.JLabel lblLogin;
     private javax.swing.JLabel lblLogo;
-    private javax.swing.JLabel lblNotChecked;
-    private javax.swing.JLabel lblNotChecked1;
-    private javax.swing.JLabel lblNotChecked2;
     private javax.swing.JLabel lblPatient;
     private javax.swing.JLabel lblPos;
     private javax.swing.JLabel lblSave;

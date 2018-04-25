@@ -85,9 +85,11 @@ public class FrmLogin extends javax.swing.JFrame implements FocusListener, KeyLi
 
         initComponents();
 
+        rdbNormal.setVisible(false);
+        
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-	Date date = new Date();
-        this.date = dateFormat.format(date);
+	Date jDate = new Date();
+        this.date = dateFormat.format(jDate);
         
         sub = new SubFrame(panel_main, this);
 
@@ -96,7 +98,7 @@ public class FrmLogin extends javax.swing.JFrame implements FocusListener, KeyLi
         bg = new ButtonGroup();
         bg.add(rdbInsurance);
         bg.add(rdbHealthCare);
-        bg.add(rdbNormal);
+//        bg.add(rdbNormal);
 
         //char p = txtPassword.getEchoChar();
         ChangePanelColor();
@@ -552,9 +554,9 @@ public class FrmLogin extends javax.swing.JFrame implements FocusListener, KeyLi
         if (rdbHealthCare.isSelected() == true) {
             accountType = "Healthcare Provider";
         }
-        if (rdbNormal.isSelected() == true) {
-            accountType = "Normal";
-        }
+//        if (rdbNormal.isSelected() == true) {
+//            accountType = "Normal";
+//        }
         InitQuery();
         boolean suceeded = false;
         try {
@@ -729,7 +731,7 @@ public class FrmLogin extends javax.swing.JFrame implements FocusListener, KeyLi
     private void configControl() {
         rdbInsurance.setFocusPainted(false);
         rdbHealthCare.setFocusPainted(false);
-        rdbNormal.setFocusPainted(false);
+//        rdbNormal.setFocusPainted(false);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExit;

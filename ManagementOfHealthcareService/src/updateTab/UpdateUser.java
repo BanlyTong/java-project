@@ -144,7 +144,7 @@ public class UpdateUser extends javax.swing.JDialog {
 
         panel_user.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)), "User", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12), new java.awt.Color(255, 51, 51))); // NOI18N
 
-        cbType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Select Type --", "Admin", "Insurance Company", "Healthcare Provider", "Normal" }));
+        cbType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Select Type --", "Admin", "Insurance Company", "Healthcare Provider" }));
 
         jLabel4.setText("Last Name:");
 
@@ -375,7 +375,7 @@ public class UpdateUser extends javax.swing.JDialog {
             }
             if (((JTextField)dcJoin.getDateEditor().getUiComponent()).getText().equals("")) {
                 allRight = false;
-                throw new Exception("Plese Enter Join Date");
+                throw new Exception("Plese Choose Join Date");
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
@@ -484,9 +484,7 @@ public class UpdateUser extends javax.swing.JDialog {
         int i = tbUser.getSelectedRow();
        
         model = (DefaultTableModel) tbUser.getModel();
-        
-        
-        
+          
         if(i == -1) {
             if(tbUser.getRowCount() == 0){
                 JOptionPane.showMessageDialog(null, "The table contain no data!", "Information", JOptionPane.OK_OPTION);
