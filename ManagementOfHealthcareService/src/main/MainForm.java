@@ -35,6 +35,7 @@ import org.jdesktop.swingx.JXCollapsiblePane;
 import org.jdesktop.swingx.border.DropShadowBorder;
 
 import static javax.swing.border.BevelBorder.RAISED;
+import plan.PlanInsurance;
 
 public class MainForm extends javax.swing.JFrame {
     
@@ -570,6 +571,7 @@ public class MainForm extends javax.swing.JFrame {
         mouseEnteredExited(panel_viewDoctor);
         mouseEnteredExited(panel_viewDisease);
         mouseEnteredExited(panel_viewPlan);
+        mouseEnteredExited(panel_viewInsurance);
         
         // Update tab
         mouseEnteredExited(lblUIns);
@@ -802,7 +804,7 @@ public class MainForm extends javax.swing.JFrame {
         tfSearchPlan = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         cbSearchPlan = new javax.swing.JComboBox<>();
-        panel_viewDoctor2 = new javax.swing.JPanel();
+        panel_viewInsurance = new javax.swing.JPanel();
         lblSearchHP3 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblPlan = new javax.swing.JTable();
@@ -2367,23 +2369,23 @@ public class MainForm extends javax.swing.JFrame {
         });
 
         lblUser.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        lblUser.setForeground(new java.awt.Color(0, 204, 204));
+        lblUser.setForeground(new java.awt.Color(18, 55, 92));
         lblUser.setText("lblUser");
 
         lblFName.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        lblFName.setForeground(new java.awt.Color(0, 204, 204));
+        lblFName.setForeground(new java.awt.Color(18, 55, 92));
         lblFName.setText("lblFName");
 
         lblLName.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        lblLName.setForeground(new java.awt.Color(0, 204, 204));
+        lblLName.setForeground(new java.awt.Color(18, 55, 92));
         lblLName.setText("lblLName");
 
         lblPos.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        lblPos.setForeground(new java.awt.Color(0, 204, 204));
+        lblPos.setForeground(new java.awt.Color(18, 55, 92));
         lblPos.setText("lblPos");
 
         lblJoinDate.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        lblJoinDate.setForeground(new java.awt.Color(0, 204, 204));
+        lblJoinDate.setForeground(new java.awt.Color(18, 55, 92));
         lblJoinDate.setText("lblJoinDate");
 
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
@@ -2924,29 +2926,29 @@ public class MainForm extends javax.swing.JFrame {
         cbSearchPlan.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         cbSearchPlan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "Name", "Description" }));
 
-        panel_viewDoctor2.setBackground(new java.awt.Color(0, 160, 174));
-        panel_viewDoctor2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        panel_viewDoctor2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        panel_viewDoctor2.setPreferredSize(new java.awt.Dimension(90, 26));
-        panel_viewDoctor2.addMouseListener(new java.awt.event.MouseAdapter() {
+        panel_viewInsurance.setBackground(new java.awt.Color(0, 160, 174));
+        panel_viewInsurance.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        panel_viewInsurance.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        panel_viewInsurance.setPreferredSize(new java.awt.Dimension(90, 26));
+        panel_viewInsurance.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                panel_viewDoctor2MouseClicked(evt);
+                panel_viewInsuranceMouseClicked(evt);
             }
         });
 
         lblSearchHP3.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         lblSearchHP3.setForeground(new java.awt.Color(255, 255, 255));
         lblSearchHP3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblSearchHP3.setText("View Doctor");
+        lblSearchHP3.setText("View Insurance");
 
-        javax.swing.GroupLayout panel_viewDoctor2Layout = new javax.swing.GroupLayout(panel_viewDoctor2);
-        panel_viewDoctor2.setLayout(panel_viewDoctor2Layout);
-        panel_viewDoctor2Layout.setHorizontalGroup(
-            panel_viewDoctor2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout panel_viewInsuranceLayout = new javax.swing.GroupLayout(panel_viewInsurance);
+        panel_viewInsurance.setLayout(panel_viewInsuranceLayout);
+        panel_viewInsuranceLayout.setHorizontalGroup(
+            panel_viewInsuranceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(lblSearchHP3, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
         );
-        panel_viewDoctor2Layout.setVerticalGroup(
-            panel_viewDoctor2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        panel_viewInsuranceLayout.setVerticalGroup(
+            panel_viewInsuranceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(lblSearchHP3, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
         );
 
@@ -2998,7 +3000,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cbSearchPlan, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(panel_viewDoctor2, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panel_viewInsurance, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35))
         );
         jPanel4Layout.setVerticalGroup(
@@ -3014,7 +3016,7 @@ public class MainForm extends javax.swing.JFrame {
                             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(cbSearchPlan, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel12))
-                            .addComponent(panel_viewDoctor2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(panel_viewInsurance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(tfSearchPlan, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(27, 27, 27)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE)
@@ -4055,8 +4057,6 @@ public class MainForm extends javax.swing.JFrame {
         SubTable.setTableHeader(tblPlan, new Color(240, 240, 240), Color.BLACK, new Font("Tahoma", Font.PLAIN, 12));
         
         TextFieldSearch.setTextLook(tfSearchPlan);
-        
-        panel_viewDoctor2.setVisible(false);
     }//GEN-LAST:event_panel_healthcarePlanMousePressed
 
     private void panel_doctorMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panel_doctorMousePressed
@@ -4095,9 +4095,20 @@ public class MainForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tfSearchPlanKeyReleased
 
-    private void panel_viewDoctor2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panel_viewDoctor2MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_panel_viewDoctor2MouseClicked
+    private void panel_viewInsuranceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panel_viewInsuranceMouseClicked
+        try {
+            int index = tblPlan.getSelectedRow();
+
+            model = (DefaultTableModel)tblPlan.getModel();
+
+            String ID = model.getValueAt(index, 0).toString();
+
+            PlanInsurance pIns = new PlanInsurance(ID, this, true);
+
+            pIns.setSize(800, 500);
+            pIns.setVisible(true);
+        } catch (Exception ex) { }
+    }//GEN-LAST:event_panel_viewInsuranceMouseClicked
 
     private void tblPlanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPlanMouseClicked
         // TODO add your handling code here:
@@ -4904,7 +4915,7 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JPanel panel_user;
     private javax.swing.JPanel panel_viewDisease;
     private javax.swing.JPanel panel_viewDoctor;
-    private javax.swing.JPanel panel_viewDoctor2;
+    private javax.swing.JPanel panel_viewInsurance;
     private javax.swing.JPanel panel_viewPlan;
     private javax.swing.JPanel panel_viewProvider2;
     private javax.swing.JPopupMenu pmLogout;

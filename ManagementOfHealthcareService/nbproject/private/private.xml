@@ -3,9 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Sathya/Documents/NetBeansProjects/ManagementOfHealthcareService/src/updateTab/UpdateDoctor.java</file>
-            <file>file:/C:/Users/Sathya/Documents/NetBeansProjects/ManagementOfHealthcareService/src/main/MainForm.java</file>
-            <file>file:/C:/Users/Sathya/Documents/NetBeansProjects/ManagementOfHealthcareService/src/main/FrmLogin.java</file>
+            <file>file:/C:/git/java-project/ManagementOfHealthcareService/src/main/MainForm.java</file>
+            <file>file:/C:/git/java-project/ManagementOfHealthcareService/src/myClass/Database.java</file>
+            <file>file:/C:/git/java-project/ManagementOfHealthcareService/src/provider/HPInsurance.java</file>
+            <file>file:/C:/git/java-project/ManagementOfHealthcareService/src/plan/PlanInsurance.java</file>
         </group>
     </open-files>
 </project-private>

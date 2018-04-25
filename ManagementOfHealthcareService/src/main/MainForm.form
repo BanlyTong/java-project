@@ -3409,7 +3409,7 @@
                                           <Font name="Tahoma" size="12" style="1"/>
                                         </Property>
                                         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                          <Color blue="cc" green="cc" red="0" type="rgb"/>
+                                          <Color blue="5c" green="37" red="12" type="rgb"/>
                                         </Property>
                                         <Property name="text" type="java.lang.String" value="lblUser"/>
                                       </Properties>
@@ -3420,7 +3420,7 @@
                                           <Font name="Tahoma" size="12" style="1"/>
                                         </Property>
                                         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                          <Color blue="cc" green="cc" red="0" type="rgb"/>
+                                          <Color blue="5c" green="37" red="12" type="rgb"/>
                                         </Property>
                                         <Property name="text" type="java.lang.String" value="lblFName"/>
                                       </Properties>
@@ -3431,7 +3431,7 @@
                                           <Font name="Tahoma" size="12" style="1"/>
                                         </Property>
                                         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                          <Color blue="cc" green="cc" red="0" type="rgb"/>
+                                          <Color blue="5c" green="37" red="12" type="rgb"/>
                                         </Property>
                                         <Property name="text" type="java.lang.String" value="lblLName"/>
                                       </Properties>
@@ -3442,7 +3442,7 @@
                                           <Font name="Tahoma" size="12" style="1"/>
                                         </Property>
                                         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                          <Color blue="cc" green="cc" red="0" type="rgb"/>
+                                          <Color blue="5c" green="37" red="12" type="rgb"/>
                                         </Property>
                                         <Property name="text" type="java.lang.String" value="lblPos"/>
                                       </Properties>
@@ -3453,7 +3453,7 @@
                                           <Font name="Tahoma" size="12" style="1"/>
                                         </Property>
                                         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                          <Color blue="cc" green="cc" red="0" type="rgb"/>
+                                          <Color blue="5c" green="37" red="12" type="rgb"/>
                                         </Property>
                                         <Property name="text" type="java.lang.String" value="lblJoinDate"/>
                                       </Properties>
@@ -4358,7 +4358,7 @@
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="cbSearchPlan" min="-2" pref="147" max="-2" attributes="0"/>
                                       <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="panel_viewDoctor2" min="-2" pref="109" max="-2" attributes="0"/>
+                                      <Component id="panel_viewInsurance" min="-2" pref="109" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -4378,7 +4378,7 @@
                                                       <Component id="cbSearchPlan" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                                                       <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
                                                   </Group>
-                                                  <Component id="panel_viewDoctor2" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="panel_viewInsurance" alignment="0" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <Component id="tfSearchPlan" alignment="1" min="-2" pref="26" max="-2" attributes="0"/>
                                           </Group>
@@ -4437,7 +4437,7 @@
                                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                               </AuxValues>
                             </Component>
-                            <Container class="javax.swing.JPanel" name="panel_viewDoctor2">
+                            <Container class="javax.swing.JPanel" name="panel_viewInsurance">
                               <Properties>
                                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                   <Color blue="ae" green="a0" red="0" type="rgb"/>
@@ -4455,7 +4455,7 @@
                                 </Property>
                               </Properties>
                               <Events>
-                                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="panel_viewDoctor2MouseClicked"/>
+                                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="panel_viewInsuranceMouseClicked"/>
                               </Events>
 
                               <Layout>
@@ -4480,7 +4480,7 @@
                                       <Color blue="ff" green="ff" red="ff" type="rgb"/>
                                     </Property>
                                     <Property name="horizontalAlignment" type="int" value="0"/>
-                                    <Property name="text" type="java.lang.String" value="View Doctor"/>
+                                    <Property name="text" type="java.lang.String" value="View Insurance"/>
                                   </Properties>
                                 </Component>
                               </SubComponents>
