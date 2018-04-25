@@ -922,6 +922,7 @@ public class MainForm extends javax.swing.JFrame {
         tbInfo.setRowHeight(24);
         tbInfo.setSelectionBackground(new java.awt.Color(18, 55, 92));
         tbInfo.setSelectionForeground(new java.awt.Color(250, 250, 250));
+        tbInfo.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane7.setViewportView(tbInfo);
 
         jLabel27.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -979,8 +980,7 @@ public class MainForm extends javax.swing.JFrame {
         lblLogo.setFont(new java.awt.Font("Serif", 1, 14)); // NOI18N
         lblLogo.setForeground(new java.awt.Color(255, 255, 255));
         lblLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Health_Book_48px.png"))); // NOI18N
-        lblLogo.setText("Logo Here");
+        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/rsz_1logohealthcare.png"))); // NOI18N
 
         panel_dashboard.setBackground(new java.awt.Color(18, 55, 92));
         panel_dashboard.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -1332,26 +1332,30 @@ public class MainForm extends javax.swing.JFrame {
         panel_left.setLayout(panel_leftLayout);
         panel_leftLayout.setHorizontalGroup(
             panel_leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panel_dashboard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(panel_insurance_com, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(panel_healthcarePro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(panel_update, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(panel_about, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(panel_patient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(panel_leftLayout.createSequentialGroup()
-                .addGap(78, 78, 78)
-                .addComponent(lblLogo))
-            .addComponent(panel_healthcarePlan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(panel_doctor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(panel_find, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(panel_statistic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panel_leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panel_dashboard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panel_insurance_com, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panel_healthcarePro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panel_update, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panel_about, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panel_patient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panel_healthcarePlan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panel_doctor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panel_find, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panel_statistic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_leftLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         panel_leftLayout.setVerticalGroup(
             panel_leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_leftLayout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(lblLogo)
-                .addGap(77, 77, 77)
+                .addGap(44, 44, 44)
                 .addComponent(panel_dashboard, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(panel_insurance_com, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1681,7 +1685,7 @@ public class MainForm extends javax.swing.JFrame {
                     .addComponent(panel_dAdminPatient, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(panel_dAdminUser, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(118, Short.MAX_VALUE))
+                .addContainerGap(117, Short.MAX_VALUE))
         );
 
         jLabel40.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -1872,7 +1876,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(panel_dInsPlan, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(panel_dInsPatient, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(245, Short.MAX_VALUE))
+                .addContainerGap(244, Short.MAX_VALUE))
         );
 
         jLabel38.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -2063,7 +2067,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(panel_dHPDoctor, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(panel_dHPPatient, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(245, Short.MAX_VALUE))
+                .addContainerGap(244, Short.MAX_VALUE))
         );
 
         jLabel18.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -2132,7 +2136,7 @@ public class MainForm extends javax.swing.JFrame {
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 499, Short.MAX_VALUE)
+            .addGap(0, 498, Short.MAX_VALUE)
         );
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -2273,7 +2277,7 @@ public class MainForm extends javax.swing.JFrame {
                             .addComponent(jLabel26))
                         .addComponent(tfSearchUser, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(27, 27, 27)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -2476,7 +2480,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addComponent(lbl10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panel_showProfile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(391, Short.MAX_VALUE))
+                .addContainerGap(306, Short.MAX_VALUE))
         );
 
         panel_profile.add(panel_profileN, "card2");
@@ -2811,6 +2815,7 @@ public class MainForm extends javax.swing.JFrame {
         tblInsCom.setRowHeight(24);
         tblInsCom.setSelectionBackground(new java.awt.Color(18, 55, 92));
         tblInsCom.setSelectionForeground(new java.awt.Color(250, 250, 250));
+        tblInsCom.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblInsCom.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblInsComMouseClicked(evt);
@@ -2855,7 +2860,7 @@ public class MainForm extends javax.swing.JFrame {
                             .addComponent(panel_viewPlan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(tfSearchInsCom, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(27, 27, 27)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -2975,6 +2980,7 @@ public class MainForm extends javax.swing.JFrame {
         tblPlan.setRowHeight(24);
         tblPlan.setSelectionBackground(new java.awt.Color(18, 55, 92));
         tblPlan.setSelectionForeground(new java.awt.Color(250, 250, 250));
+        tblPlan.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblPlan.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblPlanMouseClicked(evt);
@@ -3019,7 +3025,7 @@ public class MainForm extends javax.swing.JFrame {
                             .addComponent(panel_viewInsurance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(tfSearchPlan, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(27, 27, 27)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -3133,6 +3139,7 @@ public class MainForm extends javax.swing.JFrame {
         tblHP.setRowHeight(24);
         tblHP.setSelectionBackground(new java.awt.Color(18, 55, 92));
         tblHP.setSelectionForeground(new java.awt.Color(250, 250, 250));
+        tblHP.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblHP.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblHPMouseClicked(evt);
@@ -3177,7 +3184,7 @@ public class MainForm extends javax.swing.JFrame {
                             .addComponent(panel_viewDoctor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(tfSearchHP, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(27, 27, 27)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -3292,6 +3299,7 @@ public class MainForm extends javax.swing.JFrame {
         tblDoctor.setRowHeight(24);
         tblDoctor.setSelectionBackground(new java.awt.Color(18, 55, 92));
         tblDoctor.setSelectionForeground(new java.awt.Color(250, 250, 250));
+        tblDoctor.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblDoctor.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblDoctorMouseClicked(evt);
@@ -3336,7 +3344,7 @@ public class MainForm extends javax.swing.JFrame {
                             .addComponent(panel_viewProvider2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(tfSearchDoctor, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(27, 27, 27)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -3464,6 +3472,7 @@ public class MainForm extends javax.swing.JFrame {
         tblPatient.setRowHeight(24);
         tblPatient.setSelectionBackground(new java.awt.Color(18, 55, 92));
         tblPatient.setSelectionForeground(new java.awt.Color(250, 250, 250));
+        tblPatient.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblPatient.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblPatientMouseClicked(evt);
@@ -3508,7 +3517,7 @@ public class MainForm extends javax.swing.JFrame {
                             .addComponent(panel_viewDisease, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(tfSearchPatient, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(27, 27, 27)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -3564,7 +3573,7 @@ public class MainForm extends javax.swing.JFrame {
             .addGroup(panel_hStatisticLayout.createSequentialGroup()
                 .addGap(246, 246, 246)
                 .addComponent(jLabel4)
-                .addContainerGap(326, Short.MAX_VALUE))
+                .addContainerGap(325, Short.MAX_VALUE))
         );
 
         panel_home.add(panel_hStatistic, "card6");
@@ -3706,7 +3715,7 @@ public class MainForm extends javax.swing.JFrame {
             panel_hUpdatesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_hUpdatesLayout.createSequentialGroup()
                 .addGap(71, 71, 71)
-                .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
+                .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE)
                 .addGap(71, 71, 71))
         );
 
@@ -3784,7 +3793,7 @@ public class MainForm extends javax.swing.JFrame {
             .addGroup(panel_hAboutLayout.createSequentialGroup()
                 .addGap(245, 245, 245)
                 .addComponent(jLabel6)
-                .addContainerGap(327, Short.MAX_VALUE))
+                .addContainerGap(326, Short.MAX_VALUE))
         );
 
         panel_home.add(panel_hAbout, "card8");
@@ -4403,6 +4412,8 @@ public class MainForm extends javax.swing.JFrame {
                     rsPt.getString("ptName"),
                     rsPt.getString("dsName"),
                     mcName});
+                
+                mcName = "";
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex);

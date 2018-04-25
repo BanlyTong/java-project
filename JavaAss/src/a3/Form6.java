@@ -19,7 +19,7 @@ public class Form6 extends javax.swing.JFrame {
         try{
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con=DriverManager.getConnection("jdbc:sqlserver://localhost:1433;"
-                +"databasename=HealthCareService;user=vin;password=123;");
+                +"databasename=HealthCareService;user=sa;password=sathya123;");
             stmt=con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
             rsVt=stmt.executeQuery("select Ssn\n"+"from Patient");
             
@@ -62,10 +62,7 @@ public class Form6 extends javax.swing.JFrame {
 
         tbPt.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {},
-                {},
-                {},
-                {}
+
             },
             new String [] {
 

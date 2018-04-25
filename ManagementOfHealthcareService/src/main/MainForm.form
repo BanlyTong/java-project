@@ -177,6 +177,9 @@
                     <Property name="selectionForeground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="fa" green="fa" red="fa" type="rgb"/>
                     </Property>
+                    <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
+                      <JTableSelectionModel selectionMode="0"/>
+                    </Property>
                     <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                     </Property>
@@ -292,20 +295,26 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="panel_dashboard" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="panel_insurance_com" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="panel_healthcarePro" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="panel_update" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="panel_about" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="panel_patient" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
-                          <Component id="lblLogo" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="panel_dashboard" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="panel_insurance_com" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="panel_healthcarePro" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="panel_update" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="panel_about" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="panel_patient" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="panel_healthcarePlan" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="panel_doctor" min="-2" max="-2" attributes="0"/>
+                              <Component id="panel_find" min="-2" max="-2" attributes="0"/>
+                              <Component id="panel_statistic" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
-                      <Component id="panel_healthcarePlan" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="panel_doctor" min="-2" max="-2" attributes="0"/>
-                      <Component id="panel_find" min="-2" max="-2" attributes="0"/>
-                      <Component id="panel_statistic" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="lblLogo" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
@@ -313,7 +322,7 @@
                       <Group type="102" attributes="0">
                           <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                           <Component id="lblLogo" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
                           <Component id="panel_dashboard" min="-2" pref="42" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="panel_insurance_com" min="-2" max="-2" attributes="0"/>
@@ -349,9 +358,8 @@
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/icon/icons8_Health_Book_48px.png"/>
+                      <Image iconType="3" name="/icon/rsz_1logohealthcare.png"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Logo Here"/>
                   </Properties>
                 </Component>
                 <Container class="javax.swing.JPanel" name="panel_dashboard">
@@ -1325,7 +1333,7 @@
                                           </Group>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
                                           <Component id="panel_dAdminUser" min="-2" pref="109" max="-2" attributes="0"/>
-                                          <EmptySpace pref="118" max="32767" attributes="0"/>
+                                          <EmptySpace pref="117" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                 </DimensionLayout>
@@ -2041,7 +2049,7 @@
                                               <Component id="panel_dInsPlan" alignment="1" min="-2" pref="109" max="-2" attributes="0"/>
                                               <Component id="panel_dInsPatient" alignment="1" min="-2" pref="109" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace pref="245" max="32767" attributes="0"/>
+                                          <EmptySpace pref="244" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                 </DimensionLayout>
@@ -2468,7 +2476,7 @@
                                               <Component id="panel_dHPDoctor" alignment="1" min="-2" pref="109" max="-2" attributes="0"/>
                                               <Component id="panel_dHPPatient" alignment="1" min="-2" pref="109" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace pref="245" max="32767" attributes="0"/>
+                                          <EmptySpace pref="244" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                 </DimensionLayout>
@@ -2878,7 +2886,7 @@
                                 </DimensionLayout>
                                 <DimensionLayout dim="1">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <EmptySpace min="0" pref="499" max="32767" attributes="0"/>
+                                      <EmptySpace min="0" pref="498" max="32767" attributes="0"/>
                                   </Group>
                                 </DimensionLayout>
                               </Layout>
@@ -3024,7 +3032,7 @@
                                               </Group>
                                           </Group>
                                           <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                                          <Component id="jScrollPane6" pref="433" max="32767" attributes="0"/>
+                                          <Component id="jScrollPane6" pref="432" max="32767" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
@@ -3200,7 +3208,7 @@
                                       <Component id="lbl10" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="panel_showProfile" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace pref="391" max="32767" attributes="0"/>
+                                      <EmptySpace pref="306" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                             </DimensionLayout>
@@ -4093,7 +4101,7 @@
                                           </Group>
                                       </Group>
                                       <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                                      <Component id="jScrollPane2" pref="433" max="32767" attributes="0"/>
+                                      <Component id="jScrollPane2" pref="432" max="32767" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -4245,6 +4253,9 @@
                                     <Property name="selectionForeground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                       <Color blue="fa" green="fa" red="fa" type="rgb"/>
                                     </Property>
+                                    <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
+                                      <JTableSelectionModel selectionMode="0"/>
+                                    </Property>
                                     <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                                     </Property>
@@ -4384,7 +4395,7 @@
                                           </Group>
                                       </Group>
                                       <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                                      <Component id="jScrollPane3" pref="433" max="32767" attributes="0"/>
+                                      <Component id="jScrollPane3" pref="432" max="32767" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -4536,6 +4547,9 @@
                                     <Property name="selectionForeground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                       <Color blue="fa" green="fa" red="fa" type="rgb"/>
                                     </Property>
+                                    <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
+                                      <JTableSelectionModel selectionMode="0"/>
+                                    </Property>
                                     <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                                     </Property>
@@ -4660,7 +4674,7 @@
                                       </Group>
                                   </Group>
                                   <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                                  <Component id="jScrollPane1" pref="434" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane1" pref="433" max="32767" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -4812,6 +4826,9 @@
                                 <Property name="selectionForeground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                   <Color blue="fa" green="fa" red="fa" type="rgb"/>
                                 </Property>
+                                <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
+                                  <JTableSelectionModel selectionMode="0"/>
+                                </Property>
                                 <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                                   <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                                 </Property>
@@ -4956,7 +4973,7 @@
                                           </Group>
                                       </Group>
                                       <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                                      <Component id="jScrollPane4" pref="413" max="32767" attributes="0"/>
+                                      <Component id="jScrollPane4" pref="412" max="32767" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -5134,6 +5151,9 @@
                                     </Property>
                                     <Property name="selectionForeground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                       <Color blue="fa" green="fa" red="fa" type="rgb"/>
+                                    </Property>
+                                    <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
+                                      <JTableSelectionModel selectionMode="0"/>
                                     </Property>
                                     <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
@@ -5313,7 +5333,7 @@
                                           </Group>
                                       </Group>
                                       <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                                      <Component id="jScrollPane5" pref="433" max="32767" attributes="0"/>
+                                      <Component id="jScrollPane5" pref="432" max="32767" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -5507,6 +5527,9 @@
                                     <Property name="selectionForeground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                       <Color blue="fa" green="fa" red="fa" type="rgb"/>
                                     </Property>
+                                    <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
+                                      <JTableSelectionModel selectionMode="0"/>
+                                    </Property>
                                     <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                                     </Property>
@@ -5545,7 +5568,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="246" max="-2" attributes="0"/>
                               <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="326" max="32767" attributes="0"/>
+                              <EmptySpace pref="325" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -5579,7 +5602,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace min="-2" pref="71" max="-2" attributes="0"/>
-                              <Component id="jPanel12" pref="444" max="32767" attributes="0"/>
+                              <Component id="jPanel12" pref="443" max="32767" attributes="0"/>
                               <EmptySpace min="-2" pref="71" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -5914,7 +5937,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="245" max="-2" attributes="0"/>
                               <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="327" max="32767" attributes="0"/>
+                              <EmptySpace pref="326" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
