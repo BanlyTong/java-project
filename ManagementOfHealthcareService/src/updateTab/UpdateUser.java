@@ -299,6 +299,7 @@ public class UpdateUser extends javax.swing.JDialog {
             }
         });
         tbUser.setRowHeight(20);
+        tbUser.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tbUser.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbUserMouseClicked(evt);
