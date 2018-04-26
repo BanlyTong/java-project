@@ -196,6 +196,7 @@ public class UpdatePlan extends javax.swing.JDialog {
             }
         });
         tbPlan.setRowHeight(20);
+        tbPlan.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tbPlan.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbPlanMouseClicked(evt);

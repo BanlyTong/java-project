@@ -193,6 +193,7 @@ public class UpdatePatient extends javax.swing.JDialog {
             }
         });
         tbPatient.setRowHeight(20);
+        tbPatient.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tbPatient.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbPatientMouseClicked(evt);

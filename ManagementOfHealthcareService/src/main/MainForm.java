@@ -7,6 +7,7 @@ import doctor.*;
 import myClass.*;
 import updateTab.*;
 import searchTab.*;
+import plan.*;
 
 import java.sql.*;
 
@@ -23,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import java.util.Date;
+import java.util.Vector;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,7 +37,6 @@ import org.jdesktop.swingx.JXCollapsiblePane;
 import org.jdesktop.swingx.border.DropShadowBorder;
 
 import static javax.swing.border.BevelBorder.RAISED;
-import plan.PlanInsurance;
 
 public class MainForm extends javax.swing.JFrame {
     
@@ -59,7 +60,7 @@ public class MainForm extends javax.swing.JFrame {
     
     Connection con = null;
     Statement stmt = null;
-    ResultSet rsDoc = null;
+    ResultSet rsDoc, rsVt;
     ResultSet rs = null;
     
     FrmLogin frmLogin  = new FrmLogin();    
@@ -94,9 +95,15 @@ public class MainForm extends javax.swing.JFrame {
                 
         initForm5();
         
+        initForm6();
+        
+        jXCollapsiblePane2.setCollapsed(true);
+        
         showDataToTable();
         
-        switchDoctorPatient();                     
+        switchDoctorPatient();    
+        
+        switchPatientTreatment();
         
         afterLogin();
         
@@ -252,9 +259,11 @@ public class MainForm extends javax.swing.JFrame {
         ShowDataToTable.show("SELECT Ssn, [First Name] + ' ' + [Last Name] AS [Name], Gender, DOB, Address, HealthCondition, Phone, [Employer Name], Contact FROM Patient", tblPatient, 9);
         ShowDataToTable.show("SELECT * FROM [User]", tblUser, 6);
         initForm5();
+        initForm6();
     }
     
     private void setDefaultTableRender() {
+        SubTable.setDefaultTableRender(tbPt);
         SubTable.setDefaultTableRender(tbInfo);
         SubTable.setDefaultTableRender(tblDoctor);
         SubTable.setDefaultTableRender(tblHP);
@@ -266,7 +275,9 @@ public class MainForm extends javax.swing.JFrame {
     
     private void findProviderName(){
         //Open Query select Provider Name
-        if(cboDoc.getItemCount()<0) return;
+        if(cboDoc.getItemCount()<0) {
+            JOptionPane.showMessageDialog(null, "No Doctor Found!");
+        }
         
         try{        
             rsDoc.absolute(cboDoc.getSelectedIndex()+1);
@@ -298,6 +309,29 @@ public class MainForm extends javax.swing.JFrame {
         SubTable.setTableHeader(tbInfo, new Color(240, 240, 240), Color.BLACK, new Font("Tahoma", Font.PLAIN, 12));
     }
     
+    private void initForm6() {
+        try{
+            Class.forName(Database.driver);
+            con = DriverManager.getConnection(Database.url);
+            stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            rsVt = stmt.executeQuery("select Ssn\n"+"from Patient");
+            
+            Vector<String> v = new Vector<String>();
+            
+            while (rsVt.next())
+                v.add(rsVt.getString("Ssn"));                                
+            
+            listPt.setListData(v);          
+            
+        }catch(ClassNotFoundException | SQLException ex){
+            JOptionPane.showMessageDialog(null, ex);            
+        }
+        
+        SubTable.setTableHeader(tbPt, new Color(240, 240, 240), Color.BLACK, new Font("Tahoma", Font.PLAIN, 12));
+        
+        listPt.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    }
+    
     private void setLookAndFeel() {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -315,7 +349,14 @@ public class MainForm extends javax.swing.JFrame {
         jXCollapsiblePane1.setLayout(new BorderLayout());
         jXCollapsiblePane1.add(frm5main, BorderLayout.CENTER);
         
-        btnToggle.addActionListener(jXCollapsiblePane1.getActionMap().get(JXCollapsiblePane.TOGGLE_ACTION));      
+        btnToggle1.addActionListener(jXCollapsiblePane1.getActionMap().get(JXCollapsiblePane.TOGGLE_ACTION));      
+    }
+    
+    private void switchPatientTreatment() {
+        jXCollapsiblePane2.setLayout(new BorderLayout());
+        jXCollapsiblePane2.add(panel_form6, BorderLayout.CENTER);
+        
+        btnToggle2.addActionListener(jXCollapsiblePane2.getActionMap().get(JXCollapsiblePane.TOGGLE_ACTION));
     }
     
     private void showTotalToDashboard() {
@@ -607,6 +648,17 @@ public class MainForm extends javax.swing.JFrame {
         tbInfo = new javax.swing.JTable();
         jLabel27 = new javax.swing.JLabel();
         txtPro = new javax.swing.JTextField();
+        panel_form6 = new javax.swing.JPanel();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        listPt = new javax.swing.JList<>();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        tbPt = new javax.swing.JTable();
+        txtPaid = new javax.swing.JTextField();
+        txtClaim = new javax.swing.JTextField();
+        jLabel39 = new javax.swing.JLabel();
+        jLabel42 = new javax.swing.JLabel();
+        jLabel44 = new javax.swing.JLabel();
+        jLabel45 = new javax.swing.JLabel();
         scpMain = new javax.swing.JScrollPane();
         panel_main = new javax.swing.JPanel();
         panel_left = new javax.swing.JPanel();
@@ -832,9 +884,10 @@ public class MainForm extends javax.swing.JFrame {
         lblSearchHP4 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblDoctor = new javax.swing.JTable();
-        btnToggle = new javax.swing.JButton();
+        btnToggle1 = new javax.swing.JButton();
         panel_hPatient = new javax.swing.JPanel();
-        panel_hDoctorMain1 = new javax.swing.JPanel();
+        jXCollapsiblePane2 = new org.jdesktop.swingx.JXCollapsiblePane();
+        panel_hPatientMain = new javax.swing.JPanel();
         lbl6 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jSeparator5 = new javax.swing.JSeparator();
@@ -845,6 +898,7 @@ public class MainForm extends javax.swing.JFrame {
         lblSearchHP5 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         tblPatient = new javax.swing.JTable();
+        btnToggle2 = new javax.swing.JButton();
         panel_hStatistic = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         panel_hUpdates = new javax.swing.JPanel();
@@ -970,6 +1024,98 @@ public class MainForm extends javax.swing.JFrame {
         frm5mainLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cboDoc, txtPro});
 
         panel_form5.add(frm5main, java.awt.BorderLayout.CENTER);
+
+        panel_form6.setPreferredSize(new java.awt.Dimension(995, 586));
+
+        listPt.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listPtValueChanged(evt);
+            }
+        });
+        jScrollPane8.setViewportView(listPt);
+
+        tbPt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        tbPt.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Date", "Time", "Doctor", "Provider", "Symtom", "Treatment", "Medicine"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tbPt.setRowHeight(24);
+        tbPt.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane9.setViewportView(tbPt);
+
+        jLabel39.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jLabel39.setText("Claim:");
+
+        jLabel42.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jLabel42.setText("Paid:");
+
+        jLabel44.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jLabel44.setText("Patient Identification");
+
+        jLabel45.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jLabel45.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel45.setText("Visit History");
+
+        javax.swing.GroupLayout panel_form6Layout = new javax.swing.GroupLayout(panel_form6);
+        panel_form6.setLayout(panel_form6Layout);
+        panel_form6Layout.setHorizontalGroup(
+            panel_form6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_form6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panel_form6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel_form6Layout.createSequentialGroup()
+                        .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(panel_form6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panel_form6Layout.createSequentialGroup()
+                                .addComponent(jLabel39)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtClaim, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(45, 45, 45)
+                                .addComponent(jLabel42)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtPaid, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 818, Short.MAX_VALUE)))
+                    .addGroup(panel_form6Layout.createSequentialGroup()
+                        .addComponent(jLabel44, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel45, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        panel_form6Layout.setVerticalGroup(
+            panel_form6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_form6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panel_form6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel44, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel45))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panel_form6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane8)
+                    .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panel_form6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel_form6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtPaid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel42))
+                    .addGroup(panel_form6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel39)
+                        .addComponent(txtClaim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(57, 57, 57))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Healthcare Management System v1.0");
@@ -2372,23 +2518,23 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
-        lblUser.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblUser.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblUser.setForeground(new java.awt.Color(18, 55, 92));
         lblUser.setText("lblUser");
 
-        lblFName.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblFName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblFName.setForeground(new java.awt.Color(18, 55, 92));
         lblFName.setText("lblFName");
 
-        lblLName.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblLName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblLName.setForeground(new java.awt.Color(18, 55, 92));
         lblLName.setText("lblLName");
 
-        lblPos.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblPos.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblPos.setForeground(new java.awt.Color(18, 55, 92));
         lblPos.setText("lblPos");
 
-        lblJoinDate.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblJoinDate.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblJoinDate.setForeground(new java.awt.Color(18, 55, 92));
         lblJoinDate.setText("lblJoinDate");
 
@@ -3373,31 +3519,39 @@ public class MainForm extends javax.swing.JFrame {
 
         panel_hDoctor.add(panel_hDoctorMain, java.awt.BorderLayout.CENTER);
 
-        btnToggle.setBackground(new java.awt.Color(255, 255, 0));
-        btnToggle.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        btnToggle.setForeground(new java.awt.Color(18, 55, 92));
-        btnToggle.setText(">>  Toggle Doctor List / Patient List By Specific Doctor  <<");
-        btnToggle.setAlignmentX(0.5F);
-        btnToggle.setBorder(null);
-        btnToggle.setContentAreaFilled(false);
-        btnToggle.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnToggle.setFocusPainted(false);
-        btnToggle.setOpaque(true);
-        btnToggle.setPreferredSize(new java.awt.Dimension(311, 20));
-        btnToggle.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnToggle1.setBackground(new java.awt.Color(255, 255, 0));
+        btnToggle1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btnToggle1.setForeground(new java.awt.Color(18, 55, 92));
+        btnToggle1.setText(">>  Toggle Doctor List / Patient List By Specific Doctor  <<");
+        btnToggle1.setAlignmentX(0.5F);
+        btnToggle1.setBorder(null);
+        btnToggle1.setContentAreaFilled(false);
+        btnToggle1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnToggle1.setFocusPainted(false);
+        btnToggle1.setOpaque(true);
+        btnToggle1.setPreferredSize(new java.awt.Dimension(311, 20));
+        btnToggle1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnToggleMouseEntered(evt);
+                btnToggle1MouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnToggleMouseExited(evt);
+                btnToggle1MouseExited(evt);
             }
         });
-        panel_hDoctor.add(btnToggle, java.awt.BorderLayout.SOUTH);
-        btnToggle.setBackground(Color.YELLOW);
+        panel_hDoctor.add(btnToggle1, java.awt.BorderLayout.SOUTH);
+        btnToggle1.setBackground(Color.YELLOW);
 
         panel_home.add(panel_hDoctor, "card11");
 
-        panel_hDoctorMain1.setBackground(new java.awt.Color(239, 240, 244));
+        panel_hPatient.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                panel_hPatientComponentResized(evt);
+            }
+        });
+        panel_hPatient.setLayout(new java.awt.BorderLayout());
+        panel_hPatient.add(jXCollapsiblePane2, java.awt.BorderLayout.PAGE_START);
+
+        panel_hPatientMain.setBackground(new java.awt.Color(239, 240, 244));
 
         lbl6.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         lbl6.setText("Patient");
@@ -3521,22 +3675,22 @@ public class MainForm extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        javax.swing.GroupLayout panel_hDoctorMain1Layout = new javax.swing.GroupLayout(panel_hDoctorMain1);
-        panel_hDoctorMain1.setLayout(panel_hDoctorMain1Layout);
-        panel_hDoctorMain1Layout.setHorizontalGroup(
-            panel_hDoctorMain1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panel_hDoctorMain1Layout.createSequentialGroup()
+        javax.swing.GroupLayout panel_hPatientMainLayout = new javax.swing.GroupLayout(panel_hPatientMain);
+        panel_hPatientMain.setLayout(panel_hPatientMainLayout);
+        panel_hPatientMainLayout.setHorizontalGroup(
+            panel_hPatientMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_hPatientMainLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panel_hDoctorMain1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panel_hPatientMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(panel_hDoctorMain1Layout.createSequentialGroup()
+                    .addGroup(panel_hPatientMainLayout.createSequentialGroup()
                         .addComponent(lbl6)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-        panel_hDoctorMain1Layout.setVerticalGroup(
-            panel_hDoctorMain1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panel_hDoctorMain1Layout.createSequentialGroup()
+        panel_hPatientMainLayout.setVerticalGroup(
+            panel_hPatientMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_hPatientMainLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lbl6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -3544,16 +3698,29 @@ public class MainForm extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        javax.swing.GroupLayout panel_hPatientLayout = new javax.swing.GroupLayout(panel_hPatient);
-        panel_hPatient.setLayout(panel_hPatientLayout);
-        panel_hPatientLayout.setHorizontalGroup(
-            panel_hPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panel_hDoctorMain1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        panel_hPatientLayout.setVerticalGroup(
-            panel_hPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panel_hDoctorMain1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        panel_hPatient.add(panel_hPatientMain, java.awt.BorderLayout.CENTER);
+
+        btnToggle2.setBackground(new java.awt.Color(255, 255, 0));
+        btnToggle2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btnToggle2.setForeground(new java.awt.Color(18, 55, 92));
+        btnToggle2.setText(">>  Toggle Patient List / Treatment Detail by Specific Patient  <<");
+        btnToggle2.setAlignmentX(0.5F);
+        btnToggle2.setBorder(null);
+        btnToggle2.setContentAreaFilled(false);
+        btnToggle2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnToggle2.setFocusPainted(false);
+        btnToggle2.setOpaque(true);
+        btnToggle2.setPreferredSize(new java.awt.Dimension(311, 20));
+        btnToggle2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnToggle2MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnToggle2MouseExited(evt);
+            }
+        });
+        panel_hPatient.add(btnToggle2, java.awt.BorderLayout.SOUTH);
+        btnToggle1.setBackground(Color.YELLOW);
 
         panel_home.add(panel_hPatient, "card5");
 
@@ -4363,13 +4530,13 @@ public class MainForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tblUserMouseClicked
 
-    private void btnToggleMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnToggleMouseEntered
-        btnToggle.setText("<html><u>>>  Toggle Doctor List / Patient List By Specific Doctor  &#60&#60</u></html>");
-    }//GEN-LAST:event_btnToggleMouseEntered
+    private void btnToggle1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnToggle1MouseEntered
+        btnToggle1.setText("<html><u>>>  Toggle Doctor List / Patient List By Specific Doctor  &#60&#60</u></html>");
+    }//GEN-LAST:event_btnToggle1MouseEntered
 
-    private void btnToggleMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnToggleMouseExited
-        btnToggle.setText(">>  Toggle Doctor List / Patient List By Specific Doctor  <<");
-    }//GEN-LAST:event_btnToggleMouseExited
+    private void btnToggle1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnToggle1MouseExited
+        btnToggle1.setText(">>  Toggle Doctor List / Patient List By Specific Doctor  <<");
+    }//GEN-LAST:event_btnToggle1MouseExited
 
     private void cboDocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboDocActionPerformed
         model = (DefaultTableModel) tbInfo.getModel();
@@ -4651,6 +4818,122 @@ public class MainForm extends javax.swing.JFrame {
             lblChecked2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Cancel_20px.png")));
         }
     }//GEN-LAST:event_tfConPwdKeyReleased
+
+    private void listPtValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listPtValueChanged
+        model = (DefaultTableModel) tbPt.getModel();
+        
+        SubTable.removeAllRows(tbPt, model);
+        
+        String mcName="";
+        String tmName="";
+        
+        if(listPt.getSelectedIndex()<0) {
+            JOptionPane.showMessageDialog(null, "Please select any patient ssn!");
+        }
+        
+        try{
+            Statement stmtVt = con.createStatement();
+            rsVt = stmtVt.executeQuery("select vt.Date as [date], vt.Time as [time], "+
+                "dt.[First name]+' '+dt.[Last name] as [dtName], pd.NAME as [pdName], "+
+                "ds.Name as [dsName], ds.ID as [dsID], vt.[Desc.Symtom] as [symtom]\n"+
+                "from Visit vt "+
+                "inner join Doctor dt on vt.[Doctor.ID]=dt.ID\n" +
+                "inner join Provider pd on vt.[Provider.ID]=pd.ID\n" +
+                "inner join Disease ds on vt.[Disease.ID]=ds.ID\n" +
+                "where vt.[Patient.Ssn]='"+listPt.getSelectedValue()+"'");
+
+            //variavble find medicince
+            Statement stmtMd,stPremium,stVisit; ResultSet rsMd,rsPremium,rsVisit;
+            Statement stmtMc; ResultSet rsMc;
+            
+            //variable find treatment
+            Statement stmtTm; ResultSet rsTm;
+            Statement stmtTmn; ResultSet rsTmn;
+            
+            String premium = "select sum([Amount Paid]) as [Paid] from Premium where [Transaction#] in" +
+            "(select [Transaction#] from [Transaction] where [Patient.Ssn]=";
+            String inPay = "select sum([Insurance pay]) as [Claim] from Visit where [Patient.Ssn]=";
+
+            stPremium = con.createStatement();
+            stVisit = con.createStatement();
+            
+            rsPremium = stPremium.executeQuery(premium +"'"+listPt.getSelectedValue()+"')");
+            rsVisit = stVisit.executeQuery(inPay+"'"+listPt.getSelectedValue()+"'");
+            
+            while(rsPremium.next()){
+                txtPaid.setText(rsPremium.getString("Paid"));
+            }
+            
+            while(rsVisit.next()){
+                txtClaim.setText(rsVisit.getString("Claim"));
+            }
+            
+            while(rsVt.next()){
+                //find treatment
+                stmtTm = con.createStatement();
+
+                rsTm = stmtTm.executeQuery("select TreatmentDisease.Treatment# as [tmID]\n" +
+                    "from TreatmentDisease\n" +
+                    "where TreatmentDisease.[Disease.ID] ='"+rsVt.getString("dsID")+"'");
+
+                while(rsTm.next()){
+                    stmtTmn = con.createStatement();
+                    rsTmn = stmtTmn.executeQuery("select Treatment.Name as [tmName]\n" +
+                        "from Treatment\n" +
+                        "where Treatment.Treatment#='"+rsTm.getString("tmID")+"'");
+
+                    while(rsTmn.next()){
+                        tmName+=rsTmn.getString("tmName")+", ";
+                    }
+                }
+                //find Medicince
+                stmtMd = con.createStatement();
+                rsMd = stmtMd.executeQuery("select Medication.[Medicine#] as [mcID]\n" +
+                    "from Medication\n" +
+                    "where Medication.[Disease.ID]='"+rsVt.getString("dsID")+"'");
+                while(rsMd.next()){
+                    stmtMc=con.createStatement();
+                    rsMc=stmtMc.executeQuery("select Medicine.Name as [mcName]\n" +
+                        "from Medicine\n" +
+                        "where Medicine.[Medicine#]='"+rsMd.getString("mcID")+"'");
+
+                    while(rsMc.next()){
+                        mcName+=rsMc.getString("mcName")+", ";
+                    }
+                }
+                model.addRow(new Object[]{
+                    rsVt.getString("date"),
+                    rsVt.getTime("time"),
+                    rsVt.getString("dtName"),
+                    rsVt.getString("pdName"),
+                    rsVt.getString("symtom"),
+                    tmName, mcName});
+                tmName = "";
+                mcName = "";
+            }
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+    }//GEN-LAST:event_listPtValueChanged
+
+    private void btnToggle2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnToggle2MouseEntered
+        btnToggle2.setText("<html><u>>> Toggle Patient List / Treatment Detail by Specific Patient &#60&#60</u></html>");
+    }//GEN-LAST:event_btnToggle2MouseEntered
+
+    private void btnToggle2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnToggle2MouseExited
+        btnToggle2.setText(">>  Toggle Patient List / Treatment Detail by Specific Patient  <<");
+    }//GEN-LAST:event_btnToggle2MouseExited
+
+    private void panel_hPatientComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_panel_hPatientComponentResized
+        int width = panel_hPatientMain.getWidth();
+        int height = panel_hPatientMain.getHeight();
+        
+        if (jXCollapsiblePane2.isCollapsed()) {
+            panel_form6.setPreferredSize(panel_hPatientMain.getSize());
+        } else {           
+            panel_form6.setSize(new Dimension(width, height));
+        }
+    }//GEN-LAST:event_panel_hPatientComponentResized
            
     /**
      * @param args the command line arguments
@@ -4683,7 +4966,8 @@ public class MainForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnToggle;
+    private javax.swing.JButton btnToggle1;
+    private javax.swing.JButton btnToggle2;
     private javax.swing.JComboBox<String> cbSearchDoctor;
     private javax.swing.JComboBox<String> cbSearchHP;
     private javax.swing.JComboBox<String> cbSearchIns;
@@ -4736,10 +5020,14 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
+    private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel41;
+    private javax.swing.JLabel jLabel42;
     private javax.swing.JLabel jLabel43;
+    private javax.swing.JLabel jLabel44;
+    private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel47;
     private javax.swing.JLabel jLabel49;
@@ -4762,6 +5050,8 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -4777,6 +5067,8 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
@@ -4784,6 +5076,7 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
     private org.jdesktop.swingx.JXCollapsiblePane jXCollapsiblePane1;
+    private org.jdesktop.swingx.JXCollapsiblePane jXCollapsiblePane2;
     private javax.swing.JLabel lbl1;
     private javax.swing.JLabel lbl10;
     private javax.swing.JLabel lbl11;
@@ -4863,6 +5156,7 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JLabel lblUpdateUser;
     private javax.swing.JLabel lblUser;
     private javax.swing.JLabel lblp;
+    private javax.swing.JList<String> listPt;
     private javax.swing.JMenuItem menuLogout;
     private javax.swing.JMenuItem menuProfile;
     private javax.swing.JPanel panel;
@@ -4892,11 +5186,11 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JPanel panel_find;
     private javax.swing.JPanel panel_findOption;
     private javax.swing.JPanel panel_form5;
+    private javax.swing.JPanel panel_form6;
     private javax.swing.JPanel panel_hAbout;
     private javax.swing.JPanel panel_hDashboard;
     private javax.swing.JPanel panel_hDoctor;
     private javax.swing.JPanel panel_hDoctorMain;
-    private javax.swing.JPanel panel_hDoctorMain1;
     private javax.swing.JPanel panel_hFind;
     private javax.swing.JPanel panel_hHPlanMain;
     private javax.swing.JPanel panel_hHealthcarePlan;
@@ -4906,6 +5200,7 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JPanel panel_hInsMain4;
     private javax.swing.JPanel panel_hInsurance_com;
     private javax.swing.JPanel panel_hPatient;
+    private javax.swing.JPanel panel_hPatientMain;
     private javax.swing.JPanel panel_hStatistic;
     private javax.swing.JPanel panel_hUpdates;
     private javax.swing.JPanel panel_healthcarePlan;
@@ -4932,6 +5227,7 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JPopupMenu pmLogout;
     private javax.swing.JScrollPane scpMain;
     private javax.swing.JTable tbInfo;
+    private javax.swing.JTable tbPt;
     private javax.swing.JTable tblDoctor;
     private javax.swing.JTable tblHP;
     private javax.swing.JTable tblInsCom;
@@ -4950,6 +5246,8 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JTextField tfSearchPlan;
     private javax.swing.JTextField tfSearchUser;
     private javax.swing.JTextField tfUsername;
+    private javax.swing.JTextField txtClaim;
+    private javax.swing.JTextField txtPaid;
     private javax.swing.JTextField txtPro;
     // End of variables declaration//GEN-END:variables
 }
