@@ -1,3 +1,3 @@
 # java-project
 Hello!
-Welcome to my project.
+Welcome to my java project.
